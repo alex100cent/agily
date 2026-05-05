@@ -999,9 +999,9 @@
 
     <nav class="nav" aria-label="Primary">
       <div class="nav__links">
-        <a href="#home" class="reveal" data-delay="1">HOME</a>
-        <a href="#work" class="reveal" data-delay="2">WORK</a>
-        <a href="#contact" class="reveal" data-delay="3">CONTACT</a>
+        <a href="#home" class="reveal" data-delay="1" data-i18n="navHome">HOME</a>
+        <a href="#work" class="reveal" data-delay="2" data-i18n="navWork">WORK</a>
+        <a href="#contact" class="reveal" data-delay="3" data-i18n="navContact">CONTACT</a>
       </div>
       <div class="nav__lang reveal" data-delay="4" role="group" aria-label="Language">
         <button type="button" class="lang-btn is-active" data-lang="en" aria-pressed="true">EN</button>
@@ -1030,7 +1030,7 @@
       </div>
     </div>
 
-    <button type="button" class="scroll-cue reveal" data-delay="5" aria-label="Scroll down">
+    <button type="button" class="scroll-cue reveal" data-delay="5" aria-label="Scroll down" data-i18n-aria="scrollDown">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <polyline points="6 9 12 16 18 9" stroke-linecap="round" stroke-linejoin="round" />
       </svg>
@@ -1040,11 +1040,11 @@
   <section class="intro" id="intro" data-screen-label="02 Intro" aria-label="Intro">
     <!-- INTRO 01 — statement + Thai supporting copy -->
     <div class="intro__screen intro-01" id="intro-01">
-      <span class="intro-tag">INTRO</span>
+      <span class="intro-tag" data-i18n="introTag">INTRO</span>
 
       <div class="intro-01__body">
         <h2 class="intro-headline" data-i18n="introHeadline">
-          SPECIALIZES IN PERFORMANCE DIGITAL MARKETING THOUGH <span class="accent">AGILY</span> STRATEGIC AND CREATIVE EXECUTIONS.
+          SPECIALIZES IN PERFORMANCE DIGITAL MARKETING THROUGH <span class="accent">AGILY</span> STRATEGIC AND CREATIVE EXECUTIONS.
         </h2>
 
         <div class="intro-thai" lang="th" data-i18n="introThai">
@@ -1065,13 +1065,13 @@
         </h2>
 
         <div class="intro-02__pills" role="list">
-          <button type="button" class="pill" role="listitem" data-project="production">PRODUCTION</button>
-          <button type="button" class="pill" role="listitem" data-project="socail-content">SOCAIL CONTENT</button>
-          <button type="button" class="pill" role="listitem" data-project="event">EVENT</button>
-          <button type="button" class="pill" role="listitem" data-project="performance-marketing">PERFORMANCE MARKETING</button>
+          <button type="button" class="pill" role="listitem" data-project="production" data-i18n="pillProduction">PRODUCTION</button>
+          <button type="button" class="pill" role="listitem" data-project="social-content" data-i18n="pillSocialContent">SOCIAL CONTENT</button>
+          <button type="button" class="pill" role="listitem" data-project="event" data-i18n="pillEvent">EVENT</button>
+          <button type="button" class="pill" role="listitem" data-project="performance-marketing" data-i18n="pillPerformanceMarketing">PERFORMANCE MARKETING</button>
         </div>
 
-        <button type="button" class="intro-02__cue" id="intro-cue" aria-label="Scroll to Work">
+        <button type="button" class="intro-02__cue" id="intro-cue" aria-label="Scroll to Work" data-i18n-aria="scrollToWork">
           <svg viewBox="0 0 24 24" aria-hidden="true">
             <line x1="12" y1="5" x2="12" y2="19" stroke-linecap="round" />
             <polyline points="6 13 12 19 18 13" stroke-linecap="round" stroke-linejoin="round" />
@@ -1087,11 +1087,11 @@
       <source src="assets/work/mea-film.mp4" type="video/mp4" />
     </video>
 
-    <span class="work__category">PRODUCTION</span>
+    <span class="work__category" data-i18n="categoryProduction">PRODUCTION</span>
     <h3 class="work__title">MEA e-Service</h3>
   </section>
 
-  <!-- WORK — case 02: MATCHDAY / SOCAIL CONTENT -->
+  <!-- WORK — case 02: MATCHDAY / SOCIAL CONTENT -->
   <section class="work" id="work-matchday" data-screen-label="03 Work — MATCHDAY" aria-label="Work: MATCHDAY">
     <div class="work__track" data-work-track>
       <div class="work__slide is-active" style="background-image:url('assets/work/matchday-1.webp')"></div>
@@ -1099,11 +1099,11 @@
       <div class="work__slide" style="background-image:url('assets/work/matchday-3.webp')"></div>
     </div>
 
-    <span class="work__category">SOCAIL CONTENT</span>
+    <span class="work__category" data-i18n="categorySocialContent">SOCIAL CONTENT</span>
     <h3 class="work__title">MATCHDAY</h3>
 
-    <button type="button" class="work__arrow work__arrow--prev" data-work-prev aria-label="Previous image">&lsaquo;</button>
-    <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image">&rsaquo;</button>
+    <button type="button" class="work__arrow work__arrow--prev" data-work-prev aria-label="Previous image" data-i18n-aria="previousImage">&lsaquo;</button>
+    <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image" data-i18n-aria="nextImage">&rsaquo;</button>
 
     <div class="work__controls">
       <div class="work__dots" aria-label="MATCHDAY images">
@@ -1114,7 +1114,7 @@
     </div>
   </section>
 
-  <!-- WORK — case 03: MONKEYEVERYDAY / SOCAIL CONTENT -->
+  <!-- WORK — case 03: MONKEYEVERYDAY / SOCIAL CONTENT -->
   <section class="work" id="work-monkey" data-screen-label="03 Work — MONKEYEVERYDAY" aria-label="Work: MONKEYEVERYDAY">
     <div class="work__track" data-work-track>
       <div class="work__slide is-active" style="background-image:url('assets/work/monkey-1.webp')"></div>
@@ -1122,11 +1122,11 @@
       <div class="work__slide" style="background-image:url('assets/work/monkey-3.webp')"></div>
     </div>
 
-    <span class="work__category">SOCAIL CONTENT</span>
+    <span class="work__category" data-i18n="categorySocialContent">SOCIAL CONTENT</span>
     <h3 class="work__title">MONKEYEVERYDAY</h3>
 
-    <button type="button" class="work__arrow work__arrow--prev" data-work-prev aria-label="Previous image">&lsaquo;</button>
-    <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image">&rsaquo;</button>
+    <button type="button" class="work__arrow work__arrow--prev" data-work-prev aria-label="Previous image" data-i18n-aria="previousImage">&lsaquo;</button>
+    <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image" data-i18n-aria="nextImage">&rsaquo;</button>
 
     <div class="work__controls">
       <div class="work__dots" aria-label="MONKEYEVERYDAY images">
@@ -1137,13 +1137,13 @@
     </div>
   </section>
 
-  <!-- WORK — case 04: HANDSUP / SOCAIL CONTENT (single image, no carousel) -->
+  <!-- WORK — case 04: HANDSUP / SOCIAL CONTENT (single image, no carousel) -->
   <section class="work is-static" id="work-handsup" data-screen-label="03 Work — HANDSUP" aria-label="Work: HANDSUP">
     <div class="work__track" data-work-track>
       <div class="work__slide is-active" style="background-image:url('assets/work/handsup-1.webp')"></div>
     </div>
 
-    <span class="work__category">SOCAIL CONTENT</span>
+    <span class="work__category" data-i18n="categorySocialContent">SOCIAL CONTENT</span>
     <h3 class="work__title">HANDSUP</h3>
 
     <div class="work__controls">
@@ -1159,7 +1159,7 @@
       <div class="work__slide is-active" style="background-image:url('assets/work/dksh-1.webp')"></div>
     </div>
 
-    <span class="work__category">EVENT</span>
+    <span class="work__category" data-i18n="categoryEvent">EVENT</span>
     <h3 class="work__title">DKSH x 3M</h3>
 
     <div class="work__controls">
@@ -1172,12 +1172,12 @@
   <!-- SERVICES — horizontal-scroll gallery -->
   <section class="services" id="services" data-screen-label="04 Services" aria-label="Services">
     <div class="services__head">
-      <h2 class="services__title">SERVICES</h2>
+      <h2 class="services__title" data-i18n="servicesTitle">SERVICES</h2>
     </div>
 
     <div class="services__nav" aria-hidden="false">
-      <button type="button" data-services-prev aria-label="Scroll services left">&lsaquo;</button>
-      <button type="button" data-services-next aria-label="Scroll services right">&rsaquo;</button>
+      <button type="button" data-services-prev aria-label="Scroll services left" data-i18n-aria="servicesPrev">&lsaquo;</button>
+      <button type="button" data-services-next aria-label="Scroll services right" data-i18n-aria="servicesNext">&rsaquo;</button>
     </div>
 
     <div class="services__viewport">
@@ -1188,16 +1188,16 @@
           <div class="service-card__inner">
             <div class="service-card__header">
               <div class="service-card__num">01</div>
-              <h3 class="service-card__title">ADVERTISING</h3>
+              <h3 class="service-card__title" data-i18n="serviceAdvertising">ADVERTISING</h3>
             </div>
             <ul class="service-card__list">
-              <li>Brand Building</li>
-              <li>Business Development Strategy</li>
-              <li>Communication Plan</li>
-              <li>Competitor Analysis</li>
-              <li>Consumer Insight Research</li>
-              <li>Marketing Strategy</li>
-              <li>Media Plan</li>
+              <li data-i18n="serviceAdvertising1">Brand Building</li>
+              <li data-i18n="serviceAdvertising2">Business Development Strategy</li>
+              <li data-i18n="serviceAdvertising3">Communication Plan</li>
+              <li data-i18n="serviceAdvertising4">Competitor Analysis</li>
+              <li data-i18n="serviceAdvertising5">Consumer Insight Research</li>
+              <li data-i18n="serviceAdvertising6">Marketing Strategy</li>
+              <li data-i18n="serviceAdvertising7">Media Plan</li>
             </ul>
           </div>
         </article>
@@ -1207,13 +1207,13 @@
           <div class="service-card__inner">
             <div class="service-card__header">
               <div class="service-card__num">02</div>
-              <h3 class="service-card__title">CONSULTING</h3>
+              <h3 class="service-card__title" data-i18n="serviceConsulting">CONSULTING</h3>
             </div>
             <ul class="service-card__list">
-              <li>Business Planning</li>
-              <li>Operation Consultant</li>
-              <li>Organizational Consultant</li>
-              <li>Self-Improvement Training</li>
+              <li data-i18n="serviceConsulting1">Business Planning</li>
+              <li data-i18n="serviceConsulting2">Operation Consultant</li>
+              <li data-i18n="serviceConsulting3">Organizational Consultant</li>
+              <li data-i18n="serviceConsulting4">Self-Improvement Training</li>
             </ul>
           </div>
         </article>
@@ -1223,20 +1223,20 @@
           <div class="service-card__inner">
             <div class="service-card__header">
               <div class="service-card__num">03</div>
-              <h3 class="service-card__title">DESIGN</h3>
+              <h3 class="service-card__title" data-i18n="serviceDesign">DESIGN</h3>
             </div>
             <ul class="service-card__list">
-              <li>3D Graphic Design</li>
-              <li>3D Perspective</li>
-              <li>Art &amp; Drawing</li>
-              <li>Company Identity Design</li>
-              <li>Character &amp; Mascot Design</li>
-              <li>Graphic Design</li>
-              <li>Infographics</li>
-              <li>Label &amp; Packaging Design</li>
-              <li>Print Ads</li>
-              <li>Product Design</li>
-              <li>Story Board</li>
+              <li data-i18n="serviceDesign1">3D Graphic Design</li>
+              <li data-i18n="serviceDesign2">3D Perspective</li>
+              <li data-i18n="serviceDesign3">Art &amp; Drawing</li>
+              <li data-i18n="serviceDesign4">Company Identity Design</li>
+              <li data-i18n="serviceDesign5">Character &amp; Mascot Design</li>
+              <li data-i18n="serviceDesign6">Graphic Design</li>
+              <li data-i18n="serviceDesign7">Infographics</li>
+              <li data-i18n="serviceDesign8">Label &amp; Packaging Design</li>
+              <li data-i18n="serviceDesign9">Print Ads</li>
+              <li data-i18n="serviceDesign10">Product Design</li>
+              <li data-i18n="serviceDesign11">Story Board</li>
             </ul>
           </div>
         </article>
@@ -1246,16 +1246,16 @@
           <div class="service-card__inner">
             <div class="service-card__header">
               <div class="service-card__num">04</div>
-              <h3 class="service-card__title"><span>MARKETING</span><span>&amp; BRAND</span></h3>
+              <h3 class="service-card__title" data-i18n="serviceMarketing"><span>MARKETING</span><span>&amp; BRAND</span></h3>
             </div>
             <ul class="service-card__list">
-              <li>Content Creation Marketing</li>
-              <li>Data Analytics &amp; Visualization</li>
-              <li>Event &amp; Organizer</li>
-              <li>Influencer Marketing</li>
-              <li>Marketing Event Planning</li>
-              <li>Online Media Advertising</li>
-              <li>SEO</li>
+              <li data-i18n="serviceMarketing1">Content Creation Marketing</li>
+              <li data-i18n="serviceMarketing2">Data Analytics &amp; Visualization</li>
+              <li data-i18n="serviceMarketing3">Event &amp; Organizer</li>
+              <li data-i18n="serviceMarketing4">Influencer Marketing</li>
+              <li data-i18n="serviceMarketing5">Marketing Event Planning</li>
+              <li data-i18n="serviceMarketing6">Online Media Advertising</li>
+              <li data-i18n="serviceMarketing7">SEO</li>
             </ul>
           </div>
         </article>
@@ -1265,17 +1265,17 @@
           <div class="service-card__inner">
             <div class="service-card__header">
               <div class="service-card__num">05</div>
-              <h3 class="service-card__title">PRODUCTION</h3>
+              <h3 class="service-card__title" data-i18n="serviceProduction">PRODUCTION</h3>
             </div>
             <ul class="service-card__list">
-              <li>Animations</li>
-              <li>Motion Graphics</li>
-              <li>Photography</li>
-              <li>Produce and Direct</li>
-              <li>Sound Engineering</li>
-              <li>Subtitles</li>
-              <li>Shoot and Edit</li>
-              <li>Voice Over</li>
+              <li data-i18n="serviceProduction1">Animations</li>
+              <li data-i18n="serviceProduction2">Motion Graphics</li>
+              <li data-i18n="serviceProduction3">Photography</li>
+              <li data-i18n="serviceProduction4">Produce and Direct</li>
+              <li data-i18n="serviceProduction5">Sound Engineering</li>
+              <li data-i18n="serviceProduction6">Subtitles</li>
+              <li data-i18n="serviceProduction7">Shoot and Edit</li>
+              <li data-i18n="serviceProduction8">Voice Over</li>
             </ul>
           </div>
         </article>
@@ -1293,23 +1293,23 @@
 
       <div class="contact__cols">
         <div class="contact__col">
-          <h3 class="contact__col-title">Pages</h3>
+          <h3 class="contact__col-title" data-i18n="contactPages">Pages</h3>
           <ul class="contact__list">
-            <li><span data-anchor="hero">HOME</span></li>
-            <li><span data-anchor="work-mea">WORK</span></li>
-            <li><span data-anchor="contact">CONTACT</span></li>
+            <li><span data-anchor="hero" data-i18n="navHome">HOME</span></li>
+            <li><span data-anchor="work-mea" data-i18n="navWork">WORK</span></li>
+            <li><span data-anchor="contact" data-i18n="navContact">CONTACT</span></li>
           </ul>
         </div>
 
         <div class="contact__col">
-          <h3 class="contact__col-title">Socials</h3>
+          <h3 class="contact__col-title" data-i18n="contactSocials">Socials</h3>
           <ul class="contact__list">
             <li><a href="https://www.instagram.com/agily.agency?igsh=NjRhYmd1MndoN3py" target="_blank" rel="noopener noreferrer">INSTAGRAM</a></li>
           </ul>
         </div>
 
         <div class="contact__col">
-          <h3 class="contact__col-title">Contact</h3>
+          <h3 class="contact__col-title" data-i18n="contactTitle">Contact</h3>
           <ul class="contact__list">
             <li><a href="mailto:agily.contact@gmail.com">agily.contact@gmail.com</a></li>
             <li><a href="tel:+66622988383">(+66) 622988383</a></li>
@@ -1320,9 +1320,9 @@
 
     <div class="contact__bottom">
       <span class="contact__copy">AGILY 2025</span>
-      <button type="button" class="contact__top" data-back-to-top aria-label="Back to top">
+      <button type="button" class="contact__top" data-back-to-top aria-label="Back to top" data-i18n-aria="backToTop">
         <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 14 12 8 18 14" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        BACK TO TOP
+        <span data-i18n="backToTop">BACK TO TOP</span>
       </button>
     </div>
   </section>
@@ -1500,20 +1500,201 @@
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // ---------- LANGUAGE TOGGLE (visual only — keeps copy as requested) ---------- 
-  // The mockup shows EN active / TH inactive. Hooked up so it toggles state visually
-  // for now; copy swap can be wired later when TH translations are provided.
+  // ---------- LANGUAGE TOGGLE ----------
+  const translations = {
+    en: {
+      navHome: 'HOME',
+      navWork: 'WORK',
+      navContact: 'CONTACT',
+      tagline: 'EXECUTING SOLUTIONS. EMPOWERING WITH <strong>AGILITY.</strong>',
+      weAre: 'WE ARE A MARKETING AGENCY BUILDING BRANDS, CAMPAIGNS AND DIGITAL PRODUCTS. ADVERTISING, CONSULTING, DESIGN, MARKETING &amp; BRAND, PRODUCTION — DELIVERED WITH AGILITY.',
+      scrollDown: 'Scroll down',
+      introTag: 'INTRO',
+      introHeadline: 'SPECIALIZES IN PERFORMANCE DIGITAL MARKETING THROUGH <span class="accent">AGILY</span> STRATEGIC AND CREATIVE EXECUTIONS.',
+      introThai: '<p>A partner ready to drive your business growth with a team of specialists<br/>focused on creating marketing strategies that truly answer customer needs.</p><p>We understand consumer behavior in the digital era and deliver solutions<br/>across online and offline channels to help you reach your business goals.</p>',
+      workSpeaks: '<span>THE WORK</span><span>SPEAKS</span><span>BEFORE</span><span class="accent">WE DO</span>',
+      pillProduction: 'PRODUCTION',
+      pillSocialContent: 'SOCIAL CONTENT',
+      pillEvent: 'EVENT',
+      pillPerformanceMarketing: 'PERFORMANCE MARKETING',
+      scrollToWork: 'Scroll to Work',
+      categoryProduction: 'PRODUCTION',
+      categorySocialContent: 'SOCIAL CONTENT',
+      categoryEvent: 'EVENT',
+      previousImage: 'Previous image',
+      nextImage: 'Next image',
+      servicesTitle: 'SERVICES',
+      servicesPrev: 'Scroll services left',
+      servicesNext: 'Scroll services right',
+      serviceAdvertising: 'ADVERTISING',
+      serviceAdvertising1: 'Brand Building',
+      serviceAdvertising2: 'Business Development Strategy',
+      serviceAdvertising3: 'Communication Plan',
+      serviceAdvertising4: 'Competitor Analysis',
+      serviceAdvertising5: 'Consumer Insight Research',
+      serviceAdvertising6: 'Marketing Strategy',
+      serviceAdvertising7: 'Media Plan',
+      serviceConsulting: 'CONSULTING',
+      serviceConsulting1: 'Business Planning',
+      serviceConsulting2: 'Operation Consultant',
+      serviceConsulting3: 'Organizational Consultant',
+      serviceConsulting4: 'Self-Improvement Training',
+      serviceDesign: 'DESIGN',
+      serviceDesign1: '3D Graphic Design',
+      serviceDesign2: '3D Perspective',
+      serviceDesign3: 'Art &amp; Drawing',
+      serviceDesign4: 'Company Identity Design',
+      serviceDesign5: 'Character &amp; Mascot Design',
+      serviceDesign6: 'Graphic Design',
+      serviceDesign7: 'Infographics',
+      serviceDesign8: 'Label &amp; Packaging Design',
+      serviceDesign9: 'Print Ads',
+      serviceDesign10: 'Product Design',
+      serviceDesign11: 'Story Board',
+      serviceMarketing: '<span>MARKETING</span><span>&amp; BRAND</span>',
+      serviceMarketing1: 'Content Creation Marketing',
+      serviceMarketing2: 'Data Analytics &amp; Visualization',
+      serviceMarketing3: 'Event &amp; Organizer',
+      serviceMarketing4: 'Influencer Marketing',
+      serviceMarketing5: 'Marketing Event Planning',
+      serviceMarketing6: 'Online Media Advertising',
+      serviceMarketing7: 'SEO',
+      serviceProduction: 'PRODUCTION',
+      serviceProduction1: 'Animations',
+      serviceProduction2: 'Motion Graphics',
+      serviceProduction3: 'Photography',
+      serviceProduction4: 'Produce and Direct',
+      serviceProduction5: 'Sound Engineering',
+      serviceProduction6: 'Subtitles',
+      serviceProduction7: 'Shoot and Edit',
+      serviceProduction8: 'Voice Over',
+      contactPages: 'Pages',
+      contactSocials: 'Socials',
+      contactTitle: 'Contact',
+      backToTop: 'BACK TO TOP'
+    },
+    th: {
+      navHome: 'หน้าแรก',
+      navWork: 'ผลงาน',
+      navContact: 'ติดต่อ',
+      tagline: 'ลงมือสร้างสรรค์โซลูชัน เสริมพลังธุรกิจด้วย <strong>AGILITY</strong>',
+      weAre: 'เราคือเอเจนซีการตลาดที่สร้างแบรนด์ แคมเปญ และดิจิทัลโปรดักต์ ครอบคลุมโฆษณา ที่ปรึกษา ดีไซน์ การตลาดและแบรนด์ รวมถึงโปรดักชัน พร้อมส่งมอบงานอย่างคล่องตัว',
+      scrollDown: 'เลื่อนลง',
+      introTag: 'แนะนำ',
+      introHeadline: 'เชี่ยวชาญด้าน PERFORMANCE DIGITAL MARKETING ผ่านกลยุทธ์และงานครีเอทีฟของ <span class="accent">AGILY</span>',
+      introThai: '<p>พันธมิตรที่พร้อมผลักดันธุรกิจของคุณให้เติบโตด้วยทีมงานผู้เชี่ยวชาญ<br/>ที่มุ่งมั่นสร้างสรรค์กลยุทธ์การตลาดที่ตอบโจทย์ความต้องการของลูกค้าอย่างแท้จริง</p><p>เราเข้าใจพฤติกรรมผู้บริโภคในยุคดิจิทัลเป็นอย่างดี และพร้อมนำเสนอโซลูชัน<br/>ที่ครอบคลุมทั้งออนไลน์และออฟไลน์ เพื่อให้คุณบรรลุเป้าหมายทางธุรกิจ</p>',
+      workSpeaks: '<span>ผลงาน</span><span>พูดแทน</span><span>ก่อนที่</span><span class="accent">เราจะพูด</span>',
+      pillProduction: 'โปรดักชัน',
+      pillSocialContent: 'คอนเทนต์โซเชียล',
+      pillEvent: 'อีเวนต์',
+      pillPerformanceMarketing: 'การตลาดเน้นผลลัพธ์',
+      scrollToWork: 'เลื่อนไปยังผลงาน',
+      categoryProduction: 'โปรดักชัน',
+      categorySocialContent: 'คอนเทนต์โซเชียล',
+      categoryEvent: 'อีเวนต์',
+      previousImage: 'รูปก่อนหน้า',
+      nextImage: 'รูปถัดไป',
+      servicesTitle: 'บริการ',
+      servicesPrev: 'เลื่อนบริการไปทางซ้าย',
+      servicesNext: 'เลื่อนบริการไปทางขวา',
+      serviceAdvertising: 'โฆษณา',
+      serviceAdvertising1: 'การสร้างแบรนด์',
+      serviceAdvertising2: 'กลยุทธ์พัฒนาธุรกิจ',
+      serviceAdvertising3: 'แผนการสื่อสาร',
+      serviceAdvertising4: 'วิเคราะห์คู่แข่ง',
+      serviceAdvertising5: 'วิจัยอินไซต์ผู้บริโภค',
+      serviceAdvertising6: 'กลยุทธ์การตลาด',
+      serviceAdvertising7: 'แผนสื่อ',
+      serviceConsulting: 'ที่ปรึกษา',
+      serviceConsulting1: 'วางแผนธุรกิจ',
+      serviceConsulting2: 'ที่ปรึกษาด้านปฏิบัติการ',
+      serviceConsulting3: 'ที่ปรึกษาองค์กร',
+      serviceConsulting4: 'อบรมพัฒนาศักยภาพ',
+      serviceDesign: 'ดีไซน์',
+      serviceDesign1: 'ออกแบบกราฟิก 3D',
+      serviceDesign2: 'ภาพ Perspective 3D',
+      serviceDesign3: 'งานศิลป์และวาดภาพ',
+      serviceDesign4: 'ออกแบบอัตลักษณ์องค์กร',
+      serviceDesign5: 'ออกแบบคาแรกเตอร์และมาสคอต',
+      serviceDesign6: 'ออกแบบกราฟิก',
+      serviceDesign7: 'อินโฟกราฟิก',
+      serviceDesign8: 'ออกแบบฉลากและบรรจุภัณฑ์',
+      serviceDesign9: 'โฆษณาสิ่งพิมพ์',
+      serviceDesign10: 'ออกแบบผลิตภัณฑ์',
+      serviceDesign11: 'สตอรี่บอร์ด',
+      serviceMarketing: '<span>การตลาด</span><span>และแบรนด์</span>',
+      serviceMarketing1: 'การตลาดด้วยคอนเทนต์',
+      serviceMarketing2: 'วิเคราะห์ข้อมูลและทำภาพข้อมูล',
+      serviceMarketing3: 'อีเวนต์และออร์แกไนเซอร์',
+      serviceMarketing4: 'อินฟลูเอนเซอร์มาร์เก็ตติ้ง',
+      serviceMarketing5: 'วางแผนอีเวนต์การตลาด',
+      serviceMarketing6: 'โฆษณาสื่อออนไลน์',
+      serviceMarketing7: 'SEO',
+      serviceProduction: 'โปรดักชัน',
+      serviceProduction1: 'แอนิเมชัน',
+      serviceProduction2: 'โมชั่นกราฟิก',
+      serviceProduction3: 'ถ่ายภาพ',
+      serviceProduction4: 'โปรดิวซ์และกำกับ',
+      serviceProduction5: 'วิศวกรรมเสียง',
+      serviceProduction6: 'ซับไตเติล',
+      serviceProduction7: 'ถ่ายทำและตัดต่อ',
+      serviceProduction8: 'พากย์เสียง',
+      contactPages: 'หน้าเว็บ',
+      contactSocials: 'โซเชียล',
+      contactTitle: 'ติดต่อ',
+      backToTop: 'กลับขึ้นด้านบน'
+    }
+  };
+
   const langButtons = document.querySelectorAll('.lang-btn');
-  langButtons.forEach((btn) => {
-    btn.addEventListener('click', () => {
-      langButtons.forEach((b) => {
-        b.classList.remove('is-active');
-        b.setAttribute('aria-pressed', 'false');
-      });
-      btn.classList.add('is-active');
-      btn.setAttribute('aria-pressed', 'true');
+
+  function readSavedLanguage() {
+    try {
+      return localStorage.getItem('agily-language');
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function saveLanguage(lang) {
+    try {
+      localStorage.setItem('agily-language', lang);
+    } catch (error) {
+      // Ignore storage errors so language switching still works.
+    }
+  }
+
+  function setLanguage(lang) {
+    const dictionary = translations[lang] || translations.en;
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.dataset.i18n;
+      if (dictionary[key]) el.innerHTML = dictionary[key];
     });
+
+    document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
+      const key = el.dataset.i18nAria;
+      if (dictionary[key]) el.setAttribute('aria-label', dictionary[key]);
+    });
+
+    const introCopy = document.querySelector('[data-i18n="introThai"]');
+    if (introCopy) introCopy.setAttribute('lang', lang);
+
+    langButtons.forEach((btn) => {
+      const isActive = btn.dataset.lang === lang;
+      btn.classList.toggle('is-active', isActive);
+      btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+
+    saveLanguage(lang);
+  }
+
+  langButtons.forEach((btn) => {
+    btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
   });
+
+  setLanguage(readSavedLanguage() || 'en');
 </script>
 
 </body>
