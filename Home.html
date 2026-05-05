@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AGILY — Executing Solutions. Empowering with Agility.</title>
+<link rel="preload" as="video" href="assets/work/mea-film.mp4" type="video/mp4" fetchpriority="high" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --ink: #ffffff;
+    --ink-dim: rgba(255, 255, 255, 0.72);
+    --ink-faint: rgba(255, 255, 255, 0.55);
+    --bg: #0e0a18;
+    --rule: rgba(255, 255, 255, 0.18);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    width: 100%;
+    min-height: 100svh;
+    overflow: hidden;
+    isolation: isolate;
+  }
+
+  .hero__bg {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    background-image: url('assets/hero-turbine.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    transform: scale(1.02);
+  }
+
+  /* Layered tint to match reference: deep purple bottom, near-black top, subtle vignette */
+  .hero__tint {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(120% 80% at 50% 30%, rgba(14, 10, 24, 0.55) 0%, rgba(14, 10, 24, 0) 60%),
+      linear-gradient(180deg, rgba(14, 10, 24, 0.55) 0%, rgba(40, 28, 70, 0.10) 38%, rgba(120, 95, 175, 0.30) 100%),
+      linear-gradient(180deg, rgba(20, 14, 38, 0.35), rgba(20, 14, 38, 0.35));
+    mix-blend-mode: normal;
+    pointer-events: none;
+  }
+
+  /* ---------- NAV ---------- */
+  .nav {
+    position: relative;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 48px;
+    padding: 36px 64px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+  }
+
+  .nav__links {
+    display: flex;
+    gap: 48px;
+  }
+
+  .nav a {
+    position: relative;
+    padding: 6px 2px;
+    transition: opacity 220ms ease, color 220ms ease;
+    color: var(--ink);
+  }
+
+  .nav a:hover { opacity: 0.7; }
+
+  .nav a::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--ink);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 320ms cubic-bezier(.2,.7,.2,1);
+  }
+  .nav a:hover::after { transform: scaleX(1); }
+
+  .nav__lang {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-left: 12px;
+  }
+
+  .lang-btn {
+    background: none;
+    border: 0;
+    padding: 6px 2px;
+    color: var(--ink-faint);
+    font: inherit;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    cursor: pointer;
+    position: relative;
+    transition: color 220ms ease;
+    font-family: inherit;
+  }
+
+  .lang-btn:hover { color: var(--ink); }
+
+  .lang-btn.is-active {
+    color: var(--ink);
+  }
+  .lang-btn.is-active::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0;
+    bottom: 0;
+    height: 1px;
+    background: var(--ink);
+  }
+
+  /* ---------- HERO CONTENT ---------- */
+  .hero__content {
+    position: relative;
+    z-index: 4;
+    padding: clamp(40px, 6vw, 96px) clamp(24px, 5vw, 88px) 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(32px, 6vw, 96px);
+    min-height: calc(100svh - 220px);
+  }
+
+  .logo {
+    display: block;
+    width: clamp(280px, 46vw, 640px);
+    height: auto;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .tagline {
+    margin-top: clamp(18px, 2.4vw, 32px);
+    font-size: clamp(13px, 1.05vw, 16px);
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    color: var(--ink);
+    text-transform: uppercase;
+  }
+  .tagline strong {
+    font-weight: 700;
+  }
+
+  .hero__right {
+    align-self: center;
+    justify-self: start;
+  }
+
+  .we-are {
+    font-size: clamp(13px, 1.05vw, 16px);
+    line-height: 1.85;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    max-width: 38ch;
+    font-weight: 500;
+  }
+
+  /* ---------- SCROLL CUE ---------- */
+  .scroll-cue {
+    position: absolute;
+    left: 50%;
+    bottom: clamp(28px, 4vh, 56px);
+    transform: translateX(-50%);
+    z-index: 5;
+    background: none;
+    border: 0;
+    color: var(--ink);
+    cursor: pointer;
+    padding: 12px 18px;
+    font: inherit;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.92;
+    transition: transform 320ms cubic-bezier(.2,.7,.2,1), opacity 220ms ease;
+  }
+  .scroll-cue:hover {
+    transform: translate(-50%, 4px);
+    opacity: 1;
+  }
+  .scroll-cue svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    fill: none;
+    animation: cueBob 2.4s ease-in-out infinite;
+  }
+  @keyframes cueBob {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+
+  /* ---------- PLACEHOLDER NEXT SECTION (tiny so V scrolls somewhere) ---------- */
+  .next-section {
+    min-height: 60vh;
+    background: #0e0a18;
+    color: var(--ink-faint);
+    display: grid;
+    place-items: center;
+    padding: 80px 24px;
+    text-align: center;
+  }
+  .next-section__inner {
+    max-width: 520px;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    line-height: 1.9;
+  }
+  .next-section__rule {
+    width: 36px;
+    height: 1px;
+    background: var(--rule);
+    margin: 24px auto 0;
+  }
+
+  /* ---------- INTRO ANIMATION ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    animation: rise 900ms cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  .reveal[data-delay="1"] { animation-delay: 120ms; }
+  .reveal[data-delay="2"] { animation-delay: 240ms; }
+  .reveal[data-delay="3"] { animation-delay: 380ms; }
+  .reveal[data-delay="4"] { animation-delay: 520ms; }
+  .reveal[data-delay="5"] { animation-delay: 700ms; }
+
+  @keyframes rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 860px) {
+    .nav {
+      padding: 22px 22px;
+      gap: 22px;
+      justify-content: space-between;
+      font-size: 12px;
+      letter-spacing: 0.14em;
+    }
+    .nav__links { gap: 22px; }
+    .nav__lang { margin-left: 0; }
+
+    .hero__content {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding: 24px 22px 0;
+      min-height: calc(100svh - 160px);
+      align-content: center;
+    }
+
+    .logo { width: min(82vw, 480px); }
+
+    .hero__right {
+      justify-self: stretch;
+      padding-top: 4px;
+    }
+    .we-are { letter-spacing: 0.14em; line-height: 1.75; }
+    .tagline { letter-spacing: 0.14em; }
+  }
+
+  @media (max-width: 480px) {
+    .nav { padding: 18px 18px; font-size: 11px; }
+    .nav__links { gap: 16px; }
+    .hero__content { padding: 16px 22px 0; }
+  }
+
+  /* ============================================================
+     INTRO SECTION — two stacked full-height screens, light theme
+     ============================================================ */
+  :root {
+    --intro-bg: #f6f4fb;
+    --intro-ink: #0a0a0f;
+    --intro-accent: #b9a7e0;          /* lavender for AGILY / WE DO */
+    --intro-rule: rgba(10, 10, 15, 0.85);
+  }
+
+  .intro {
+    background: var(--intro-bg);
+    color: var(--intro-ink);
+    position: relative;
+    width: 100%;
+  }
+
+  .intro__screen {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(40px, 6vw, 88px) clamp(24px, 5vw, 88px);
+    position: relative;
+  }
+
+  /* ---------- INTRO 01 ---------- */
+  .intro-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    padding: 10px 22px;
+    border: 1.4px solid var(--intro-rule);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    line-height: 1;
+  }
+
+  .intro-01__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: clamp(28px, 4vw, 48px);
+    padding-bottom: clamp(20px, 4vh, 64px);
+  }
+
+  .intro-headline {
+    font-size: clamp(36px, 5.6vw, 84px);
+    font-weight: 700;
+    line-height: 1.04;
+    letter-spacing: -0.01em;
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+  .intro-headline .accent { color: var(--intro-accent); }
+
+  .intro-thai {
+    font-size: clamp(13px, 1.05vw, 16px);
+    line-height: 1.95;
+    color: var(--intro-ink);
+    max-width: 64ch;
+    font-family: 'Sarabun', 'Noto Sans Thai', 'Space Grotesk', system-ui, sans-serif;
+    font-weight: 400;
+  }
+  .intro-thai p + p { margin-top: 1.2em; }
+
+  /* ---------- INTRO 02 ---------- */
+  .intro-02__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: clamp(40px, 6vw, 72px);
+  }
+
+  .intro-02__heading {
+    font-size: clamp(56px, 9.4vw, 156px);
+    font-weight: 800;
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+    text-align: center;
+  }
+  .intro-02__heading span { display: block; }
+  .intro-02__heading .accent { color: var(--intro-accent); }
+
+  .intro-02__pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: clamp(12px, 1.4vw, 22px);
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  .pill {
+    appearance: none;
+    background: transparent;
+    color: var(--intro-ink);
+    border: 1.4px solid var(--intro-rule);
+    border-radius: 999px;
+    padding: 14px 32px;
+    font: 600 12px/1 'Space Grotesk', system-ui, sans-serif;
+    letter-spacing: 0.22em;
+    cursor: pointer;
+    transition: background 240ms ease, color 240ms ease, transform 240ms cubic-bezier(.2,.7,.2,1);
+    white-space: nowrap;
+  }
+  .pill:hover {
+    background: var(--intro-ink);
+    color: var(--intro-bg);
+    transform: translateY(-2px);
+  }
+  .pill:active { transform: translateY(0); }
+
+  /* ---------- DOWN ARROW ON INTRO 02 ---------- */
+  .intro-02__cue {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 999px;
+    border: 1.4px solid var(--intro-rule);
+    background: transparent;
+    color: var(--intro-ink);
+    cursor: pointer;
+    transition: background 240ms ease, color 240ms ease, transform 240ms cubic-bezier(.2,.7,.2,1);
+    margin-top: clamp(20px, 4vh, 48px);
+  }
+  .intro-02__cue:hover {
+    background: var(--intro-ink);
+    color: var(--intro-bg);
+    transform: translateY(4px);
+  }
+  .intro-02__cue svg {
+    width: 22px;
+    height: 22px;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    fill: none;
+  }
+
+  @media (max-width: 860px) {
+    .intro__screen { padding: 28px 22px; }
+    .intro-tag { font-size: 11px; letter-spacing: 0.18em; padding: 8px 16px; }
+    .intro-headline { font-size: clamp(28px, 7.8vw, 52px); max-width: 22ch; }
+    .intro-02__heading { font-size: clamp(48px, 13vw, 96px); }
+    .pill { padding: 12px 22px; font-size: 11px; letter-spacing: 0.18em; }
+    .intro-02__pills { gap: 10px; }
+    .intro-02__cue { width: 48px; height: 48px; }
+    .intro-thai { line-height: 1.85; }
+  }
+
+  /* ============================================================
+     WORK SECTION — one full-height case per scroll, image carousel
+     ============================================================ */
+  .work {
+    position: relative;
+    width: 100%;
+    height: 100svh;
+    min-height: 560px;
+    overflow: hidden;
+    background: #000;
+    color: #fff;
+  }
+
+  .work__track {
+    position: absolute;
+    inset: 0;
+  }
+
+  .work__slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #000;
+    opacity: 0;
+    transition: opacity 700ms cubic-bezier(.2,.7,.2,1);
+    pointer-events: none;
+  }
+  /* Posters / square or detail-rich shots — show whole image, letterbox to black */
+  .work__slide--contain {
+    background-size: contain;
+  }
+  .work__slide.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  /* Video case film — fills the section like a slide */
+  .work__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    background: #000;
+    pointer-events: none;
+  }
+
+  /* Subtle vignette so corner UI reads cleanly over photos */
+  .work::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0) 18%, rgba(0,0,0,0) 70%, rgba(0,0,0,0.55) 100%);
+    z-index: 1;
+  }
+
+  /* Category badge — lavender skewed tab, top-right */
+  .work__category {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 4;
+    background: var(--intro-accent);
+    color: #0a0a0f;
+    padding: 18px 56px 18px 72px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    clip-path: polygon(36px 0, 100% 0, 100% 100%, 0 100%);
+    user-select: none;
+  }
+
+  /* Project title — bottom-left */
+  .work__title {
+    position: absolute;
+    left: clamp(20px, 4vw, 56px);
+    bottom: clamp(28px, 5vh, 56px);
+    z-index: 4;
+    font-size: clamp(28px, 3.4vw, 48px);
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    color: #fff;
+    text-shadow: 0 2px 24px rgba(0,0,0,0.45);
+    margin: 0;
+  }
+
+  /* Side arrows — thin chevrons centered vertically */
+  .work__arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    width: 56px;
+    height: 56px;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font: 300 38px/1 'Space Grotesk', sans-serif;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.85;
+    transition: opacity 220ms ease, transform 240ms cubic-bezier(.2,.7,.2,1);
+    text-shadow: 0 2px 12px rgba(0,0,0,0.55);
+    user-select: none;
+  }
+  .work__arrow:hover { opacity: 1; }
+  .work__arrow--prev { left: clamp(8px, 2vw, 28px); }
+  .work__arrow--next { right: clamp(8px, 2vw, 28px); }
+  .work__arrow--prev:hover { transform: translate(-3px, -50%); }
+  .work__arrow--next:hover { transform: translate(3px, -50%); }
+
+  /* Bottom-right controls: play/pause pill + 2 decorative dots */
+  .work__controls {
+    position: absolute;
+    right: clamp(20px, 4vw, 56px);
+    bottom: clamp(28px, 5vh, 56px);
+    z-index: 4;
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+  }
+
+  .work__play {
+    width: 64px;
+    height: 36px;
+    border-radius: 999px;
+    background: #fff;
+    color: #0a0a0f;
+    border: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+    transition: transform 240ms cubic-bezier(.2,.7,.2,1);
+  }
+  .work__play:hover { transform: scale(1.04); }
+  .work__play svg { width: 14px; height: 14px; fill: currentColor; display: block; }
+  .work__play .icon-pause { display: none; }
+  .work__play.is-playing .icon-play { display: none; }
+  .work__play.is-playing .icon-pause { display: block; }
+
+  .work__dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .work__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    border: 1.4px solid #fff;
+    background: transparent;
+    transition: background-color 200ms ease;
+  }
+  .work__dot.is-active { background: #fff; }
+
+  /* ============================================================
+     CONTACT — final fullscreen section with logo + columns + footer row
+     ============================================================ */
+  .contact {
+    position: relative;
+    color: #fff;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    background: #0a0a0f;
+    overflow: hidden;
+  }
+  .contact__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+  }
+  .contact__bg::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(10,8,18,0.55) 0%, rgba(10,8,18,0.50) 50%, rgba(10,8,18,0.78) 100%);
+  }
+
+  .contact__inner {
+    position: relative;
+    z-index: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: clamp(56px, 8vw, 120px) clamp(24px, 5vw, 80px) clamp(28px, 3vw, 48px);
+  }
+
+  .contact__logo {
+    margin: 0 auto clamp(48px, 7vw, 96px);
+    width: clamp(280px, 46vw, 720px);
+    max-width: 90%;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .contact__cols {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(28px, 4vw, 64px);
+    align-items: start;
+  }
+  .contact__col {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .contact__col-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.55);
+    margin: 0 0 8px;
+    text-transform: uppercase;
+  }
+  .contact__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .contact__list a,
+  .contact__list span {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(20px, 1.7vw, 26px);
+    letter-spacing: 0.04em;
+    color: #fff;
+    text-decoration: none;
+    text-transform: uppercase;
+    line-height: 1.4;
+    transition: color 220ms ease, transform 240ms cubic-bezier(.2,.7,.2,1);
+    display: inline-block;
+    cursor: pointer;
+  }
+  .contact__list a:hover,
+  .contact__list span:hover {
+    color: var(--intro-accent);
+    transform: translateX(4px);
+  }
+
+  .contact__bottom {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.18);
+    padding: 22px clamp(24px, 5vw, 80px);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.85);
+  }
+  .contact__copy { font-weight: 500; }
+  .contact__top {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-weight: 700;
+    transition: color 220ms ease, transform 240ms cubic-bezier(.2,.7,.2,1);
+  }
+  .contact__top svg {
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+  }
+  .contact__top:hover {
+    color: var(--intro-accent);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 720px) {
+    .contact__cols {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    .contact__bottom {
+      flex-direction: column;
+      gap: 14px;
+      align-items: flex-start;
+      font-size: 11px;
+    }
+    .contact__list a,
+    .contact__list span { font-size: 18px; }
+  }
+
+  /* ============================================================
+     SERVICES SECTION — horizontal-scroll gallery of 5 cards
+     ============================================================ */
+  .services {
+    position: relative;
+    background: var(--intro-bg);
+    color: var(--intro-ink);
+    padding: clamp(72px, 9vw, 140px) 0 clamp(96px, 11vw, 160px);
+    overflow: hidden;
+  }
+
+  .services__head {
+    padding: 0 clamp(24px, 5vw, 80px);
+    margin-bottom: clamp(32px, 5vw, 56px);
+  }
+  .services__title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(64px, 10vw, 152px);
+    letter-spacing: -0.02em;
+    line-height: 0.92;
+    margin: 0;
+    color: var(--intro-ink);
+  }
+
+  /* Horizontal scroller — native scroll + snap, scrollbar hidden */
+  .services__viewport {
+    position: relative;
+  }
+  .services__scroller {
+    display: flex;
+    gap: clamp(14px, 1.6vw, 24px);
+    padding: 8px clamp(24px, 5vw, 80px) 32px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: clamp(24px, 5vw, 80px);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;            /* Firefox */
+    cursor: grab;
+  }
+  .services__scroller::-webkit-scrollbar { display: none; }
+  .services__scroller.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+  .services__scroller.is-dragging .service-card { pointer-events: none; }
+
+  /* Service card — portrait 9:16 ‘poster’ */
+  .service-card {
+    position: relative;
+    flex: 0 0 auto;
+    width: clamp(240px, 22vw, 340px);
+    aspect-ratio: 9 / 16;
+    border-radius: 18px;
+    overflow: hidden;
+    background: #2a2330;
+    color: #fff;
+    scroll-snap-align: start;
+    isolation: isolate;
+    transition: transform 320ms cubic-bezier(.2,.7,.2,1), box-shadow 320ms ease;
+    box-shadow: 0 6px 24px rgba(20, 8, 50, 0.10);
+  }
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 60px rgba(20, 8, 50, 0.22);
+  }
+
+  .service-card__bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    transition: transform 700ms cubic-bezier(.2,.7,.2,1);
+    z-index: 0;
+  }
+  .service-card:hover .service-card__bg { transform: scale(1.04); }
+
+  /* Subtle dark gradient bottom for legibility */
+  .service-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      linear-gradient(180deg, rgba(15,8,30,0.10) 0%, rgba(15,8,30,0) 28%, rgba(15,8,30,0) 55%, rgba(15,8,30,0.55) 100%);
+    pointer-events: none;
+  }
+
+  .service-card__inner {
+    position: relative;
+    z-index: 2;
+    height: 100%;
+    padding: clamp(18px, 1.6vw, 24px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .service-card__header { display: block; }
+  .service-card__num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    opacity: 0.85;
+    margin-bottom: 8px;
+  }
+  .service-card__title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700;
+    font-size: clamp(22px, 1.9vw, 30px);
+    letter-spacing: 0.02em;
+    line-height: 1;
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .service-card__title span { display: block; }
+
+  .service-card__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 12.5px;
+    line-height: 1.45;
+    letter-spacing: 0.005em;
+    opacity: 0.92;
+  }
+  .service-card__list li { font-weight: 400; }
+
+  /* Arrow buttons floating at right of head */
+  .services__nav {
+    position: absolute;
+    top: clamp(28px, 4vw, 64px);
+    right: clamp(24px, 5vw, 80px);
+    display: inline-flex;
+    gap: 12px;
+    z-index: 3;
+  }
+  .services__nav button {
+    width: 52px;
+    height: 52px;
+    border-radius: 999px;
+    border: 1.4px solid var(--intro-ink);
+    background: transparent;
+    color: var(--intro-ink);
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font: 300 26px/1 'Space Grotesk', sans-serif;
+    transition: background 220ms ease, color 220ms ease, transform 240ms cubic-bezier(.2,.7,.2,1);
+  }
+  .services__nav button:hover {
+    background: var(--intro-ink);
+    color: var(--intro-bg);
+  }
+  .services__nav button:disabled {
+    opacity: 0.25;
+    cursor: default;
+  }
+  .services__nav button:disabled:hover {
+    background: transparent;
+    color: var(--intro-ink);
+    transform: none;
+  }
+
+  @media (max-width: 860px) {
+    .services { padding: 56px 0 80px; }
+    .services__head { margin-bottom: 24px; }
+    .services__title { font-size: clamp(48px, 14vw, 88px); }
+    .services__nav { top: 16px; right: 18px; gap: 8px; }
+    .services__nav button { width: 42px; height: 42px; font-size: 22px; }
+    .service-card { width: 70vw; max-width: 320px; }
+  }
+
+  /* Single-image work: hide carousel controls */
+  .work.is-static .work__arrow,
+  .work.is-static .work__play { display: none; }
+  .work.is-static .work__dots .work__dot:nth-child(n+2) { display: none; }
+
+  /* Responsive Work */
+  @media (max-width: 860px) {
+    .work { height: 80svh; min-height: 480px; }
+    .work__category {
+      padding: 12px 28px 12px 40px;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%);
+    }
+    .work__title { font-size: 24px; }
+    .work__arrow { width: 44px; height: 44px; font-size: 30px; }
+    .work__controls { gap: 12px; }
+    .work__play { width: 54px; height: 32px; }
+    .work__play svg { width: 12px; height: 12px; }
+    .work__dot { width: 9px; height: 9px; }
+  }
+
+  @media (max-width: 480px) {
+    .work__title { font-size: 20px; left: 18px; }
+  }
+
+  /* Reduce motion */
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { animation: none; opacity: 1; transform: none; }
+    .scroll-cue svg { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<main>
+  <section class="hero" data-screen-label="01 Home">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__tint" aria-hidden="true"></div>
+
+    <nav class="nav" aria-label="Primary">
+      <div class="nav__links">
+        <a href="#home" class="reveal" data-delay="1">HOME</a>
+        <a href="#work" class="reveal" data-delay="2">WORK</a>
+        <a href="#contact" class="reveal" data-delay="3">CONTACT</a>
+      </div>
+      <div class="nav__lang reveal" data-delay="4" role="group" aria-label="Language">
+        <button type="button" class="lang-btn is-active" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" class="lang-btn" data-lang="th" aria-pressed="false">TH</button>
+      </div>
+    </nav>
+
+    <div class="hero__content">
+      <div class="hero__left">
+        <img
+          src="assets/agily-logo.png"
+          alt="AGILY"
+          class="logo reveal"
+          data-delay="2"
+          draggable="false"
+        />
+        <p class="tagline reveal" data-delay="3" data-i18n="tagline">
+          EXECUTING SOLUTIONS. EMPOWERING WITH <strong>AGILITY.</strong>
+        </p>
+      </div>
+
+      <div class="hero__right">
+        <p class="we-are reveal" data-delay="4" data-i18n="weAre">
+          WE ARE A MARKETING AGENCY BUILDING BRANDS, CAMPAIGNS AND DIGITAL PRODUCTS. ADVERTISING, CONSULTING, DESIGN, MARKETING &amp; BRAND, PRODUCTION — DELIVERED WITH AGILITY.
+        </p>
+      </div>
+    </div>
+
+    <button type="button" class="scroll-cue reveal" data-delay="5" aria-label="Scroll down">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <polyline points="6 9 12 16 18 9" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+  </section>
+
+  <section class="intro" id="intro" data-screen-label="02 Intro" aria-label="Intro">
+    <!-- INTRO 01 — statement + Thai supporting copy -->
+    <div class="intro__screen intro-01" id="intro-01">
+      <span class="intro-tag">INTRO</span>
+
+      <div class="intro-01__body">
+        <h2 class="intro-headline" data-i18n="introHeadline">
+          SPECIALIZES IN PERFORMANCE DIGITAL MARKETING THOUGH <span class="accent">AGILY</span> STRATEGIC AND CREATIVE EXECUTIONS.
+        </h2>
+
+        <div class="intro-thai" lang="th" data-i18n="introThai">
+          <p>พันธมิตรที่พร้อมผลักดันธุรกิจของคุณให้เติบโตด้วยทีมงานผู้เชี่ยวชาญ<br/>ที่มุ่งมั่นสร้างสรรค์กลยุทธ์การตลาดที่ตอบโจทย์ความต้องการของลูกค้าอย่างแท้จริง</p>
+          <p>เราเข้าใจพฤติกรรมผู้บริโภคในยุคดิจิทัลเป็นอย่างดี และพร้อมนำเสนอโซลูชัน<br/>ที่ครอบคลุมทั้งออนไลน์และออฟไลน์ เพื่อให้คุณบรรลุเป้าหมายทางธุรกิจ</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- INTRO 02 — hero statement + project pills + scroll cue -->
+    <div class="intro__screen intro-02" id="intro-02">
+      <div class="intro-02__body">
+        <h2 class="intro-02__heading" data-i18n="workSpeaks">
+          <span>THE WORK</span>
+          <span>SPEAKS</span>
+          <span>BEFORE</span>
+          <span class="accent">WE DO</span>
+        </h2>
+
+        <div class="intro-02__pills" role="list">
+          <button type="button" class="pill" role="listitem" data-project="production">PRODUCTION</button>
+          <button type="button" class="pill" role="listitem" data-project="socail-content">SOCAIL CONTENT</button>
+          <button type="button" class="pill" role="listitem" data-project="event">EVENT</button>
+          <button type="button" class="pill" role="listitem" data-project="performance-marketing">PERFORMANCE MARKETING</button>
+        </div>
+
+        <button type="button" class="intro-02__cue" id="intro-cue" aria-label="Scroll to Work">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <line x1="12" y1="5" x2="12" y2="19" stroke-linecap="round" />
+            <polyline points="6 13 12 19 18 13" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK — case 01: MEA e-Service / PRODUCTION (video case film) -->
+  <section class="work work--video" id="work-mea" data-screen-label="03 Work — MEA e-Service" aria-label="Work: MEA e-Service">
+    <video class="work__video" autoplay muted loop playsinline preload="auto" fetchpriority="high">
+      <source src="assets/work/mea-film.mp4" type="video/mp4" />
+    </video>
+
+    <span class="work__category">PRODUCTION</span>
+    <h3 class="work__title">MEA e-Service</h3>
+  </section>
+
+  <!-- WORK — case 02: MATCHDAY / SOCAIL CONTENT -->
+  <section class="work" id="work-matchday" data-screen-label="03 Work — MATCHDAY" aria-label="Work: MATCHDAY">
+    <div class="work__track" data-work-track>
+      <div class="work__slide is-active" style="background-image:url('assets/work/matchday-1.png')"></div>
+      <div class="work__slide" style="background-image:url('assets/work/matchday-2.png')"></div>
+      <div class="work__slide" style="background-image:url('assets/work/matchday-3.png')"></div>
+    </div>
+
+    <span class="work__category">SOCAIL CONTENT</span>
+    <h3 class="work__title">MATCHDAY</h3>
+
+    <button type="button" class="work__arrow work__arrow--prev" data-work-prev aria-label="Previous image">&lsaquo;</button>
+    <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image">&rsaquo;</button>
+
+    <div class="work__controls">
+      <div class="work__dots" aria-hidden="true">
+        <span class="work__dot is-active"></span>
+        <span class="work__dot"></span>
+        <span class="work__dot"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK — case 03: MONKEYEVERYDAY / SOCAIL CONTENT -->
+  <section class="work" id="work-monkey" data-screen-label="03 Work — MONKEYEVERYDAY" aria-label="Work: MONKEYEVERYDAY">
+    <div class="work__track" data-work-track>
+      <div class="work__slide is-active" style="background-image:url('assets/work/monkey-1.png?v=2')"></div>
+      <div class="work__slide" style="background-image:url('assets/work/monkey-2.png?v=2')"></div>
+      <div class="work__slide" style="background-image:url('assets/work/monkey-3.png?v=2')"></div>
+    </div>
+
+    <span class="work__category">SOCAIL CONTENT</span>
+    <h3 class="work__title">MONKEYEVERYDAY</h3>
+
+    <button type="button" class="work__arrow work__arrow--prev" data-work-prev aria-label="Previous image">&lsaquo;</button>
+    <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image">&rsaquo;</button>
+
+    <div class="work__controls">
+      <div class="work__dots" aria-hidden="true">
+        <span class="work__dot is-active"></span>
+        <span class="work__dot"></span>
+        <span class="work__dot"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK — case 04: HANDSUP / SOCAIL CONTENT (single image, no carousel) -->
+  <section class="work is-static" id="work-handsup" data-screen-label="03 Work — HANDSUP" aria-label="Work: HANDSUP">
+    <div class="work__track" data-work-track>
+      <div class="work__slide is-active" style="background-image:url('assets/work/handsup-1.jpg')"></div>
+    </div>
+
+    <span class="work__category">SOCAIL CONTENT</span>
+    <h3 class="work__title">HANDSUP</h3>
+
+    <div class="work__controls">
+      <div class="work__dots" aria-hidden="true">
+        <span class="work__dot"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK — case 05: DKSH x 3M / EVENT (single image) -->
+  <section class="work is-static" id="work-dksh" data-screen-label="03 Work — DKSH x 3M" aria-label="Work: DKSH x 3M">
+    <div class="work__track" data-work-track>
+      <div class="work__slide is-active" style="background-image:url('assets/work/dksh-1.png')"></div>
+    </div>
+
+    <span class="work__category">EVENT</span>
+    <h3 class="work__title">DKSH x 3M</h3>
+
+    <div class="work__controls">
+      <div class="work__dots" aria-hidden="true">
+        <span class="work__dot"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES — horizontal-scroll gallery -->
+  <section class="services" id="services" data-screen-label="04 Services" aria-label="Services">
+    <div class="services__head">
+      <h2 class="services__title">SERVICES</h2>
+    </div>
+
+    <div class="services__nav" aria-hidden="false">
+      <button type="button" data-services-prev aria-label="Scroll services left">&lsaquo;</button>
+      <button type="button" data-services-next aria-label="Scroll services right">&rsaquo;</button>
+    </div>
+
+    <div class="services__viewport">
+      <div class="services__scroller" data-services-scroller>
+
+        <article class="service-card">
+          <div class="service-card__bg" style="background-image:url('assets/services/01-advertising.png')"></div>
+          <div class="service-card__inner">
+            <div class="service-card__header">
+              <div class="service-card__num">01</div>
+              <h3 class="service-card__title">ADVERTISING</h3>
+            </div>
+            <ul class="service-card__list">
+              <li>Brand Building</li>
+              <li>Business Development Strategy</li>
+              <li>Communication Plan</li>
+              <li>Competitor Analysis</li>
+              <li>Consumer Insight Research</li>
+              <li>Marketing Strategy</li>
+              <li>Media Plan</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-card__bg" style="background-image:url('assets/services/02-consulting.png')"></div>
+          <div class="service-card__inner">
+            <div class="service-card__header">
+              <div class="service-card__num">02</div>
+              <h3 class="service-card__title">CONSULTING</h3>
+            </div>
+            <ul class="service-card__list">
+              <li>Business Planning</li>
+              <li>Operation Consultant</li>
+              <li>Organizational Consultant</li>
+              <li>Self-Improvement Training</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-card__bg" style="background-image:url('assets/services/03-design.png')"></div>
+          <div class="service-card__inner">
+            <div class="service-card__header">
+              <div class="service-card__num">03</div>
+              <h3 class="service-card__title">DESIGN</h3>
+            </div>
+            <ul class="service-card__list">
+              <li>3D Graphic Design</li>
+              <li>3D Perspective</li>
+              <li>Art &amp; Drawing</li>
+              <li>Company Identity Design</li>
+              <li>Character &amp; Mascot Design</li>
+              <li>Graphic Design</li>
+              <li>Infographics</li>
+              <li>Label &amp; Packaging Design</li>
+              <li>Print Ads</li>
+              <li>Product Design</li>
+              <li>Story Board</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-card__bg" style="background-image:url('assets/services/04-marketing.png')"></div>
+          <div class="service-card__inner">
+            <div class="service-card__header">
+              <div class="service-card__num">04</div>
+              <h3 class="service-card__title"><span>MARKETING</span><span>&amp; BRAND</span></h3>
+            </div>
+            <ul class="service-card__list">
+              <li>Content Creation Marketing</li>
+              <li>Data Analytics &amp; Visualization</li>
+              <li>Event &amp; Organizer</li>
+              <li>Influencer Marketing</li>
+              <li>Marketing Event Planning</li>
+              <li>Online Media Advertising</li>
+              <li>SEO</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="service-card">
+          <div class="service-card__bg" style="background-image:url('assets/services/05-production.png')"></div>
+          <div class="service-card__inner">
+            <div class="service-card__header">
+              <div class="service-card__num">05</div>
+              <h3 class="service-card__title">PRODUCTION</h3>
+            </div>
+            <ul class="service-card__list">
+              <li>Animations</li>
+              <li>Motion Graphics</li>
+              <li>Photography</li>
+              <li>Produce and Direct</li>
+              <li>Sound Engineering</li>
+              <li>Subtitles</li>
+              <li>Shoot and Edit</li>
+              <li>Voice Over</li>
+            </ul>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT — final section with logo, columns, footer row -->
+  <section class="contact" id="contact" data-screen-label="05 Contact" aria-label="Contact">
+    <div class="contact__bg" style="background-image:url('assets/contact-bg.jpg')"></div>
+
+    <div class="contact__inner">
+      <img class="contact__logo" src="assets/agily-logo.png" alt="AGILY" />
+
+      <div class="contact__cols">
+        <div class="contact__col">
+          <h3 class="contact__col-title">Pages</h3>
+          <ul class="contact__list">
+            <li><span data-anchor="hero">HOME</span></li>
+            <li><span data-anchor="work-mea">WORK</span></li>
+            <li><span data-anchor="contact">CONTACT</span></li>
+          </ul>
+        </div>
+
+        <div class="contact__col">
+          <h3 class="contact__col-title">Socials</h3>
+          <ul class="contact__list">
+            <li><span>INSTAGRAM</span></li>
+          </ul>
+        </div>
+
+        <div class="contact__col">
+          <h3 class="contact__col-title">Coantact</h3>
+          <ul class="contact__list">
+            <li><span>EMAIL</span></li>
+            <li><span>PHONE</span></li>
+            <li><span>LINE</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact__bottom">
+      <span class="contact__copy">AGILY 2025</span>
+      <button type="button" class="contact__top" data-back-to-top aria-label="Back to top">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 14 12 8 18 14" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        BACK TO TOP
+      </button>
+    </div>
+  </section>
+</main>
+
+<script>
+  // ---------- SMOOTH SCROLL FOR V ARROW (HERO -> INTRO) ----------
+  const cue = document.querySelector('.scroll-cue');
+  const intro = document.getElementById('intro');
+  if (cue && intro) {
+    cue.addEventListener('click', () => {
+      intro.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  // ---------- INTRO 02 ARROW -> first Work section ----------
+  const introCue = document.getElementById('intro-cue');
+  if (introCue) {
+    introCue.addEventListener('click', () => {
+      const target = document.querySelector('.work');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      else window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+    });
+  }
+
+  // ---------- PROJECT PILLS — scroll to first Work for now ----------
+  document.querySelectorAll('.pill[data-project]').forEach((p) => {
+    p.addEventListener('click', () => {
+      const target = document.querySelector('.work');
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      else window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+    });
+  });
+
+  // ---------- WORK CAROUSEL (per-section, supports multiple .work blocks) ----------
+  document.querySelectorAll('.work').forEach((section) => {
+    const slides = [...section.querySelectorAll('.work__slide')];
+    const dots = [...section.querySelectorAll('.work__dot')];
+    const prevBtn = section.querySelector('[data-work-prev]');
+    const nextBtn = section.querySelector('[data-work-next]');
+    const playBtn = section.querySelector('[data-work-play]');
+    if (!slides.length) return;
+
+    let idx = slides.findIndex((s) => s.classList.contains('is-active'));
+    if (idx < 0) idx = 0;
+    let playing = false;
+    let timer = null;
+    const INTERVAL = 3500;
+
+    function show(i) {
+      idx = ((i % slides.length) + slides.length) % slides.length;
+      slides.forEach((s, n) => s.classList.toggle('is-active', n === idx));
+      dots.forEach((d, n) => d.classList.toggle('is-active', n === idx));
+    }
+    function next() { show(idx + 1); }
+    function prev() { show(idx - 1); }
+
+    // Initialize dots in case of mismatch
+    show(idx);
+
+    function setPlaying(on) {
+      playing = on;
+      if (playBtn) {
+        playBtn.classList.toggle('is-playing', on);
+        playBtn.setAttribute('aria-label', on ? 'Pause' : 'Auto-play images');
+      }
+      if (timer) { clearInterval(timer); timer = null; }
+      if (on) timer = setInterval(next, INTERVAL);
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => { setPlaying(false); prev(); });
+    if (nextBtn) nextBtn.addEventListener('click', () => { setPlaying(false); next(); });
+    if (playBtn) playBtn.addEventListener('click', () => setPlaying(!playing));
+  });
+
+  // ---------- SERVICES horizontal scroller ----------
+  (function initServices() {
+    const scroller = document.querySelector('[data-services-scroller]');
+    const prevBtn = document.querySelector('[data-services-prev]');
+    const nextBtn = document.querySelector('[data-services-next]');
+    if (!scroller) return;
+
+    function step() {
+      const card = scroller.querySelector('.service-card');
+      if (!card) return scroller.clientWidth * 0.8;
+      const styles = getComputedStyle(scroller);
+      const gap = parseFloat(styles.columnGap || styles.gap || '20') || 20;
+      return card.getBoundingClientRect().width + gap;
+    }
+
+    function updateButtons() {
+      const max = scroller.scrollWidth - scroller.clientWidth - 4;
+      if (prevBtn) prevBtn.disabled = scroller.scrollLeft <= 4;
+      if (nextBtn) nextBtn.disabled = scroller.scrollLeft >= max;
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', () => {
+      scroller.scrollBy({ left: -step(), behavior: 'smooth' });
+    });
+    if (nextBtn) nextBtn.addEventListener('click', () => {
+      scroller.scrollBy({ left: step(), behavior: 'smooth' });
+    });
+    scroller.addEventListener('scroll', updateButtons, { passive: true });
+    window.addEventListener('resize', updateButtons);
+    requestAnimationFrame(updateButtons);
+
+    // Drag-to-scroll (mouse) — native swipe handles touch
+    let isDown = false;
+    let startX = 0;
+    let startScroll = 0;
+    let dragMoved = false;
+
+    scroller.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      isDown = true;
+      dragMoved = false;
+      startX = e.pageX;
+      startScroll = scroller.scrollLeft;
+      scroller.classList.add('is-dragging');
+    });
+    window.addEventListener('mouseup', () => {
+      if (!isDown) return;
+      isDown = false;
+      scroller.classList.remove('is-dragging');
+    });
+    window.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      const dx = e.pageX - startX;
+      if (Math.abs(dx) > 4) dragMoved = true;
+      scroller.scrollLeft = startScroll - dx;
+    });
+    // Block click-through right after a drag
+    scroller.addEventListener('click', (e) => {
+      if (dragMoved) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
+
+    // Wheel: vertical wheel becomes horizontal scroll only when horizontal range available
+    scroller.addEventListener('wheel', (e) => {
+      if (e.deltaX !== 0) return; // trackpad horizontal — leave alone
+      const max = scroller.scrollWidth - scroller.clientWidth;
+      if (max <= 0) return;
+      const next = scroller.scrollLeft + e.deltaY;
+      // If we'd scroll past the ends, let the page scroll vertically instead
+      if ((e.deltaY > 0 && scroller.scrollLeft >= max - 1) ||
+          (e.deltaY < 0 && scroller.scrollLeft <= 1)) return;
+      e.preventDefault();
+      scroller.scrollLeft = Math.max(0, Math.min(max, next));
+    }, { passive: false });
+  })();
+
+  // ---------- CONTACT: Pages anchors + back to top ----------
+  document.querySelectorAll('.contact [data-anchor]').forEach((el) => {
+    el.addEventListener('click', () => {
+      const id = el.dataset.anchor;
+      if (id === 'hero') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+      const t = document.getElementById(id);
+      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+  const backTop = document.querySelector('[data-back-to-top]');
+  if (backTop) backTop.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // ---------- LANGUAGE TOGGLE (visual only — keeps copy as requested) ---------- 
+  // The mockup shows EN active / TH inactive. Hooked up so it toggles state visually
+  // for now; copy swap can be wired later when TH translations are provided.
+  const langButtons = document.querySelectorAll('.lang-btn');
+  langButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      langButtons.forEach((b) => {
+        b.classList.remove('is-active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('is-active');
+      btn.setAttribute('aria-pressed', 'true');
+    });
+  });
+</script>
+
+</body>
+</html>
