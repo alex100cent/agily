@@ -577,7 +577,7 @@
   .work__arrow--prev:hover { transform: translate(-3px, -50%); }
   .work__arrow--next:hover { transform: translate(3px, -50%); }
 
-  /* Bottom-right controls: play/pause pill + 2 decorative dots */
+  /* Bottom-right controls: image selector dots */
   .work__controls {
     position: absolute;
     right: clamp(20px, 4vw, 56px);
@@ -614,14 +614,21 @@
     gap: 12px;
   }
   .work__dot {
+    appearance: none;
     width: 12px;
     height: 12px;
+    padding: 0;
     border-radius: 999px;
     border: 1.4px solid #fff;
     background: transparent;
+    cursor: pointer;
     transition: background-color 200ms ease;
   }
   .work__dot.is-active { background: #fff; }
+  .work__dot:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 4px;
+  }
 
   /* ============================================================
      CONTACT — final fullscreen section with logo + columns + footer row
@@ -949,9 +956,10 @@
   }
 
   /* Single-image work: hide carousel controls */
-  .work.is-static .work__arrow,
-  .work.is-static .work__play { display: none; }
-  .work.is-static .work__dots .work__dot:nth-child(n+2) { display: none; }
+.work.is-static .work__arrow,
+.work.is-static .work__play { display: none; }
+.work.is-static .work__dots .work__dot:nth-child(n+2) { display: none; }
+.work.is-static .work__dot { cursor: default; }
 
   /* Responsive Work */
   @media (max-width: 860px) {
@@ -1097,10 +1105,10 @@
     <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image">&rsaquo;</button>
 
     <div class="work__controls">
-      <div class="work__dots" aria-hidden="true">
-        <span class="work__dot is-active"></span>
-        <span class="work__dot"></span>
-        <span class="work__dot"></span>
+      <div class="work__dots" aria-label="MATCHDAY images">
+        <button type="button" class="work__dot is-active" aria-label="Show MATCHDAY image 1" aria-pressed="true"></button>
+        <button type="button" class="work__dot" aria-label="Show MATCHDAY image 2" aria-pressed="false"></button>
+        <button type="button" class="work__dot" aria-label="Show MATCHDAY image 3" aria-pressed="false"></button>
       </div>
     </div>
   </section>
@@ -1120,10 +1128,10 @@
     <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image">&rsaquo;</button>
 
     <div class="work__controls">
-      <div class="work__dots" aria-hidden="true">
-        <span class="work__dot is-active"></span>
-        <span class="work__dot"></span>
-        <span class="work__dot"></span>
+      <div class="work__dots" aria-label="MONKEYEVERYDAY images">
+        <button type="button" class="work__dot is-active" aria-label="Show MONKEYEVERYDAY image 1" aria-pressed="true"></button>
+        <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 2" aria-pressed="false"></button>
+        <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 3" aria-pressed="false"></button>
       </div>
     </div>
   </section>
@@ -1366,7 +1374,11 @@
     function show(i) {
       idx = ((i % slides.length) + slides.length) % slides.length;
       slides.forEach((s, n) => s.classList.toggle('is-active', n === idx));
-      dots.forEach((d, n) => d.classList.toggle('is-active', n === idx));
+      dots.forEach((d, n) => {
+        const active = n === idx;
+        d.classList.toggle('is-active', active);
+        d.setAttribute('aria-pressed', active ? 'true' : 'false');
+      });
     }
     function next() { show(idx + 1); }
     function prev() { show(idx - 1); }
@@ -1386,6 +1398,12 @@
 
     if (prevBtn) prevBtn.addEventListener('click', () => { setPlaying(false); prev(); });
     if (nextBtn) nextBtn.addEventListener('click', () => { setPlaying(false); next(); });
+    dots.forEach((dot, n) => {
+      dot.addEventListener('click', () => {
+        setPlaying(false);
+        show(n);
+      });
+    });
     if (playBtn) playBtn.addEventListener('click', () => setPlaying(!playing));
   });
 
