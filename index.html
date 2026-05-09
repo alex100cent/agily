@@ -146,16 +146,33 @@
     z-index: 4;
     padding: clamp(40px, 6vw, 96px) clamp(24px, 5vw, 88px) 0;
     display: grid;
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    grid-template-columns: minmax(280px, 575px) minmax(260px, 38ch);
     align-items: center;
+    justify-content: center;
     gap: clamp(32px, 6vw, 96px);
     min-height: calc(100svh - 220px);
   }
 
+  .hero__left {
+    justify-self: end;
+    width: 100%;
+    max-width: 575px;
+    text-align: center;
+  }
+
+  .hero__logo-frame {
+    display: block;
+    width: 100%;
+    aspect-ratio: 575 / 100;
+    overflow: hidden;
+  }
+
   .logo {
     display: block;
-    width: clamp(280px, 46vw, 640px);
+    width: 134.9565%;
+    max-width: none;
     height: auto;
+    transform: translate(-13.0155%, -32.7586%);
     user-select: none;
     -webkit-user-drag: none;
   }
@@ -167,6 +184,7 @@
     letter-spacing: 0.22em;
     color: var(--ink);
     text-transform: uppercase;
+    text-align: center;
   }
   .tagline strong {
     font-weight: 700;
@@ -278,16 +296,22 @@
 
     .hero__content {
       grid-template-columns: 1fr;
+      justify-items: center;
       gap: 40px;
       padding: 24px 22px 0;
       min-height: calc(100svh - 160px);
       align-content: center;
     }
 
-    .logo { width: min(82vw, 480px); }
+    .hero__left {
+      justify-self: center;
+      max-width: min(82vw, 480px);
+    }
 
     .hero__right {
-      justify-self: stretch;
+      justify-self: center;
+      width: 100%;
+      max-width: min(82vw, 38ch);
       padding-top: 4px;
     }
     .we-are { letter-spacing: 0.14em; line-height: 1.75; }
@@ -533,7 +557,7 @@
     font-size: 12px;
     font-weight: 600;
     letter-spacing: 0.22em;
-    clip-path: polygon(36px 0, 100% 0, 100% 100%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 36px 100%);
     user-select: none;
   }
 
@@ -969,7 +993,7 @@
       padding: 12px 28px 12px 40px;
       font-size: 10px;
       letter-spacing: 0.18em;
-      clip-path: polygon(22px 0, 100% 0, 100% 100%, 0 100%);
+      clip-path: polygon(0 0, 100% 0, 100% 100%, 22px 100%);
     }
     .work__title { font-size: 24px; }
     .work__arrow { width: 44px; height: 44px; font-size: 30px; }
@@ -1011,13 +1035,14 @@
 
     <div class="hero__content">
       <div class="hero__left">
-        <img
-          src="assets/agily-logo.png"
-          alt="AGILY"
-          class="logo reveal"
-          data-delay="2"
-          draggable="false"
-        />
+        <div class="hero__logo-frame reveal" data-delay="2">
+          <img
+            src="assets/agily-logo.png"
+            alt="AGILY"
+            class="logo"
+            draggable="false"
+          />
+        </div>
         <p class="tagline reveal" data-delay="3" data-i18n="tagline">
           EXECUTING SOLUTIONS. EMPOWERING WITH <strong>AGILITY.</strong>
         </p>
