@@ -485,6 +485,61 @@
   }
 
   /* ============================================================
+     WORK GROUPS — each media category gets its own heading + breathing room
+     ============================================================ */
+  .works {
+    background: var(--bg);
+    padding-bottom: clamp(40px, 7vh, 96px);
+  }
+
+  .work-group {
+    padding-top: clamp(64px, 11vh, 140px);
+  }
+
+  .work-group__head {
+    display: flex;
+    align-items: baseline;
+    gap: clamp(14px, 2.4vw, 32px);
+    padding: 0 clamp(20px, 4vw, 56px) clamp(26px, 4.5vh, 52px);
+  }
+
+  .work-group__num {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    color: var(--intro-accent);
+    flex: none;
+  }
+
+  .work-group__title {
+    font-size: clamp(26px, 4.4vw, 56px);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1;
+    margin: 0;
+    flex: none;
+  }
+
+  .work-group__rule {
+    flex: 1 1 auto;
+    height: 1px;
+    background: var(--rule);
+    transform: translateY(-4px);
+  }
+
+  /* Cases inside one category — separated by a thin gap so they don't blur together */
+  .work-group__cases {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(10px, 2vh, 24px);
+  }
+
+  @media (max-width: 860px) {
+    .work-group__head { gap: 12px; }
+    .work-group__rule { display: none; }
+  }
+
+  /* ============================================================
      WORK SECTION — one full-height case per scroll, image carousel
      ============================================================ */
   .work {
@@ -502,33 +557,56 @@
     inset: 0;
   }
 
+  /* Slides carry their image in --img and paint it twice:
+     ::before — blurred cover fill, ::after — the whole picture, never cropped. */
   .work__slide {
     position: absolute;
     inset: 0;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
     background-color: #000;
     opacity: 0;
     transition: opacity 700ms cubic-bezier(.2,.7,.2,1);
     pointer-events: none;
+    overflow: hidden;
   }
-  /* Posters / square or detail-rich shots — show whole image, letterbox to black */
-  .work__slide--contain {
+
+  .work__slide::before,
+  .work__slide::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: var(--img);
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  /* Blurred backdrop so any aspect ratio sits on a filled frame, not black bars */
+  .work__slide::before {
+    background-size: cover;
+    filter: blur(46px) saturate(1.15) brightness(0.5);
+    transform: scale(1.15);
+  }
+
+  /* The picture itself — whole artwork visible, never blown up or cropped */
+  .work__slide::after {
     background-size: contain;
+  }
+
+  /* Escape hatch for a shot that really was framed for full-bleed */
+  .work__slide--cover::after {
+    background-size: cover;
   }
   .work__slide.is-active {
     opacity: 1;
     pointer-events: auto;
   }
 
-  /* Video case film — fills the section like a slide */
+  /* Video case film — whole frame visible, same rule as the stills */
   .work__video {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
     background: #000;
     pointer-events: none;
@@ -543,22 +621,6 @@
     background:
       linear-gradient(180deg, rgba(0,0,0,0.30) 0%, rgba(0,0,0,0) 18%, rgba(0,0,0,0) 70%, rgba(0,0,0,0.55) 100%);
     z-index: 1;
-  }
-
-  /* Category badge — lavender skewed tab, top-right */
-  .work__category {
-    position: absolute;
-    top: 0;
-    right: 0;
-    z-index: 4;
-    background: var(--intro-accent);
-    color: #0a0a0f;
-    padding: 18px 56px 18px 72px;
-    font-size: 12px;
-    font-weight: 600;
-    letter-spacing: 0.22em;
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 36px 100%);
-    user-select: none;
   }
 
   /* Project title — bottom-left */
@@ -989,12 +1051,6 @@
   /* Responsive Work */
   @media (max-width: 860px) {
     .work { height: 80svh; min-height: 480px; }
-    .work__category {
-      padding: 12px 28px 12px 40px;
-      font-size: 10px;
-      letter-spacing: 0.18em;
-      clip-path: polygon(0 0, 100% 0, 100% 100%, 22px 100%);
-    }
     .work__title { font-size: 24px; }
     .work__arrow { width: 44px; height: 44px; font-size: 30px; }
     .work__controls { gap: 12px; }
@@ -1017,7 +1073,7 @@
 <body>
 
 <main>
-  <section class="hero" data-screen-label="01 Home">
+  <section class="hero" id="home" data-screen-label="01 Home">
     <div class="hero__bg" aria-hidden="true"></div>
     <div class="hero__tint" aria-hidden="true"></div>
 
@@ -1090,10 +1146,10 @@
         </h2>
 
         <div class="intro-02__pills" role="list">
-          <button type="button" class="pill" role="listitem" data-project="production" data-i18n="pillProduction">PRODUCTION</button>
-          <button type="button" class="pill" role="listitem" data-project="social-content" data-i18n="pillSocialContent">SOCIAL CONTENT</button>
-          <button type="button" class="pill" role="listitem" data-project="event" data-i18n="pillEvent">EVENT</button>
-          <button type="button" class="pill" role="listitem" data-project="performance-marketing" data-i18n="pillPerformanceMarketing">PERFORMANCE MARKETING</button>
+          <button type="button" class="pill" role="listitem" data-project="production" data-target="work-production" data-i18n="pillProduction">PRODUCTION</button>
+          <button type="button" class="pill" role="listitem" data-project="social-content" data-target="work-social-content" data-i18n="pillSocialContent">SOCIAL CONTENT</button>
+          <button type="button" class="pill" role="listitem" data-project="event" data-target="work-event" data-i18n="pillEvent">EVENT</button>
+          <button type="button" class="pill" role="listitem" data-project="performance-marketing" data-target="services" data-i18n="pillPerformanceMarketing">PERFORMANCE MARKETING</button>
         </div>
 
         <button type="button" class="intro-02__cue" id="intro-cue" aria-label="Scroll to Work" data-i18n-aria="scrollToWork">
@@ -1106,93 +1162,125 @@
     </div>
   </section>
 
-  <!-- WORK — case 01: MEA e-Service / PRODUCTION (video case film) -->
-  <section class="work work--video" id="work-mea" data-screen-label="03 Work — MEA e-Service" aria-label="Work: MEA e-Service">
-    <video class="work__video" autoplay muted loop playsinline preload="auto" fetchpriority="high">
-      <source src="assets/work/mea-film.mp4" type="video/mp4" />
-    </video>
+  <!-- WORK — grouped by media category, each group headed by its topic -->
+  <div class="works" id="work">
 
-    <span class="work__category" data-i18n="categoryProduction">PRODUCTION</span>
-    <h3 class="work__title">MEA e-Service</h3>
-  </section>
-
-  <!-- WORK — case 02: MATCHDAY / SOCIAL CONTENT -->
-  <section class="work" id="work-matchday" data-screen-label="03 Work — MATCHDAY" aria-label="Work: MATCHDAY">
-    <div class="work__track" data-work-track>
-      <div class="work__slide is-active" style="background-image:url('assets/work/matchday-1.webp')"></div>
-      <div class="work__slide" style="background-image:url('assets/work/matchday-2.webp')"></div>
-      <div class="work__slide" style="background-image:url('assets/work/matchday-3.webp')"></div>
-    </div>
-
-    <span class="work__category" data-i18n="categorySocialContent">SOCIAL CONTENT</span>
-    <h3 class="work__title">MATCHDAY</h3>
-
-    <button type="button" class="work__arrow work__arrow--prev" data-work-prev aria-label="Previous image" data-i18n-aria="previousImage">&lsaquo;</button>
-    <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image" data-i18n-aria="nextImage">&rsaquo;</button>
-
-    <div class="work__controls">
-      <div class="work__dots" aria-label="MATCHDAY images">
-        <button type="button" class="work__dot is-active" aria-label="Show MATCHDAY image 1" aria-pressed="true"></button>
-        <button type="button" class="work__dot" aria-label="Show MATCHDAY image 2" aria-pressed="false"></button>
-        <button type="button" class="work__dot" aria-label="Show MATCHDAY image 3" aria-pressed="false"></button>
+    <!-- CATEGORY 01 — PRODUCTION -->
+    <section class="work-group" id="work-production" data-screen-label="03 Work — Production" aria-labelledby="work-production-title">
+      <div class="work-group__head">
+        <span class="work-group__num">01</span>
+        <h2 class="work-group__title" id="work-production-title" data-i18n="categoryProduction">PRODUCTION</h2>
+        <span class="work-group__rule" aria-hidden="true"></span>
       </div>
-    </div>
-  </section>
 
-  <!-- WORK — case 03: MONKEYEVERYDAY / SOCIAL CONTENT -->
-  <section class="work" id="work-monkey" data-screen-label="03 Work — MONKEYEVERYDAY" aria-label="Work: MONKEYEVERYDAY">
-    <div class="work__track" data-work-track>
-      <div class="work__slide is-active" style="background-image:url('assets/work/monkey-1.webp')"></div>
-      <div class="work__slide" style="background-image:url('assets/work/monkey-2.webp')"></div>
-      <div class="work__slide" style="background-image:url('assets/work/monkey-3.webp')"></div>
-    </div>
+      <div class="work-group__cases">
+        <!-- case: MEA e-Service (video case film) -->
+        <article class="work work--video" id="work-mea" aria-label="Work: MEA e-Service">
+          <video class="work__video" autoplay muted loop playsinline preload="auto" fetchpriority="high">
+            <source src="assets/work/mea-film.mp4" type="video/mp4" />
+          </video>
 
-    <span class="work__category" data-i18n="categorySocialContent">SOCIAL CONTENT</span>
-    <h3 class="work__title">MONKEYEVERYDAY</h3>
-
-    <button type="button" class="work__arrow work__arrow--prev" data-work-prev aria-label="Previous image" data-i18n-aria="previousImage">&lsaquo;</button>
-    <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image" data-i18n-aria="nextImage">&rsaquo;</button>
-
-    <div class="work__controls">
-      <div class="work__dots" aria-label="MONKEYEVERYDAY images">
-        <button type="button" class="work__dot is-active" aria-label="Show MONKEYEVERYDAY image 1" aria-pressed="true"></button>
-        <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 2" aria-pressed="false"></button>
-        <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 3" aria-pressed="false"></button>
+          <h3 class="work__title">MEA e-Service</h3>
+        </article>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- WORK — case 04: HANDSUP / SOCIAL CONTENT (single image, no carousel) -->
-  <section class="work is-static" id="work-handsup" data-screen-label="03 Work — HANDSUP" aria-label="Work: HANDSUP">
-    <div class="work__track" data-work-track>
-      <div class="work__slide is-active" style="background-image:url('assets/work/handsup-1.webp')"></div>
-    </div>
-
-    <span class="work__category" data-i18n="categorySocialContent">SOCIAL CONTENT</span>
-    <h3 class="work__title">HANDSUP</h3>
-
-    <div class="work__controls">
-      <div class="work__dots" aria-hidden="true">
-        <span class="work__dot"></span>
+    <!-- CATEGORY 02 — SOCIAL CONTENT -->
+    <section class="work-group" id="work-social-content" data-screen-label="03 Work — Social content" aria-labelledby="work-social-title">
+      <div class="work-group__head">
+        <span class="work-group__num">02</span>
+        <h2 class="work-group__title" id="work-social-title" data-i18n="categorySocialContent">SOCIAL CONTENT</h2>
+        <span class="work-group__rule" aria-hidden="true"></span>
       </div>
-    </div>
-  </section>
 
-  <!-- WORK — case 05: DKSH x 3M / EVENT (single image) -->
-  <section class="work is-static" id="work-dksh" data-screen-label="03 Work — DKSH x 3M" aria-label="Work: DKSH x 3M">
-    <div class="work__track" data-work-track>
-      <div class="work__slide is-active" style="background-image:url('assets/work/dksh-1.webp')"></div>
-    </div>
+      <div class="work-group__cases">
+        <!-- case: MATCHDAY -->
+        <article class="work" id="work-matchday" aria-label="Work: MATCHDAY">
+          <div class="work__track" data-work-track>
+            <div class="work__slide is-active" style="--img:url('assets/work/matchday-1.webp')"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-2.webp')"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-3.webp')"></div>
+          </div>
 
-    <span class="work__category" data-i18n="categoryEvent">EVENT</span>
-    <h3 class="work__title">DKSH x 3M</h3>
+          <h3 class="work__title">MATCHDAY</h3>
 
-    <div class="work__controls">
-      <div class="work__dots" aria-hidden="true">
-        <span class="work__dot"></span>
+          <button type="button" class="work__arrow work__arrow--prev" data-work-prev aria-label="Previous image" data-i18n-aria="previousImage">&lsaquo;</button>
+          <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image" data-i18n-aria="nextImage">&rsaquo;</button>
+
+          <div class="work__controls">
+            <div class="work__dots" aria-label="MATCHDAY images">
+              <button type="button" class="work__dot is-active" aria-label="Show MATCHDAY image 1" aria-pressed="true"></button>
+              <button type="button" class="work__dot" aria-label="Show MATCHDAY image 2" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show MATCHDAY image 3" aria-pressed="false"></button>
+            </div>
+          </div>
+        </article>
+
+        <!-- case: MONKEYEVERYDAY -->
+        <article class="work" id="work-monkey" aria-label="Work: MONKEYEVERYDAY">
+          <div class="work__track" data-work-track>
+            <div class="work__slide is-active" style="--img:url('assets/work/monkey-1.webp')"></div>
+            <div class="work__slide" style="--img:url('assets/work/monkey-2.webp')"></div>
+            <div class="work__slide" style="--img:url('assets/work/monkey-3.webp')"></div>
+          </div>
+
+          <h3 class="work__title">MONKEYEVERYDAY</h3>
+
+          <button type="button" class="work__arrow work__arrow--prev" data-work-prev aria-label="Previous image" data-i18n-aria="previousImage">&lsaquo;</button>
+          <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image" data-i18n-aria="nextImage">&rsaquo;</button>
+
+          <div class="work__controls">
+            <div class="work__dots" aria-label="MONKEYEVERYDAY images">
+              <button type="button" class="work__dot is-active" aria-label="Show MONKEYEVERYDAY image 1" aria-pressed="true"></button>
+              <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 2" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 3" aria-pressed="false"></button>
+            </div>
+          </div>
+        </article>
+
+        <!-- case: HANDSUP (single image, no carousel) -->
+        <article class="work is-static" id="work-handsup" aria-label="Work: HANDSUP">
+          <div class="work__track" data-work-track>
+            <div class="work__slide is-active" style="--img:url('assets/work/handsup-1.webp')"></div>
+          </div>
+
+          <h3 class="work__title">HANDSUP</h3>
+
+          <div class="work__controls">
+            <div class="work__dots" aria-hidden="true">
+              <span class="work__dot"></span>
+            </div>
+          </div>
+        </article>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- CATEGORY 03 — EVENT -->
+    <section class="work-group" id="work-event" data-screen-label="03 Work — Event" aria-labelledby="work-event-title">
+      <div class="work-group__head">
+        <span class="work-group__num">03</span>
+        <h2 class="work-group__title" id="work-event-title" data-i18n="categoryEvent">EVENT</h2>
+        <span class="work-group__rule" aria-hidden="true"></span>
+      </div>
+
+      <div class="work-group__cases">
+        <!-- case: DKSH x 3M (single image) -->
+        <article class="work is-static" id="work-dksh" aria-label="Work: DKSH x 3M">
+          <div class="work__track" data-work-track>
+            <div class="work__slide is-active" style="--img:url('assets/work/dksh-1.webp')"></div>
+          </div>
+
+          <h3 class="work__title">DKSH x 3M</h3>
+
+          <div class="work__controls">
+            <div class="work__dots" aria-hidden="true">
+              <span class="work__dot"></span>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
 
   <!-- SERVICES — horizontal-scroll gallery -->
   <section class="services" id="services" data-screen-label="04 Services" aria-label="Services">
@@ -1320,8 +1408,8 @@
         <div class="contact__col">
           <h3 class="contact__col-title" data-i18n="contactPages">Pages</h3>
           <ul class="contact__list">
-            <li><span data-anchor="hero" data-i18n="navHome">HOME</span></li>
-            <li><span data-anchor="work-mea" data-i18n="navWork">WORK</span></li>
+            <li><span data-anchor="home" data-i18n="navHome">HOME</span></li>
+            <li><span data-anchor="work" data-i18n="navWork">WORK</span></li>
             <li><span data-anchor="contact" data-i18n="navContact">CONTACT</span></li>
           </ul>
         </div>
@@ -1354,31 +1442,43 @@
 </main>
 
 <script>
-  // ---------- SMOOTH SCROLL FOR V ARROW (HERO -> INTRO) ----------
-  const cue = document.querySelector('.scroll-cue');
-  const intro = document.getElementById('intro');
-  if (cue && intro) {
-    cue.addEventListener('click', () => {
-      intro.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+  // ---------- SHARED SCROLL HELPER ----------
+  // Single place that resolves an id to a section and scrolls to it.
+  function scrollToSection(id) {
+    if (id === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return true;
+    }
+    const target = id && document.getElementById(id);
+    if (!target) return false;
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return true;
   }
 
-  // ---------- INTRO 02 ARROW -> first Work section ----------
+  // ---------- SMOOTH SCROLL FOR V ARROW (HERO -> INTRO) ----------
+  const cue = document.querySelector('.scroll-cue');
+  if (cue) cue.addEventListener('click', () => scrollToSection('intro'));
+
+  // ---------- NAV LINKS (HOME / WORK / CONTACT) ----------
+  document.querySelectorAll('.nav a[href^="#"]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      scrollToSection(link.getAttribute('href').slice(1));
+    });
+  });
+
+  // ---------- INTRO 02 ARROW -> Work ----------
   const introCue = document.getElementById('intro-cue');
   if (introCue) {
     introCue.addEventListener('click', () => {
-      const target = document.querySelector('.work');
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      else window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+      if (!scrollToSection('work')) window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
     });
   }
 
-  // ---------- PROJECT PILLS — scroll to first Work for now ----------
-  document.querySelectorAll('.pill[data-project]').forEach((p) => {
+  // ---------- PROJECT PILLS — jump to the matching category ----------
+  document.querySelectorAll('.pill[data-target]').forEach((p) => {
     p.addEventListener('click', () => {
-      const target = document.querySelector('.work');
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      else window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+      if (!scrollToSection(p.dataset.target)) window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
     });
   });
 
@@ -1510,15 +1610,7 @@
 
   // ---------- CONTACT: Pages anchors + back to top ----------
   document.querySelectorAll('.contact [data-anchor]').forEach((el) => {
-    el.addEventListener('click', () => {
-      const id = el.dataset.anchor;
-      if (id === 'hero') {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        return;
-      }
-      const t = document.getElementById(id);
-      if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
+    el.addEventListener('click', () => scrollToSection(el.dataset.anchor));
   });
   const backTop = document.querySelector('[data-back-to-top]');
   if (backTop) backTop.addEventListener('click', () => {
