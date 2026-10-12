@@ -1088,18 +1088,9 @@
     border: 0;
     background: transparent;
   }
-  @media (max-width: 480px) {
-    .work--carousel:not(.work--square) .work__title { bottom: 88px; }
-    .work--carousel:not(.work--square) .work__controls {
-      left: 50%;
-      right: auto;
-      bottom: 24px;
-      transform: translateX(-50%);
-    }
-  }
-
-  /* Square social artwork: keep the title and touch controls outside the image. */
-  .work--square {
+  /* Social artwork: keep the title and touch controls outside the image. */
+  .work--gallery {
+    --work-aspect: 1;
     --work-media-width: min(100%, 720px);
     height: auto;
     min-height: 0;
@@ -1108,10 +1099,14 @@
     padding: 24px 0;
     background: var(--bg);
   }
-  .work--square::after { display: none; }
-  .work--square .work__header,
-  .work--square .work__track,
-  .work--square .work__controls {
+  .work--gallery::after { display: none; }
+  .work--portrait {
+    --work-aspect: 4 / 5;
+    --work-media-width: min(100%, 576px);
+  }
+  .work--gallery .work__header,
+  .work--gallery .work__track,
+  .work--gallery .work__controls {
     width: var(--work-media-width);
     margin-inline: auto;
   }
@@ -1122,11 +1117,12 @@
     gap: 16px;
     padding-inline: 18px;
   }
-  .work--square .work__title {
+  .work--gallery .work__title {
     position: static;
     font-size: clamp(20px, 3.4vw, 32px);
     text-shadow: none;
   }
+  .work--portrait .work__title { font-size: clamp(17px, 4.6vw, 28px); }
   .work__count {
     flex: none;
     color: var(--ink-dim);
@@ -1134,19 +1130,19 @@
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.12em;
   }
-  .work--square .work__track {
+  .work--gallery .work__track {
     position: relative;
     inset: auto;
-    aspect-ratio: 1;
+    aspect-ratio: var(--work-aspect);
   }
-  .work--square .work__controls {
+  .work--gallery .work__controls {
     position: static;
     display: flex;
     justify-content: space-between;
     gap: 4px;
     padding-inline: 8px;
   }
-  .work--square .work__arrow {
+  .work--gallery .work__arrow {
     position: static;
     flex: 0 0 44px;
     width: 44px;
@@ -1156,8 +1152,8 @@
     border-radius: 50%;
     text-shadow: none;
   }
-  .work--square .work__dots { gap: 2px; }
-  .work--square .work__dot {
+  .work--gallery .work__dots { gap: 2px; }
+  .work--gallery .work__dot {
     width: 24px;
   }
   .work--carousel .work__dot::after {
@@ -1177,12 +1173,13 @@
     outline-offset: 2px;
   }
   @media (min-width: 861px) {
-    .work--square { --work-media-width: min(100%, clamp(440px, calc(100svh - 180px), 720px)); }
-    .work--square .work__dots { gap: 8px; }
-    .work--square .work__dot { width: 32px; }
+    .work--gallery { --work-media-width: min(100%, clamp(440px, calc(100svh - 180px), 720px)); }
+    .work--portrait { --work-media-width: min(100%, clamp(440px, calc((100svh - 180px) * 0.8), 576px)); }
+    .work--gallery .work__dots { gap: 8px; }
+    .work--gallery .work__dot { width: 32px; }
   }
   @media (prefers-reduced-motion: reduce) {
-    .work--square .work__slide { transition: none; }
+    .work--gallery .work__slide { transition: none; }
   }
 
   /* Reduce motion */
@@ -1317,21 +1314,21 @@
 
       <div class="work-group__cases">
         <!-- case: MATCHDAY -->
-        <article class="work work--carousel work--square" id="work-matchday" aria-labelledby="matchday-title" data-work-name="MATCHDAY">
+        <article class="work work--carousel work--gallery" id="work-matchday" aria-labelledby="matchday-title" data-work-name="MATCHDAY">
           <div class="work__header">
             <h3 class="work__title" id="matchday-title">MATCHDAY</h3>
             <span class="work__count" data-work-count role="status" aria-label="Image" data-i18n-aria="imagePosition">01 / 08</span>
           </div>
 
           <div class="work__track" data-work-track>
-            <div class="work__slide is-active" style="--img:url('assets/work/matchday-1.webp')" role="img" aria-label="MATCHDAY — image 1 of 8" data-i18n-aria="workImage" data-image-number="1"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-2.webp')" role="img" aria-label="MATCHDAY — image 2 of 8" data-i18n-aria="workImage" data-image-number="2" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-3.webp')" role="img" aria-label="MATCHDAY — image 3 of 8" data-i18n-aria="workImage" data-image-number="3" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-4.webp')" role="img" aria-label="MATCHDAY — image 4 of 8" data-i18n-aria="workImage" data-image-number="4" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-5.webp')" role="img" aria-label="MATCHDAY — image 5 of 8" data-i18n-aria="workImage" data-image-number="5" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-6.webp')" role="img" aria-label="MATCHDAY — image 6 of 8" data-i18n-aria="workImage" data-image-number="6" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-7.webp')" role="img" aria-label="MATCHDAY — image 7 of 8" data-i18n-aria="workImage" data-image-number="7" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-8.webp')" role="img" aria-label="MATCHDAY — image 8 of 8" data-i18n-aria="workImage" data-image-number="8" aria-hidden="true"></div>
+            <div class="work__slide is-active" style="--img:url('assets/work/matchday-1.webp?v=7f0605f389d5')" role="img" aria-label="MATCHDAY — image 1 of 8" data-i18n-aria="workImage" data-image-number="1"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-2.webp?v=2d85af47844a')" role="img" aria-label="MATCHDAY — image 2 of 8" data-i18n-aria="workImage" data-image-number="2" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-3.webp?v=7a599bcd03a8')" role="img" aria-label="MATCHDAY — image 3 of 8" data-i18n-aria="workImage" data-image-number="3" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-4.webp?v=00d936e3e4a2')" role="img" aria-label="MATCHDAY — image 4 of 8" data-i18n-aria="workImage" data-image-number="4" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-5.webp?v=28b84ccd9b8a')" role="img" aria-label="MATCHDAY — image 5 of 8" data-i18n-aria="workImage" data-image-number="5" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-6.webp?v=21ac1cd2f7ae')" role="img" aria-label="MATCHDAY — image 6 of 8" data-i18n-aria="workImage" data-image-number="6" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-7.webp?v=da232b2932f9')" role="img" aria-label="MATCHDAY — image 7 of 8" data-i18n-aria="workImage" data-image-number="7" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-8.webp?v=165fab001da7')" role="img" aria-label="MATCHDAY — image 8 of 8" data-i18n-aria="workImage" data-image-number="8" aria-hidden="true"></div>
           </div>
 
           <div class="work__controls">
@@ -1351,24 +1348,36 @@
         </article>
 
         <!-- case: MONKEYEVERYDAY -->
-        <article class="work work--carousel" id="work-monkey" aria-label="Work: MONKEYEVERYDAY" data-work-name="MONKEYEVERYDAY">
-          <div class="work__track" data-work-track>
-            <div class="work__slide is-active" style="--img:url('assets/work/monkey-1.webp')"></div>
-            <div class="work__slide" style="--img:url('assets/work/monkey-2.webp')"></div>
-            <div class="work__slide" style="--img:url('assets/work/monkey-3.webp')"></div>
+        <article class="work work--carousel work--gallery work--portrait" id="work-monkey" aria-labelledby="monkey-title" data-work-name="MONKEYEVERYDAY">
+          <div class="work__header">
+            <h3 class="work__title" id="monkey-title">MONKEYEVERYDAY</h3>
+            <span class="work__count" data-work-count role="status" aria-label="Image" data-i18n-aria="imagePosition">01 / 08</span>
           </div>
 
-          <h3 class="work__title">MONKEYEVERYDAY</h3>
-
-          <button type="button" class="work__arrow work__arrow--prev" data-work-prev aria-label="Previous image" data-i18n-aria="previousImage">&lsaquo;</button>
-          <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image" data-i18n-aria="nextImage">&rsaquo;</button>
+          <div class="work__track" data-work-track>
+            <div class="work__slide is-active" style="--img:url('assets/work/monkey-1.webp?v=6c8253a48305')" role="img" aria-label="MONKEYEVERYDAY — image 1 of 8" data-i18n-aria="workImage" data-image-number="1"></div>
+            <div class="work__slide" style="--img:url('assets/work/monkey-2.webp?v=7edb161a3e29')" role="img" aria-label="MONKEYEVERYDAY — image 2 of 8" data-i18n-aria="workImage" data-image-number="2" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/monkey-3.webp?v=a5d73e401b05')" role="img" aria-label="MONKEYEVERYDAY — image 3 of 8" data-i18n-aria="workImage" data-image-number="3" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/monkey-4.webp?v=b58cae549f69')" role="img" aria-label="MONKEYEVERYDAY — image 4 of 8" data-i18n-aria="workImage" data-image-number="4" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/monkey-5.webp?v=805f7a4275ab')" role="img" aria-label="MONKEYEVERYDAY — image 5 of 8" data-i18n-aria="workImage" data-image-number="5" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/monkey-6.webp?v=416794c29a5a')" role="img" aria-label="MONKEYEVERYDAY — image 6 of 8" data-i18n-aria="workImage" data-image-number="6" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/monkey-7.webp?v=29ed4e4f0c2a')" role="img" aria-label="MONKEYEVERYDAY — image 7 of 8" data-i18n-aria="workImage" data-image-number="7" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/monkey-8.webp?v=90f596c59579')" role="img" aria-label="MONKEYEVERYDAY — image 8 of 8" data-i18n-aria="workImage" data-image-number="8" aria-hidden="true"></div>
+          </div>
 
           <div class="work__controls">
-            <div class="work__dots" aria-label="MONKEYEVERYDAY images">
-              <button type="button" class="work__dot is-active" aria-label="Show MONKEYEVERYDAY image 1 of 3" data-i18n-aria="showWorkImage" data-image-number="1" aria-pressed="true"></button>
-              <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 2 of 3" data-i18n-aria="showWorkImage" data-image-number="2" aria-pressed="false"></button>
-              <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 3 of 3" data-i18n-aria="showWorkImage" data-image-number="3" aria-pressed="false"></button>
+            <button type="button" class="work__arrow work__arrow--prev" data-work-prev aria-label="Previous image" data-i18n-aria="previousImage">&lsaquo;</button>
+            <div class="work__dots" role="group" aria-labelledby="monkey-title">
+              <button type="button" class="work__dot is-active" aria-label="Show MONKEYEVERYDAY image 1 of 8" data-i18n-aria="showWorkImage" data-image-number="1" aria-pressed="true"></button>
+              <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 2 of 8" data-i18n-aria="showWorkImage" data-image-number="2" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 3 of 8" data-i18n-aria="showWorkImage" data-image-number="3" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 4 of 8" data-i18n-aria="showWorkImage" data-image-number="4" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 5 of 8" data-i18n-aria="showWorkImage" data-image-number="5" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 6 of 8" data-i18n-aria="showWorkImage" data-image-number="6" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 7 of 8" data-i18n-aria="showWorkImage" data-image-number="7" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 8 of 8" data-i18n-aria="showWorkImage" data-image-number="8" aria-pressed="false"></button>
             </div>
+            <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image" data-i18n-aria="nextImage">&rsaquo;</button>
           </div>
         </article>
 
