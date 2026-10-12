@@ -803,12 +803,18 @@
     line-height: 1.4;
     transition: color 220ms ease, transform 240ms cubic-bezier(.2,.7,.2,1);
     display: inline-block;
+    max-width: 100%;
+    overflow-wrap: anywhere;
     cursor: pointer;
   }
   .contact__list a:hover,
   .contact__list span:hover {
     color: var(--intro-accent);
     transform: translateX(4px);
+  }
+  .contact__list a:focus-visible {
+    outline: 2px solid var(--intro-accent);
+    outline-offset: 4px;
   }
 
   .contact__bottom {
@@ -849,6 +855,14 @@
   .contact__top:hover {
     color: var(--intro-accent);
     transform: translateY(-2px);
+  }
+
+  @media (min-width: 721px) and (max-width: 1024px) {
+    .contact__cols {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      align-content: start;
+    }
+    .contact__col:last-child { grid-column: 1 / -1; }
   }
 
   @media (max-width: 720px) {
@@ -1063,6 +1077,114 @@
     .work__title { font-size: 20px; left: 18px; }
   }
 
+  /* Touch-sized selectors and native vertical scrolling for image carousels. */
+  .work--carousel .work__track { touch-action: pan-y pinch-zoom; }
+  .work--carousel .work__dots { gap: 4px; }
+  .work--carousel .work__dot {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    background: transparent;
+  }
+  @media (max-width: 480px) {
+    .work--carousel:not(.work--square) .work__title { bottom: 88px; }
+    .work--carousel:not(.work--square) .work__controls {
+      left: 50%;
+      right: auto;
+      bottom: 24px;
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Square social artwork: keep the title and touch controls outside the image. */
+  .work--square {
+    --work-media-width: min(100%, 720px);
+    height: auto;
+    min-height: 0;
+    display: grid;
+    gap: 16px;
+    padding: 24px 0;
+    background: var(--bg);
+  }
+  .work--square::after { display: none; }
+  .work--square .work__header,
+  .work--square .work__track,
+  .work--square .work__controls {
+    width: var(--work-media-width);
+    margin-inline: auto;
+  }
+  .work__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding-inline: 18px;
+  }
+  .work--square .work__title {
+    position: static;
+    font-size: clamp(20px, 3.4vw, 32px);
+    text-shadow: none;
+  }
+  .work__count {
+    flex: none;
+    color: var(--ink-dim);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.12em;
+  }
+  .work--square .work__track {
+    position: relative;
+    inset: auto;
+    aspect-ratio: 1;
+  }
+  .work--square .work__controls {
+    position: static;
+    display: flex;
+    justify-content: space-between;
+    gap: 4px;
+    padding-inline: 8px;
+  }
+  .work--square .work__arrow {
+    position: static;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    transform: none;
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    text-shadow: none;
+  }
+  .work--square .work__dots { gap: 2px; }
+  .work--square .work__dot {
+    width: 24px;
+  }
+  .work--carousel .work__dot::after {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border: 1px solid var(--ink-dim);
+    border-radius: 50%;
+  }
+  .work--carousel .work__dot.is-active::after {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  .work--carousel .work__arrow:focus-visible,
+  .work--carousel .work__dot:focus-visible {
+    outline: 2px solid var(--intro-accent);
+    outline-offset: 2px;
+  }
+  @media (min-width: 861px) {
+    .work--square { --work-media-width: min(100%, clamp(440px, calc(100svh - 180px), 720px)); }
+    .work--square .work__dots { gap: 8px; }
+    .work--square .work__dot { width: 32px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .work--square .work__slide { transition: none; }
+  }
+
   /* Reduce motion */
   @media (prefers-reduced-motion: reduce) {
     .reveal { animation: none; opacity: 1; transform: none; }
@@ -1195,29 +1317,41 @@
 
       <div class="work-group__cases">
         <!-- case: MATCHDAY -->
-        <article class="work" id="work-matchday" aria-label="Work: MATCHDAY">
-          <div class="work__track" data-work-track>
-            <div class="work__slide is-active" style="--img:url('assets/work/matchday-1.webp')"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-2.webp')"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-3.webp')"></div>
+        <article class="work work--carousel work--square" id="work-matchday" aria-labelledby="matchday-title" data-work-name="MATCHDAY">
+          <div class="work__header">
+            <h3 class="work__title" id="matchday-title">MATCHDAY</h3>
+            <span class="work__count" data-work-count role="status" aria-label="Image" data-i18n-aria="imagePosition">01 / 08</span>
           </div>
 
-          <h3 class="work__title">MATCHDAY</h3>
-
-          <button type="button" class="work__arrow work__arrow--prev" data-work-prev aria-label="Previous image" data-i18n-aria="previousImage">&lsaquo;</button>
-          <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image" data-i18n-aria="nextImage">&rsaquo;</button>
+          <div class="work__track" data-work-track>
+            <div class="work__slide is-active" style="--img:url('assets/work/matchday-1.webp')" role="img" aria-label="MATCHDAY — image 1 of 8" data-i18n-aria="workImage" data-image-number="1"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-2.webp')" role="img" aria-label="MATCHDAY — image 2 of 8" data-i18n-aria="workImage" data-image-number="2" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-3.webp')" role="img" aria-label="MATCHDAY — image 3 of 8" data-i18n-aria="workImage" data-image-number="3" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-4.webp')" role="img" aria-label="MATCHDAY — image 4 of 8" data-i18n-aria="workImage" data-image-number="4" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-5.webp')" role="img" aria-label="MATCHDAY — image 5 of 8" data-i18n-aria="workImage" data-image-number="5" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-6.webp')" role="img" aria-label="MATCHDAY — image 6 of 8" data-i18n-aria="workImage" data-image-number="6" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-7.webp')" role="img" aria-label="MATCHDAY — image 7 of 8" data-i18n-aria="workImage" data-image-number="7" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/matchday-8.webp')" role="img" aria-label="MATCHDAY — image 8 of 8" data-i18n-aria="workImage" data-image-number="8" aria-hidden="true"></div>
+          </div>
 
           <div class="work__controls">
-            <div class="work__dots" aria-label="MATCHDAY images">
-              <button type="button" class="work__dot is-active" aria-label="Show MATCHDAY image 1" aria-pressed="true"></button>
-              <button type="button" class="work__dot" aria-label="Show MATCHDAY image 2" aria-pressed="false"></button>
-              <button type="button" class="work__dot" aria-label="Show MATCHDAY image 3" aria-pressed="false"></button>
+            <button type="button" class="work__arrow work__arrow--prev" data-work-prev aria-label="Previous image" data-i18n-aria="previousImage">&lsaquo;</button>
+            <div class="work__dots" role="group" aria-labelledby="matchday-title">
+              <button type="button" class="work__dot is-active" aria-label="Show MATCHDAY image 1 of 8" data-i18n-aria="showWorkImage" data-image-number="1" aria-pressed="true"></button>
+              <button type="button" class="work__dot" aria-label="Show MATCHDAY image 2 of 8" data-i18n-aria="showWorkImage" data-image-number="2" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show MATCHDAY image 3 of 8" data-i18n-aria="showWorkImage" data-image-number="3" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show MATCHDAY image 4 of 8" data-i18n-aria="showWorkImage" data-image-number="4" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show MATCHDAY image 5 of 8" data-i18n-aria="showWorkImage" data-image-number="5" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show MATCHDAY image 6 of 8" data-i18n-aria="showWorkImage" data-image-number="6" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show MATCHDAY image 7 of 8" data-i18n-aria="showWorkImage" data-image-number="7" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show MATCHDAY image 8 of 8" data-i18n-aria="showWorkImage" data-image-number="8" aria-pressed="false"></button>
             </div>
+            <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image" data-i18n-aria="nextImage">&rsaquo;</button>
           </div>
         </article>
 
         <!-- case: MONKEYEVERYDAY -->
-        <article class="work" id="work-monkey" aria-label="Work: MONKEYEVERYDAY">
+        <article class="work work--carousel" id="work-monkey" aria-label="Work: MONKEYEVERYDAY" data-work-name="MONKEYEVERYDAY">
           <div class="work__track" data-work-track>
             <div class="work__slide is-active" style="--img:url('assets/work/monkey-1.webp')"></div>
             <div class="work__slide" style="--img:url('assets/work/monkey-2.webp')"></div>
@@ -1231,9 +1365,9 @@
 
           <div class="work__controls">
             <div class="work__dots" aria-label="MONKEYEVERYDAY images">
-              <button type="button" class="work__dot is-active" aria-label="Show MONKEYEVERYDAY image 1" aria-pressed="true"></button>
-              <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 2" aria-pressed="false"></button>
-              <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 3" aria-pressed="false"></button>
+              <button type="button" class="work__dot is-active" aria-label="Show MONKEYEVERYDAY image 1 of 3" data-i18n-aria="showWorkImage" data-image-number="1" aria-pressed="true"></button>
+              <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 2 of 3" data-i18n-aria="showWorkImage" data-image-number="2" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show MONKEYEVERYDAY image 3 of 3" data-i18n-aria="showWorkImage" data-image-number="3" aria-pressed="false"></button>
             </div>
           </div>
         </article>
@@ -1408,9 +1542,9 @@
         <div class="contact__col">
           <h3 class="contact__col-title" data-i18n="contactPages">Pages</h3>
           <ul class="contact__list">
-            <li><span data-anchor="home" data-i18n="navHome">HOME</span></li>
-            <li><span data-anchor="work" data-i18n="navWork">WORK</span></li>
-            <li><span data-anchor="contact" data-i18n="navContact">CONTACT</span></li>
+            <li><a href="#home" data-anchor="home" data-i18n="navHome">HOME</a></li>
+            <li><a href="#work" data-anchor="work" data-i18n="navWork">WORK</a></li>
+            <li><a href="#contact" data-anchor="contact" data-i18n="navContact">CONTACT</a></li>
           </ul>
         </div>
 
@@ -1432,7 +1566,7 @@
     </div>
 
     <div class="contact__bottom">
-      <span class="contact__copy">AGILY 2025</span>
+      <span class="contact__copy">AGILY 2024</span>
       <button type="button" class="contact__top" data-back-to-top aria-label="Back to top" data-i18n-aria="backToTop">
         <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 14 12 8 18 14" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span data-i18n="backToTop">BACK TO TOP</span>
@@ -1499,12 +1633,17 @@
 
     function show(i) {
       idx = ((i % slides.length) + slides.length) % slides.length;
-      slides.forEach((s, n) => s.classList.toggle('is-active', n === idx));
+      slides.forEach((s, n) => {
+        s.classList.toggle('is-active', n === idx);
+        s.setAttribute('aria-hidden', n === idx ? 'false' : 'true');
+      });
       dots.forEach((d, n) => {
         const active = n === idx;
         d.classList.toggle('is-active', active);
         d.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
+      const count = section.querySelector('[data-work-count]');
+      if (count) count.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
     }
     function next() { show(idx + 1); }
     function prev() { show(idx - 1); }
@@ -1531,6 +1670,34 @@
       });
     });
     if (playBtn) playBtn.addEventListener('click', () => setPlaying(!playing));
+
+    // Horizontal swipes keep vertical page scrolling native in both galleries.
+    if (section.classList.contains('work--carousel')) {
+      const track = section.querySelector('[data-work-track]');
+      let gesture = null;
+      track.addEventListener('pointerdown', (event) => {
+        if (!event.isPrimary || event.button !== 0) return;
+        gesture = { id: event.pointerId, x: event.clientX, y: event.clientY };
+        track.setPointerCapture(event.pointerId);
+      });
+      track.addEventListener('pointerup', (event) => {
+        if (!gesture || gesture.id !== event.pointerId) return;
+        const dx = event.clientX - gesture.x;
+        const dy = event.clientY - gesture.y;
+        gesture = null;
+        if (Math.abs(dx) < 40 || Math.abs(dx) <= Math.abs(dy) * 1.3) return;
+        setPlaying(false);
+        if (dx < 0) next(); else prev();
+      });
+      track.addEventListener('pointercancel', () => { gesture = null; });
+      track.addEventListener('lostpointercapture', () => { gesture = null; });
+      section.addEventListener('keydown', (event) => {
+        if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+        event.preventDefault();
+        setPlaying(false);
+        if (event.key === 'ArrowRight') next(); else prev();
+      });
+    }
   });
 
   // ---------- SERVICES horizontal scroller ----------
@@ -1610,7 +1777,11 @@
 
   // ---------- CONTACT: Pages anchors + back to top ----------
   document.querySelectorAll('.contact [data-anchor]').forEach((el) => {
-    el.addEventListener('click', () => scrollToSection(el.dataset.anchor));
+    el.addEventListener('click', (event) => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      scrollToSection(el.dataset.anchor);
+    });
   });
   const backTop = document.querySelector('[data-back-to-top]');
   if (backTop) backTop.addEventListener('click', () => {
@@ -1640,6 +1811,9 @@
       categoryEvent: 'EVENT',
       previousImage: 'Previous image',
       nextImage: 'Next image',
+      imagePosition: 'Image',
+      workImage: '{project} — image {number} of {total}',
+      showWorkImage: 'Show {project} image {number} of {total}',
       servicesTitle: 'SERVICES',
       servicesPrev: 'Scroll services left',
       servicesNext: 'Scroll services right',
@@ -1711,6 +1885,9 @@
       categoryEvent: 'อีเวนต์',
       previousImage: 'รูปก่อนหน้า',
       nextImage: 'รูปถัดไป',
+      imagePosition: 'รูปภาพ',
+      workImage: '{project} — รูปที่ {number} จาก {total}',
+      showWorkImage: 'แสดงรูป {project} รูปที่ {number} จาก {total}',
       servicesTitle: 'บริการ',
       servicesPrev: 'เลื่อนบริการไปทางซ้าย',
       servicesNext: 'เลื่อนบริการไปทางขวา',
@@ -1792,7 +1969,13 @@
 
     document.querySelectorAll('[data-i18n-aria]').forEach((el) => {
       const key = el.dataset.i18nAria;
-      if (dictionary[key]) el.setAttribute('aria-label', dictionary[key]);
+      if (!dictionary[key]) return;
+      const work = el.closest('[data-work-name]');
+      const label = dictionary[key]
+        .replace('{project}', work?.dataset.workName || '')
+        .replace('{number}', el.dataset.imageNumber || '')
+        .replace('{total}', work ? work.querySelectorAll('.work__slide').length : '');
+      el.setAttribute('aria-label', label);
     });
 
     const introCopy = document.querySelector('[data-i18n="introThai"]');
