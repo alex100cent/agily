@@ -1153,6 +1153,10 @@
     text-shadow: none;
   }
   .work--gallery .work__dots { gap: 2px; }
+  .work--many .work__dots {
+    display: grid;
+    grid-template-columns: repeat(6, 24px);
+  }
   .work--gallery .work__dot {
     width: 24px;
   }
@@ -1175,8 +1179,10 @@
   @media (min-width: 861px) {
     .work--gallery { --work-media-width: min(100%, clamp(440px, calc(100svh - 180px), 720px)); }
     .work--portrait { --work-media-width: min(100%, clamp(440px, calc((100svh - 180px) * 0.8), 576px)); }
+    .work--many { --work-media-width: min(100%, clamp(440px, calc(100svh - 228px), 720px)); }
     .work--gallery .work__dots { gap: 8px; }
     .work--gallery .work__dot { width: 32px; }
+    .work--many .work__dots { grid-template-columns: repeat(6, 32px); }
   }
   @media (prefers-reduced-motion: reduce) {
     .work--gallery .work__slide { transition: none; }
@@ -1381,18 +1387,45 @@
           </div>
         </article>
 
-        <!-- case: HANDSUP (single image, no carousel) -->
-        <article class="work is-static" id="work-handsup" aria-label="Work: HANDSUP">
-          <div class="work__track" data-work-track>
-            <div class="work__slide is-active" style="--img:url('assets/work/handsup-1.webp')"></div>
+        <!-- case: HANDSUP -->
+        <article class="work work--carousel work--gallery work--many" id="work-handsup" aria-labelledby="handsup-title" data-work-name="HANDSUP">
+          <div class="work__header">
+            <h3 class="work__title" id="handsup-title">HANDSUP</h3>
+            <span class="work__count" data-work-count role="status" aria-label="Image" data-i18n-aria="imagePosition">01 / 12</span>
           </div>
 
-          <h3 class="work__title">HANDSUP</h3>
+          <div class="work__track" data-work-track>
+            <div class="work__slide is-active" style="--img:url('assets/work/handsup-1.webp?v=0a0bd9cb4b2b')" role="img" aria-label="HANDSUP — image 1 of 12" data-i18n-aria="workImage" data-image-number="1"></div>
+            <div class="work__slide" style="--img:url('assets/work/handsup-2.webp?v=45949daa02b0')" role="img" aria-label="HANDSUP — image 2 of 12" data-i18n-aria="workImage" data-image-number="2" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/handsup-3.webp?v=ae2e07f7cbad')" role="img" aria-label="HANDSUP — image 3 of 12" data-i18n-aria="workImage" data-image-number="3" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/handsup-4.webp?v=924e56b7ac1a')" role="img" aria-label="HANDSUP — image 4 of 12" data-i18n-aria="workImage" data-image-number="4" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/handsup-5.webp?v=079822f163e1')" role="img" aria-label="HANDSUP — image 5 of 12" data-i18n-aria="workImage" data-image-number="5" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/handsup-6.webp?v=311a4381e968')" role="img" aria-label="HANDSUP — image 6 of 12" data-i18n-aria="workImage" data-image-number="6" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/handsup-7.webp?v=5bfacf84a031')" role="img" aria-label="HANDSUP — image 7 of 12" data-i18n-aria="workImage" data-image-number="7" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/handsup-8.webp?v=3bd7a2d06b30')" role="img" aria-label="HANDSUP — image 8 of 12" data-i18n-aria="workImage" data-image-number="8" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/handsup-9.webp?v=81cc260b8f8f')" role="img" aria-label="HANDSUP — image 9 of 12" data-i18n-aria="workImage" data-image-number="9" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/handsup-10.webp?v=7af7bda655db')" role="img" aria-label="HANDSUP — image 10 of 12" data-i18n-aria="workImage" data-image-number="10" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/handsup-11.webp?v=80fb5d3185f1')" role="img" aria-label="HANDSUP — image 11 of 12" data-i18n-aria="workImage" data-image-number="11" aria-hidden="true"></div>
+            <div class="work__slide" style="--img:url('assets/work/handsup-12.webp?v=c6895ddaa00c')" role="img" aria-label="HANDSUP — image 12 of 12" data-i18n-aria="workImage" data-image-number="12" aria-hidden="true"></div>
+          </div>
 
           <div class="work__controls">
-            <div class="work__dots" aria-hidden="true">
-              <span class="work__dot"></span>
+            <button type="button" class="work__arrow work__arrow--prev" data-work-prev aria-label="Previous image" data-i18n-aria="previousImage">&lsaquo;</button>
+            <div class="work__dots" role="group" aria-labelledby="handsup-title">
+              <button type="button" class="work__dot is-active" aria-label="Show HANDSUP image 1 of 12" data-i18n-aria="showWorkImage" data-image-number="1" aria-pressed="true"></button>
+              <button type="button" class="work__dot" aria-label="Show HANDSUP image 2 of 12" data-i18n-aria="showWorkImage" data-image-number="2" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show HANDSUP image 3 of 12" data-i18n-aria="showWorkImage" data-image-number="3" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show HANDSUP image 4 of 12" data-i18n-aria="showWorkImage" data-image-number="4" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show HANDSUP image 5 of 12" data-i18n-aria="showWorkImage" data-image-number="5" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show HANDSUP image 6 of 12" data-i18n-aria="showWorkImage" data-image-number="6" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show HANDSUP image 7 of 12" data-i18n-aria="showWorkImage" data-image-number="7" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show HANDSUP image 8 of 12" data-i18n-aria="showWorkImage" data-image-number="8" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show HANDSUP image 9 of 12" data-i18n-aria="showWorkImage" data-image-number="9" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show HANDSUP image 10 of 12" data-i18n-aria="showWorkImage" data-image-number="10" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show HANDSUP image 11 of 12" data-i18n-aria="showWorkImage" data-image-number="11" aria-pressed="false"></button>
+              <button type="button" class="work__dot" aria-label="Show HANDSUP image 12 of 12" data-i18n-aria="showWorkImage" data-image-number="12" aria-pressed="false"></button>
             </div>
+            <button type="button" class="work__arrow work__arrow--next" data-work-next aria-label="Next image" data-i18n-aria="nextImage">&rsaquo;</button>
           </div>
         </article>
       </div>
@@ -1680,7 +1713,7 @@
     });
     if (playBtn) playBtn.addEventListener('click', () => setPlaying(!playing));
 
-    // Horizontal swipes keep vertical page scrolling native in both galleries.
+    // Horizontal swipes keep vertical page scrolling native in image galleries.
     if (section.classList.contains('work--carousel')) {
       const track = section.querySelector('[data-work-track]');
       let gesture = null;
