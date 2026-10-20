@@ -4,13 +4,63 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>AGILY — Executing Solutions. Empowering with Agility.</title>
+<meta name="description" content="AGILY is a Bangkok marketing agency: performance digital marketing, production, social content, events, advertising and design." />
+<meta name="theme-color" content="#0e0a18" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="AGILY" />
+<meta property="og:title" content="AGILY — Executing Solutions. Empowering with Agility." />
+<meta property="og:description" content="Bangkok marketing agency: performance digital marketing, production, social content, events, advertising and design." />
+<meta property="og:locale" content="en_US" />
+<meta property="og:locale:alternate" content="th_TH" />
+<meta name="twitter:card" content="summary" />
+<link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48.png" />
 <link rel="icon" type="image/png" sizes="550x550" href="assets/favicon.png" />
-<link rel="preload" as="video" href="assets/work/mea-film.mp4" type="video/mp4" fetchpriority="high" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Sarabun:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+<script>
+  // ---------- LANGUAGE (early) ----------
+  // Same order as detectLanguage() below. A non-English visitor gets translatable text hidden
+  // until setLanguage() runs, so the English first screen never flashes.
+  (function () {
+    try {
+      var lang = new URLSearchParams(location.search).get('lang');
+      if (lang !== 'en' && lang !== 'th') lang = localStorage.getItem('agily-language');
+      if (lang !== 'en' && lang !== 'th') {
+        var prefs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en'];
+        lang = 'en';
+        for (var i = 0; i < prefs.length; i++) {
+          var base = String(prefs[i]).toLowerCase().split('-')[0];
+          if (base === 'en' || base === 'th') { lang = base; break; }
+        }
+      }
+      if (lang !== 'en') {
+        var root = document.documentElement;
+        root.classList.add('i18n-pending');
+        // fail-safe: never keep text hidden if the main script throws before setLanguage()
+        document.addEventListener('DOMContentLoaded', function () { root.classList.remove('i18n-pending'); });
+      }
+    } catch (e) {}
+  })();
+</script>
 <style>
+  /* ---------- FONTS (self-hosted, OFL) ---------- */
+  /* Latin comes from Space Grotesk, Thai glyphs fall through to Noto Sans Thai (loaded only for Thai text). */
+  @font-face {
+    font-family: 'Space Grotesk';
+    src: url('assets/fonts/space-grotesk-latin.woff2') format('woff2');
+    font-weight: 300 700;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Noto Sans Thai';
+    src: url('assets/fonts/noto-sans-thai-thai.woff2') format('woff2');
+    font-weight: 400 700;
+    font-display: swap;
+    unicode-range: U+02D7, U+0303, U+0331, U+0E01-0E5B, U+200C-200D, U+25CC;
+  }
+
   :root {
+    --font-sans: 'Space Grotesk', 'Noto Sans Thai', system-ui, -apple-system, sans-serif;
     --ink: #ffffff;
     --ink-dim: rgba(255, 255, 255, 0.72);
     --ink-faint: rgba(255, 255, 255, 0.55);
@@ -23,13 +73,32 @@
   html, body {
     background: var(--bg);
     color: var(--ink);
-    font-family: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+    font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
   }
 
   a { color: inherit; text-decoration: none; }
+  a, button { -webkit-tap-highlight-color: transparent; }
+
+  /* Utilities */
+  .visually-hidden {
+    position: absolute !important;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+  .nowrap { white-space: nowrap; }
+  .i18n-pending [data-i18n] { visibility: hidden; }
+  /* Sections focused by scrollToSection(): no focus ring around a whole screen */
+  [tabindex="-1"]:focus { outline: none; }
 
   /* ---------- HERO ---------- */
   .hero {
@@ -65,6 +134,30 @@
   }
 
   /* ---------- NAV ---------- */
+  /* The header is fixed: transparent over the hero, a compact dark bar after it.
+     It hides while scrolling down and comes back on scroll up or keyboard focus. */
+  :root {
+    --nav-h: 102px;
+    --header-h: 60px;
+    --header-bg: rgba(14, 10, 24, 0.92);
+  }
+  html { scroll-padding-top: var(--header-h); }
+  /* nav left the hero's flow; the bottom padding keeps the scroll cue off the text */
+  .hero { padding-top: var(--nav-h); padding-bottom: 96px; }
+
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 40;
+    transition: transform 280ms cubic-bezier(.2,.7,.2,1), background-color 220ms ease;
+  }
+  .site-header.is-condensed {
+    background: var(--header-bg);
+    border-bottom: 1px solid var(--rule);
+  }
+  .site-header.is-condensed .nav { padding-block: 14px; }
+  .site-header.is-hidden:not(:focus-within) { transform: translateY(-100%); }
+
   .nav {
     position: relative;
     z-index: 5;
@@ -90,7 +183,9 @@
     color: var(--ink);
   }
 
-  .nav a:hover { opacity: 0.7; }
+  @media (hover: hover) and (pointer: fine) {
+    .nav a:hover { opacity: 0.7; }
+  }
 
   .nav a::after {
     content: "";
@@ -103,7 +198,9 @@
     transform-origin: left center;
     transition: transform 320ms cubic-bezier(.2,.7,.2,1);
   }
-  .nav a:hover::after { transform: scaleX(1); }
+  @media (hover: hover) and (pointer: fine) {
+    .nav a:hover::after { transform: scaleX(1); }
+  }
 
   .nav__lang {
     display: flex;
@@ -126,7 +223,9 @@
     font-family: inherit;
   }
 
-  .lang-btn:hover { color: var(--ink); }
+  @media (hover: hover) and (pointer: fine) {
+    .lang-btn:hover { color: var(--ink); }
+  }
 
   .lang-btn.is-active {
     color: var(--ink);
@@ -146,7 +245,7 @@
     z-index: 4;
     padding: clamp(40px, 6vw, 96px) clamp(24px, 5vw, 88px) 0;
     display: grid;
-    grid-template-columns: minmax(280px, 575px) minmax(260px, 38ch);
+    grid-template-columns: minmax(280px, 575px) minmax(260px, max-content);
     align-items: center;
     justify-content: center;
     gap: clamp(32px, 6vw, 96px);
@@ -179,7 +278,7 @@
 
   .tagline {
     margin-top: clamp(18px, 2.4vw, 32px);
-    font-size: clamp(13px, 1.05vw, 16px);
+    font-size: clamp(15px, 1.05vw, 16px);
     font-weight: 400;
     letter-spacing: 0.22em;
     color: var(--ink);
@@ -196,13 +295,14 @@
   }
 
   .we-are {
-    font-size: clamp(13px, 1.05vw, 16px);
+    font-size: clamp(15px, 1.05vw, 16px);
     line-height: 1.85;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--ink);
     max-width: 38ch;
     font-weight: 500;
+    text-wrap: pretty;
   }
 
   /* ---------- SCROLL CUE ---------- */
@@ -225,9 +325,11 @@
     opacity: 0.92;
     transition: transform 320ms cubic-bezier(.2,.7,.2,1), opacity 220ms ease;
   }
-  .scroll-cue:hover {
-    transform: translate(-50%, 4px);
-    opacity: 1;
+  @media (hover: hover) and (pointer: fine) {
+    .scroll-cue:hover {
+      transform: translate(-50%, 4px);
+      opacity: 1;
+    }
   }
   .scroll-cue svg {
     width: 22px;
@@ -267,19 +369,15 @@
   }
 
   /* ---------- INTRO ANIMATION ---------- */
-  .reveal {
-    opacity: 0;
-    transform: translateY(14px);
-    animation: rise 900ms cubic-bezier(.2,.7,.2,1) forwards;
-  }
-  .reveal[data-delay="1"] { animation-delay: 120ms; }
-  .reveal[data-delay="2"] { animation-delay: 240ms; }
-  .reveal[data-delay="3"] { animation-delay: 380ms; }
-  .reveal[data-delay="4"] { animation-delay: 520ms; }
-  .reveal[data-delay="5"] { animation-delay: 700ms; }
+  /* A short entrance for the tagline, the CTA and the scroll cue only: the logo, menu and paragraph
+     are visible from the first frame (they are the LCP candidates). `backwards` plus the separate
+     `translate` property leave each element's own transform and hover intact after the animation. */
+  .reveal { animation: rise 400ms cubic-bezier(.2,.7,.2,1) backwards; }
+  .reveal[data-delay="3"] { animation-delay: 60ms; }
+  .reveal[data-delay="5"] { animation-delay: 120ms; }
 
   @keyframes rise {
-    to { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; translate: 0 14px; }
   }
 
   /* ---------- RESPONSIVE ---------- */
@@ -314,14 +412,30 @@
       max-width: min(82vw, 38ch);
       padding-top: 4px;
     }
-    .we-are { letter-spacing: 0.14em; line-height: 1.75; }
-    .tagline { letter-spacing: 0.14em; }
+    .we-are { letter-spacing: 0.08em; line-height: 1.75; font-size: 16px; }
+    .tagline { letter-spacing: 0.14em; font-size: 14px; }
+    .hero__right { width: auto; }
+    :root { --nav-h: 72px; --header-h: 58px; }
+    .hero { padding-bottom: 88px; }
   }
 
   @media (max-width: 480px) {
-    .nav { padding: 18px 18px; font-size: 11px; }
-    .nav__links { gap: 16px; }
+    :root { --nav-h: 64px; }
+    .nav { padding: 18px 18px; font-size: 12px; letter-spacing: 0.06em; gap: 16px; }
+    .nav__links { gap: 12px; }
     .hero__content { padding: 16px 22px 0; }
+  }
+
+  @media (max-width: 360px) {
+    .nav { font-size: 11px; gap: 10px; padding-inline: 14px; letter-spacing: 0.02em; }
+    .nav__links { gap: 9px; }
+  }
+
+  /* Phones in landscape and other low screens: the hero goes back to two columns */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .hero__content { grid-template-columns: minmax(0, 1fr) minmax(0, 38ch); justify-items: stretch; gap: 32px; min-height: calc(100svh - 120px); padding-top: 0; }
+    .hero__left { max-width: 340px; justify-self: end; }
+    .hero__right { max-width: none; justify-self: start; }
   }
 
   /* ============================================================
@@ -330,8 +444,10 @@
   :root {
     --intro-bg: #f6f4fb;
     --intro-ink: #0a0a0f;
-    --intro-accent: #b9a7e0;          /* lavender for AGILY / WE DO */
+    --intro-accent: #b9a7e0;          /* lavender accent on dark backgrounds */
+    --accent-on-light: #9075c2;       /* same hue for large text on --intro-bg: 3.49:1 */
     --intro-rule: rgba(10, 10, 15, 0.85);
+    --scrim-rgb: 15 8 30;             /* service-card text scrim */
   }
 
   .intro {
@@ -383,15 +499,16 @@
     max-width: 18ch;
     text-wrap: balance;
   }
-  .intro-headline .accent { color: var(--intro-accent); }
+  .intro-headline .accent { color: var(--accent-on-light); }
 
   .intro-thai {
-    font-size: clamp(13px, 1.05vw, 16px);
+    font-size: clamp(15px, 1.05vw, 16px);
     line-height: 1.95;
     color: var(--intro-ink);
-    max-width: 64ch;
-    font-family: 'Sarabun', 'Noto Sans Thai', 'Space Grotesk', system-ui, sans-serif;
+    max-width: 60ch;
+    font-family: var(--font-sans);
     font-weight: 400;
+    text-wrap: pretty;
   }
   .intro-thai p + p { margin-top: 1.2em; }
 
@@ -414,9 +531,10 @@
     text-align: center;
   }
   .intro-02__heading span { display: block; }
-  .intro-02__heading .accent { color: var(--intro-accent); }
+  .intro-02__heading .accent { color: var(--accent-on-light); }
 
   .intro-02__pills {
+    list-style: none;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -426,24 +544,26 @@
   }
 
   .pill {
+    display: inline-block;
     appearance: none;
     background: transparent;
     color: var(--intro-ink);
     border: 1.4px solid var(--intro-rule);
     border-radius: 999px;
     padding: 14px 32px;
-    font: 600 12px/1 'Space Grotesk', system-ui, sans-serif;
+    font: 600 12px/1 var(--font-sans);
     letter-spacing: 0.22em;
     cursor: pointer;
     transition: background 240ms ease, color 240ms ease, transform 240ms cubic-bezier(.2,.7,.2,1);
     white-space: nowrap;
   }
-  .pill:hover {
-    background: var(--intro-ink);
-    color: var(--intro-bg);
-    transform: translateY(-2px);
+  @media (hover: hover) and (pointer: fine) {
+    .pill:hover {
+      background: var(--intro-ink);
+      color: var(--intro-bg);
+      transform: translateY(-2px);
+    }
   }
-  .pill:active { transform: translateY(0); }
 
   /* ---------- DOWN ARROW ON INTRO 02 ---------- */
   .intro-02__cue {
@@ -460,10 +580,12 @@
     transition: background 240ms ease, color 240ms ease, transform 240ms cubic-bezier(.2,.7,.2,1);
     margin-top: clamp(20px, 4vh, 48px);
   }
-  .intro-02__cue:hover {
-    background: var(--intro-ink);
-    color: var(--intro-bg);
-    transform: translateY(4px);
+  @media (hover: hover) and (pointer: fine) {
+    .intro-02__cue:hover {
+      background: var(--intro-ink);
+      color: var(--intro-bg);
+      transform: translateY(4px);
+    }
   }
   .intro-02__cue svg {
     width: 22px;
@@ -475,14 +597,29 @@
 
   @media (max-width: 860px) {
     .intro__screen { padding: 28px 22px; }
-    .intro-tag { font-size: 11px; letter-spacing: 0.18em; padding: 8px 16px; }
+    .intro-tag { font-size: 12px; letter-spacing: 0.18em; padding: 8px 16px; }
     .intro-headline { font-size: clamp(28px, 7.8vw, 52px); max-width: 22ch; }
     .intro-02__heading { font-size: clamp(48px, 13vw, 96px); }
-    .pill { padding: 12px 22px; font-size: 11px; letter-spacing: 0.18em; }
+    .pill { padding: 12px 22px; font-size: 12px; letter-spacing: 0.18em; }
     .intro-02__pills { gap: 10px; }
     .intro-02__cue { width: 48px; height: 48px; }
-    .intro-thai { line-height: 1.85; }
+    .intro-thai { line-height: 1.85; font-size: 16px; }
   }
+
+  /* Short desktop windows: keep the INTRO 02 statement and its arrow on one screen */
+  @media (min-width: 861px) and (max-height: 860px) {
+    .intro-02__heading { font-size: clamp(56px, min(9.4vw, 13svh), 156px); }
+  }
+
+  @media (orientation: landscape) and (max-height: 500px) {
+    .intro-01__body { padding-top: 16px; }
+    .intro-headline { font-size: clamp(24px, 9svh, 52px); }
+    .intro-02__heading { font-size: clamp(40px, 15svh, 96px); }
+  }
+
+  /* Thai stacks marks above and below the letters: Latin line-heights make lines collide */
+  :lang(th) .intro-headline,
+  :lang(th) .intro-02__heading { line-height: 1.2; }
 
   /* ============================================================
      WORK GROUPS — each media category gets its own heading + breathing room
@@ -648,7 +785,7 @@
     border: 0;
     background: transparent;
     color: #fff;
-    font: 300 38px/1 'Space Grotesk', sans-serif;
+    font: 300 38px/1 var(--font-sans);
     cursor: pointer;
     display: inline-flex;
     align-items: center;
@@ -658,11 +795,13 @@
     text-shadow: 0 2px 12px rgba(0,0,0,0.55);
     user-select: none;
   }
-  .work__arrow:hover { opacity: 1; }
   .work__arrow--prev { left: clamp(8px, 2vw, 28px); }
   .work__arrow--next { right: clamp(8px, 2vw, 28px); }
-  .work__arrow--prev:hover { transform: translate(-3px, -50%); }
-  .work__arrow--next:hover { transform: translate(3px, -50%); }
+  @media (hover: hover) and (pointer: fine) {
+    .work__arrow:hover { opacity: 1; }
+    .work__arrow--prev:hover { transform: translate(-3px, -50%); }
+    .work__arrow--next:hover { transform: translate(3px, -50%); }
+  }
 
   /* Bottom-right controls: image selector dots */
   .work__controls {
@@ -689,7 +828,9 @@
     cursor: pointer;
     transition: transform 240ms cubic-bezier(.2,.7,.2,1);
   }
-  .work__play:hover { transform: scale(1.04); }
+  @media (hover: hover) and (pointer: fine) {
+    .work__play:hover { transform: scale(1.04); }
+  }
   .work__play svg { width: 14px; height: 14px; fill: currentColor; display: block; }
   .work__play .icon-pause { display: none; }
   .work__play.is-playing .icon-play { display: none; }
@@ -775,7 +916,7 @@
     gap: 12px;
   }
   .contact__col-title {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-sans);
     font-weight: 600;
     font-size: 14px;
     letter-spacing: 0.2em;
@@ -793,7 +934,7 @@
   }
   .contact__list a,
   .contact__list span {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-sans);
     font-weight: 700;
     font-size: clamp(20px, 1.7vw, 26px);
     letter-spacing: 0.04em;
@@ -807,10 +948,12 @@
     overflow-wrap: anywhere;
     cursor: pointer;
   }
-  .contact__list a:hover,
-  .contact__list span:hover {
-    color: var(--intro-accent);
-    transform: translateX(4px);
+  @media (hover: hover) and (pointer: fine) {
+    .contact__list a:hover,
+    .contact__list span:hover {
+      color: var(--intro-accent);
+      transform: translateX(4px);
+    }
   }
   .contact__list a:focus-visible {
     outline: 2px solid var(--intro-accent);
@@ -825,7 +968,7 @@
     justify-content: space-between;
     border-top: 1px solid rgba(255,255,255,0.18);
     padding: 22px clamp(24px, 5vw, 80px);
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-sans);
     font-size: 13px;
     letter-spacing: 0.18em;
     color: rgba(255,255,255,0.85);
@@ -852,9 +995,33 @@
     fill: none;
     stroke-width: 2;
   }
-  .contact__top:hover {
-    color: var(--intro-accent);
-    transform: translateY(-2px);
+  @media (hover: hover) and (pointer: fine) {
+    .contact__top:hover {
+      color: var(--intro-accent);
+      transform: translateY(-2px);
+    }
+  }
+
+  .contact__intro {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px 32px;
+    margin-bottom: clamp(36px, 5vw, 64px);
+  }
+  .contact__headline {
+    font-size: clamp(28px, 4.4vw, 56px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    max-width: 18ch;
+    text-wrap: balance;
+  }
+  .contact__lang {
+    display: flex;
+    align-items: center;
+    gap: 14px;
   }
 
   @media (min-width: 721px) and (max-width: 1024px) {
@@ -874,10 +1041,29 @@
       flex-direction: column;
       gap: 14px;
       align-items: flex-start;
-      font-size: 11px;
+      font-size: 12px;
     }
     .contact__list a,
     .contact__list span { font-size: 18px; }
+  }
+
+  /* Touch pointers: 44px hit areas without changing the layout */
+  @media (pointer: coarse) {
+    .nav a::before,
+    .lang-btn::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: max(100%, 44px);
+      height: 44px;
+      transform: translate(-50%, -50%);
+    }
+    .nav__lang,
+    .contact__lang { gap: 31px; }
+    .contact__list { gap: 8px; }
+    .contact__list a { padding-block: 10px; }
+    .contact__top { min-height: 44px; padding-block: 12px; }
   }
 
   /* ============================================================
@@ -896,7 +1082,7 @@
     margin-bottom: clamp(32px, 5vw, 56px);
   }
   .services__title {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-sans);
     font-weight: 700;
     font-size: clamp(64px, 10vw, 152px);
     letter-spacing: -0.02em;
@@ -919,6 +1105,7 @@
     scroll-padding-left: clamp(24px, 5vw, 80px);
     -webkit-overflow-scrolling: touch;
     scrollbar-width: none;            /* Firefox */
+    overscroll-behavior-x: contain;   /* a sideways swipe at the ends must not trigger browser Back */
     cursor: grab;
   }
   .services__scroller::-webkit-scrollbar { display: none; }
@@ -929,7 +1116,7 @@
   .service-card {
     position: relative;
     flex: 0 0 auto;
-    width: clamp(240px, 22vw, 340px);
+    width: clamp(240px, 21vw, 340px);
     aspect-ratio: 9 / 16;
     border-radius: 18px;
     overflow: hidden;
@@ -940,9 +1127,11 @@
     transition: transform 320ms cubic-bezier(.2,.7,.2,1), box-shadow 320ms ease;
     box-shadow: 0 6px 24px rgba(20, 8, 50, 0.10);
   }
-  .service-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 24px 60px rgba(20, 8, 50, 0.22);
+  @media (hover: hover) and (pointer: fine) {
+    .service-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 60px rgba(20, 8, 50, 0.22);
+    }
   }
 
   .service-card__bg {
@@ -953,7 +1142,9 @@
     transition: transform 700ms cubic-bezier(.2,.7,.2,1);
     z-index: 0;
   }
-  .service-card:hover .service-card__bg { transform: scale(1.04); }
+  @media (hover: hover) and (pointer: fine) {
+    .service-card:hover .service-card__bg { transform: scale(1.04); }
+  }
 
   /* Subtle dark gradient bottom for legibility */
   .service-card::after {
@@ -978,15 +1169,14 @@
 
   .service-card__header { display: block; }
   .service-card__num {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-sans);
     font-weight: 600;
     font-size: 13px;
     letter-spacing: 0.16em;
-    opacity: 0.85;
     margin-bottom: 8px;
   }
   .service-card__title {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: var(--font-sans);
     font-weight: 700;
     font-size: clamp(22px, 1.9vw, 30px);
     letter-spacing: 0.02em;
@@ -1003,12 +1193,31 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
-    font-size: 12.5px;
+    font-size: 14px;
     line-height: 1.45;
     letter-spacing: 0.005em;
-    opacity: 0.92;
   }
   .service-card__list li { font-weight: 400; }
+
+  /* Readability scrims tied to the text blocks (they grow with the list), not to card height */
+  .service-card__header,
+  .service-card__list { position: relative; }
+  .service-card__header::before,
+  .service-card__list::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: calc(-1 * clamp(18px, 1.6vw, 24px));
+    pointer-events: none;
+  }
+  .service-card__header::before {
+    bottom: -40px;
+    background: linear-gradient(180deg, rgb(var(--scrim-rgb) / .5), rgb(var(--scrim-rgb) / .32) 55%, rgb(var(--scrim-rgb) / 0));
+  }
+  .service-card__list::before {
+    top: -48px;
+    background: linear-gradient(180deg, rgb(var(--scrim-rgb) / 0), rgb(var(--scrim-rgb) / .48) 48px, rgb(var(--scrim-rgb) / .62));
+  }
 
   /* Arrow buttons floating at right of head */
   .services__nav {
@@ -1030,21 +1239,23 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font: 300 26px/1 'Space Grotesk', sans-serif;
+    font: 300 26px/1 var(--font-sans);
     transition: background 220ms ease, color 220ms ease, transform 240ms cubic-bezier(.2,.7,.2,1);
   }
-  .services__nav button:hover {
-    background: var(--intro-ink);
-    color: var(--intro-bg);
+  @media (hover: hover) and (pointer: fine) {
+    .services__nav button:hover {
+      background: var(--intro-ink);
+      color: var(--intro-bg);
+    }
+    .services__nav button[aria-disabled="true"]:hover {
+      background: transparent;
+      color: var(--intro-ink);
+      transform: none;
+    }
   }
-  .services__nav button:disabled {
+  .services__nav button[aria-disabled="true"] {
     opacity: 0.25;
     cursor: default;
-  }
-  .services__nav button:disabled:hover {
-    background: transparent;
-    color: var(--intro-ink);
-    transform: none;
   }
 
   @media (max-width: 860px) {
@@ -1053,7 +1264,13 @@
     .services__title { font-size: clamp(48px, 14vw, 88px); }
     .services__nav { top: 16px; right: 18px; gap: 8px; }
     .services__nav button { width: 42px; height: 42px; font-size: 22px; }
-    .service-card { width: 70vw; max-width: 320px; }
+    .service-card { width: min(78vw, 320px); max-width: none; }
+  }
+
+  /* Phones in landscape: cards fit the screen height instead of a 9:16 poster */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .service-card { width: 300px; aspect-ratio: auto; height: calc(100svh - 32px); }
+    .service-card__list { gap: 4px; }
   }
 
   /* Single-image work: hide carousel controls */
@@ -1075,6 +1292,50 @@
 
   @media (max-width: 480px) {
     .work__title { font-size: 20px; left: 18px; }
+  }
+
+  /* Phones/tablets: the film and the single-image case follow the gallery pattern: title above,
+     frame sized to the media's own aspect ratio, height limited by the screen. Nothing is cropped. */
+  @media (max-width: 860px) {
+    #work-mea { --work-aspect: 16 / 9; }
+    #work-dksh { --work-aspect: 2560 / 1299; }
+    .work--video,
+    .work.is-static {
+      --work-media-width: min(100%, calc((100svh - 24px) * var(--work-aspect)));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      height: auto;
+      min-height: 0;
+      padding: 24px 0;
+      background: var(--bg);
+    }
+    .work--video::after,
+    .work.is-static::after { display: none; }
+    .work--video .work__title,
+    .work.is-static .work__title {
+      position: static;
+      order: -1;
+      width: var(--work-media-width);
+      padding-inline: 18px;
+      text-shadow: none;
+    }
+    .work--video .work__video,
+    .work.is-static .work__track {
+      position: relative;
+      inset: auto;
+      width: var(--work-media-width);
+      height: auto;
+      aspect-ratio: var(--work-aspect);
+    }
+    .work--video .work__controls {
+      position: static;
+      width: var(--work-media-width);
+      justify-content: flex-end;
+      padding-inline: 18px;
+    }
+    .work.is-static .work__controls { display: none; }
   }
 
   /* Touch-sized selectors and native vertical scrolling for image carousels. */
@@ -1176,6 +1437,12 @@
     outline: 2px solid var(--intro-accent);
     outline-offset: 2px;
   }
+  /* Swipe feedback: only the artwork layer follows the finger; at rest it is `contain` again */
+  .work--carousel .work__slide::after {
+    transform: translateX(var(--drag, 0px));
+    transition: transform 240ms cubic-bezier(.2,.7,.2,1);
+  }
+  .work--carousel .work__track.is-dragging .work__slide::after { transition: none; }
   @media (min-width: 861px) {
     .work--gallery { --work-media-width: min(100%, clamp(440px, calc(100svh - 180px), 720px)); }
     .work--portrait { --work-media-width: min(100%, clamp(440px, calc((100svh - 180px) * 0.8), 576px)); }
@@ -1184,39 +1451,133 @@
     .work--gallery .work__dot { width: 32px; }
     .work--many .work__dots { grid-template-columns: repeat(6, 32px); }
   }
+  /* Phones in landscape: the artwork fits the screen height (still `contain`, nothing cropped) */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .work--gallery { --work-media-width: min(100%, calc(100svh - 40px)); }
+    .work--portrait { --work-media-width: min(100%, calc((100svh - 40px) * 0.8)); }
+    .work--gallery .work__header,
+    .work--gallery .work__controls { width: max(var(--work-media-width), min(100%, 360px)); }
+  }
+  /* Touch screens: dots are a passive indicator (arrows, swipe and the counter navigate) */
+  @media (pointer: coarse) {
+    .work--carousel .work__dots { pointer-events: none; }
+    .work--gallery .work__dot { width: 18px; height: 28px; }
+    .work--many .work__dots { grid-template-columns: repeat(6, 18px); }
+    .work--gallery .work__arrow { flex-basis: 48px; width: 48px; height: 48px; }
+  }
   @media (prefers-reduced-motion: reduce) {
     .work--gallery .work__slide { transition: none; }
+    .work--carousel .work__slide::after { transform: none; transition: none; }
   }
+
+  /* ---------- CTA ---------- */
+  /* One filled pill per screen, in the language of the outline .pill */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 16px 28px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    font: 600 13px/1 var(--font-sans);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    transition: background 220ms ease, color 220ms ease, transform 240ms cubic-bezier(.2,.7,.2,1);
+  }
+  .cta--on-light { background: var(--intro-ink); color: var(--intro-bg); }
+  @media (hover: hover) and (pointer: fine) {
+    .cta:hover { background: var(--intro-accent); color: var(--intro-ink); transform: translateY(-2px); }
+  }
+  .cta:focus-visible { outline: 2px solid var(--intro-accent); outline-offset: 4px; }
+  .cta--on-light:focus-visible { outline-color: var(--intro-ink); }
+  .hero__cta { margin-top: clamp(20px, 2.6vw, 32px); }
+
+  .cta-band {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px 24px;
+    padding: clamp(48px, 8vh, 96px) clamp(20px, 4vw, 56px) 0;
+  }
+  .cta-band--light { padding-inline: clamp(24px, 5vw, 80px); }
+  .cta-band__text {
+    font-size: clamp(18px, 2vw, 26px);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+
+  /* ---------- PRESSED STATES (touch and mouse) ---------- */
+  .pill:active,
+  .intro-02__cue:active,
+  .services__nav button:not([aria-disabled="true"]):active {
+    background: var(--intro-ink);
+    color: var(--intro-bg);
+    transform: scale(0.96);
+    transition-duration: 80ms;
+  }
+  .nav a:active,
+  .lang-btn:active,
+  .scroll-cue:active,
+  .contact__list a:active,
+  .contact__top:active { color: var(--intro-accent); transition-duration: 80ms; }
+  .work__arrow:active { background: var(--rule); }
+  .cta:active { transform: scale(0.97); transition-duration: 80ms; }
+
+  /* ---------- THAI TYPOGRAPHY ---------- */
+  /* Latin caps tracking pulls Thai words apart; keep it only for the Latin word AGILITY */
+  :lang(th) .nav__links a,
+  :lang(th) .tagline,
+  :lang(th) .we-are,
+  :lang(th) .intro-tag,
+  :lang(th) .pill,
+  :lang(th) .cta,
+  :lang(th) .cta-band__text,
+  :lang(th) .contact__col-title,
+  :lang(th) .contact__top { letter-spacing: 0.02em; }
+  :lang(th) .tagline strong { letter-spacing: 0.14em; }
+  :lang(th) .contact__headline { line-height: 1.25; }
 
   /* Reduce motion */
   @media (prefers-reduced-motion: reduce) {
-    .reveal { animation: none; opacity: 1; transform: none; }
+    .reveal { animation: none; }
     .scroll-cue svg { animation: none; }
+    .site-header,
+    .cta { transition: none; }
+    .pill:active,
+    .intro-02__cue:active,
+    .services__nav button:not([aria-disabled="true"]):active,
+    .cta:active { transform: none; }
   }
 </style>
 </head>
 <body>
+
+<header class="site-header" data-site-header>
+  <nav class="nav" aria-label="Primary" data-i18n-aria="navLabel">
+    <div class="nav__links">
+      <a href="#home" data-i18n="navHome">HOME</a>
+      <a href="#work" data-i18n="navWork">WORK</a>
+      <a href="#services" data-i18n="navServices">SERVICES</a>
+      <a href="#contact" data-i18n="navContact">CONTACT</a>
+    </div>
+    <div class="nav__lang" role="group" aria-label="Language" data-i18n-aria="languageLabel">
+      <button type="button" class="lang-btn is-active" data-lang="en" aria-pressed="true">EN</button>
+      <button type="button" class="lang-btn" data-lang="th" aria-pressed="false">TH</button>
+    </div>
+  </nav>
+</header>
 
 <main>
   <section class="hero" id="home" data-screen-label="01 Home">
     <div class="hero__bg" aria-hidden="true"></div>
     <div class="hero__tint" aria-hidden="true"></div>
 
-    <nav class="nav" aria-label="Primary">
-      <div class="nav__links">
-        <a href="#home" class="reveal" data-delay="1" data-i18n="navHome">HOME</a>
-        <a href="#work" class="reveal" data-delay="2" data-i18n="navWork">WORK</a>
-        <a href="#contact" class="reveal" data-delay="3" data-i18n="navContact">CONTACT</a>
-      </div>
-      <div class="nav__lang reveal" data-delay="4" role="group" aria-label="Language">
-        <button type="button" class="lang-btn is-active" data-lang="en" aria-pressed="true">EN</button>
-        <button type="button" class="lang-btn" data-lang="th" aria-pressed="false">TH</button>
-      </div>
-    </nav>
-
     <div class="hero__content">
       <div class="hero__left">
-        <div class="hero__logo-frame reveal" data-delay="2">
+        <div class="hero__logo-frame">
           <img
             src="assets/agily-logo.png"
             alt="AGILY"
@@ -1230,9 +1591,12 @@
       </div>
 
       <div class="hero__right">
-        <p class="we-are reveal" data-delay="4" data-i18n="weAre">
+        <p class="we-are" data-i18n="weAre">
           WE ARE A MARKETING AGENCY BUILDING BRANDS, CAMPAIGNS AND DIGITAL PRODUCTS. ADVERTISING, CONSULTING, DESIGN, MARKETING &amp; BRAND, PRODUCTION — DELIVERED WITH AGILITY.
         </p>
+        <div class="hero__cta reveal" data-delay="5">
+          <a href="#contact" class="cta" data-i18n="ctaStart">START A PROJECT</a>
+        </div>
       </div>
     </div>
 
@@ -1243,19 +1607,19 @@
     </button>
   </section>
 
-  <section class="intro" id="intro" data-screen-label="02 Intro" aria-label="Intro">
+  <section class="intro" id="intro" data-screen-label="02 Intro" aria-labelledby="intro-tag">
     <!-- INTRO 01 — statement + Thai supporting copy -->
     <div class="intro__screen intro-01" id="intro-01">
-      <span class="intro-tag" data-i18n="introTag">INTRO</span>
+      <span class="intro-tag" id="intro-tag" data-i18n="introTag">INTRO</span>
 
       <div class="intro-01__body">
         <h2 class="intro-headline" data-i18n="introHeadline">
           SPECIALIZES IN PERFORMANCE DIGITAL MARKETING THROUGH <span class="accent">AGILY</span> STRATEGIC AND CREATIVE EXECUTIONS.
         </h2>
 
-        <div class="intro-thai" lang="th" data-i18n="introThai">
-          <p>พันธมิตรที่พร้อมผลักดันธุรกิจของคุณให้เติบโตด้วยทีมงานผู้เชี่ยวชาญ<br/>ที่มุ่งมั่นสร้างสรรค์กลยุทธ์การตลาดที่ตอบโจทย์ความต้องการของลูกค้าอย่างแท้จริง</p>
-          <p>เราเข้าใจพฤติกรรมผู้บริโภคในยุคดิจิทัลเป็นอย่างดี และพร้อมนำเสนอโซลูชัน<br/>ที่ครอบคลุมทั้งออนไลน์และออฟไลน์ เพื่อให้คุณบรรลุเป้าหมายทางธุรกิจ</p>
+        <div class="intro-thai" data-i18n="introThai">
+          <p>A partner ready to drive your business growth with a team of specialists focused on creating marketing strategies that truly answer customer needs.</p>
+          <p>We understand consumer behavior in the digital era and deliver solutions across online and offline channels to help you reach your business goals.</p>
         </div>
       </div>
     </div>
@@ -1270,12 +1634,12 @@
           <span class="accent">WE DO</span>
         </h2>
 
-        <div class="intro-02__pills" role="list">
-          <button type="button" class="pill" role="listitem" data-project="production" data-target="work-production" data-i18n="pillProduction">PRODUCTION</button>
-          <button type="button" class="pill" role="listitem" data-project="social-content" data-target="work-social-content" data-i18n="pillSocialContent">SOCIAL CONTENT</button>
-          <button type="button" class="pill" role="listitem" data-project="event" data-target="work-event" data-i18n="pillEvent">EVENT</button>
-          <button type="button" class="pill" role="listitem" data-project="performance-marketing" data-target="services" data-i18n="pillPerformanceMarketing">PERFORMANCE MARKETING</button>
-        </div>
+        <ul class="intro-02__pills" role="list">
+          <li><a class="pill" href="#work-production" data-project="production" data-i18n="pillProduction">PRODUCTION</a></li>
+          <li><a class="pill" href="#work-social-content" data-project="social-content" data-i18n="pillSocialContent">SOCIAL CONTENT</a></li>
+          <li><a class="pill" href="#work-event" data-project="event" data-i18n="pillEvent">EVENT</a></li>
+          <li><a class="pill" href="#services" data-project="performance-marketing" data-i18n="pillPerformanceMarketing">PERFORMANCE MARKETING</a></li>
+        </ul>
 
         <button type="button" class="intro-02__cue" id="intro-cue" aria-label="Scroll to Work" data-i18n-aria="scrollToWork">
           <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -1300,12 +1664,21 @@
 
       <div class="work-group__cases">
         <!-- case: MEA e-Service (video case film) -->
-        <article class="work work--video" id="work-mea" aria-label="Work: MEA e-Service">
-          <video class="work__video" autoplay muted loop playsinline preload="auto" fetchpriority="high">
+        <article class="work work--video" id="work-mea" aria-labelledby="mea-title">
+          <video class="work__video" muted loop playsinline preload="none" poster="assets/work/mea-film-poster.webp" aria-labelledby="mea-title" aria-describedby="mea-desc" data-case-film>
+            <source src="assets/work/mea-film-720.mp4" type="video/mp4" media="(max-width: 860px)" />
             <source src="assets/work/mea-film.mp4" type="video/mp4" />
           </video>
 
-          <h3 class="work__title">MEA e-Service</h3>
+          <h3 class="work__title" id="mea-title">MEA e-Service</h3>
+          <p class="visually-hidden" id="mea-desc" data-i18n="meaDescription">15-second silent ad film for the MEA e-Service app.</p>
+
+          <div class="work__controls">
+            <button type="button" class="work__play" data-video-toggle aria-label="Play video" data-i18n-aria="playVideo">
+              <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+              <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+            </button>
+          </div>
         </article>
       </div>
     </section>
@@ -1327,14 +1700,14 @@
           </div>
 
           <div class="work__track" data-work-track>
-            <div class="work__slide is-active" style="--img:url('assets/work/matchday-1.webp?v=7f0605f389d5')" role="img" aria-label="MATCHDAY — image 1 of 8" data-i18n-aria="workImage" data-image-number="1"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-2.webp?v=2d85af47844a')" role="img" aria-label="MATCHDAY — image 2 of 8" data-i18n-aria="workImage" data-image-number="2" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-3.webp?v=7a599bcd03a8')" role="img" aria-label="MATCHDAY — image 3 of 8" data-i18n-aria="workImage" data-image-number="3" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-4.webp?v=00d936e3e4a2')" role="img" aria-label="MATCHDAY — image 4 of 8" data-i18n-aria="workImage" data-image-number="4" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-5.webp?v=28b84ccd9b8a')" role="img" aria-label="MATCHDAY — image 5 of 8" data-i18n-aria="workImage" data-image-number="5" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-6.webp?v=21ac1cd2f7ae')" role="img" aria-label="MATCHDAY — image 6 of 8" data-i18n-aria="workImage" data-image-number="6" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-7.webp?v=da232b2932f9')" role="img" aria-label="MATCHDAY — image 7 of 8" data-i18n-aria="workImage" data-image-number="7" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/matchday-8.webp?v=165fab001da7')" role="img" aria-label="MATCHDAY — image 8 of 8" data-i18n-aria="workImage" data-image-number="8" aria-hidden="true"></div>
+            <div class="work__slide is-active" data-img="assets/work/matchday-1.webp?v=7f0605f389d5" data-widths="720" role="img" aria-label="MATCHDAY — image 1 of 8" data-i18n-aria="workImage" data-image-number="1"></div>
+            <div class="work__slide" data-img="assets/work/matchday-2.webp?v=2d85af47844a" data-widths="720 1080" role="img" aria-label="MATCHDAY — image 2 of 8" data-i18n-aria="workImage" data-image-number="2" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/matchday-3.webp?v=7a599bcd03a8" data-widths="720 1080" role="img" aria-label="MATCHDAY — image 3 of 8" data-i18n-aria="workImage" data-image-number="3" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/matchday-4.webp?v=00d936e3e4a2" data-widths="720 1080" role="img" aria-label="MATCHDAY — image 4 of 8" data-i18n-aria="workImage" data-image-number="4" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/matchday-5.webp?v=28b84ccd9b8a" data-widths="720 1080" role="img" aria-label="MATCHDAY — image 5 of 8" data-i18n-aria="workImage" data-image-number="5" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/matchday-6.webp?v=21ac1cd2f7ae" data-widths="720" role="img" aria-label="MATCHDAY — image 6 of 8" data-i18n-aria="workImage" data-image-number="6" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/matchday-7.webp?v=da232b2932f9" data-widths="720 1080" role="img" aria-label="MATCHDAY — image 7 of 8" data-i18n-aria="workImage" data-image-number="7" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/matchday-8.webp?v=165fab001da7" data-widths="720 1080" role="img" aria-label="MATCHDAY — image 8 of 8" data-i18n-aria="workImage" data-image-number="8" aria-hidden="true"></div>
           </div>
 
           <div class="work__controls">
@@ -1361,14 +1734,14 @@
           </div>
 
           <div class="work__track" data-work-track>
-            <div class="work__slide is-active" style="--img:url('assets/work/monkey-1.webp?v=6c8253a48305')" role="img" aria-label="MONKEYEVERYDAY — image 1 of 8" data-i18n-aria="workImage" data-image-number="1"></div>
-            <div class="work__slide" style="--img:url('assets/work/monkey-2.webp?v=7edb161a3e29')" role="img" aria-label="MONKEYEVERYDAY — image 2 of 8" data-i18n-aria="workImage" data-image-number="2" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/monkey-3.webp?v=a5d73e401b05')" role="img" aria-label="MONKEYEVERYDAY — image 3 of 8" data-i18n-aria="workImage" data-image-number="3" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/monkey-4.webp?v=b58cae549f69')" role="img" aria-label="MONKEYEVERYDAY — image 4 of 8" data-i18n-aria="workImage" data-image-number="4" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/monkey-5.webp?v=805f7a4275ab')" role="img" aria-label="MONKEYEVERYDAY — image 5 of 8" data-i18n-aria="workImage" data-image-number="5" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/monkey-6.webp?v=416794c29a5a')" role="img" aria-label="MONKEYEVERYDAY — image 6 of 8" data-i18n-aria="workImage" data-image-number="6" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/monkey-7.webp?v=29ed4e4f0c2a')" role="img" aria-label="MONKEYEVERYDAY — image 7 of 8" data-i18n-aria="workImage" data-image-number="7" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/monkey-8.webp?v=90f596c59579')" role="img" aria-label="MONKEYEVERYDAY — image 8 of 8" data-i18n-aria="workImage" data-image-number="8" aria-hidden="true"></div>
+            <div class="work__slide is-active" data-img="assets/work/monkey-1.webp?v=6c8253a48305" data-widths="720 1080" role="img" aria-label="MONKEYEVERYDAY — image 1 of 8" data-i18n-aria="workImage" data-image-number="1"></div>
+            <div class="work__slide" data-img="assets/work/monkey-2.webp?v=7edb161a3e29" data-widths="720 1080" role="img" aria-label="MONKEYEVERYDAY — image 2 of 8" data-i18n-aria="workImage" data-image-number="2" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/monkey-3.webp?v=a5d73e401b05" data-widths="720 1080" role="img" aria-label="MONKEYEVERYDAY — image 3 of 8" data-i18n-aria="workImage" data-image-number="3" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/monkey-4.webp?v=b58cae549f69" data-widths="720 1080" role="img" aria-label="MONKEYEVERYDAY — image 4 of 8" data-i18n-aria="workImage" data-image-number="4" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/monkey-5.webp?v=805f7a4275ab" data-widths="720 1080" role="img" aria-label="MONKEYEVERYDAY — image 5 of 8" data-i18n-aria="workImage" data-image-number="5" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/monkey-6.webp?v=416794c29a5a" data-widths="720 1080" role="img" aria-label="MONKEYEVERYDAY — image 6 of 8" data-i18n-aria="workImage" data-image-number="6" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/monkey-7.webp?v=29ed4e4f0c2a" data-widths="720" role="img" aria-label="MONKEYEVERYDAY — image 7 of 8" data-i18n-aria="workImage" data-image-number="7" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/monkey-8.webp?v=90f596c59579" data-widths="720 1080" role="img" aria-label="MONKEYEVERYDAY — image 8 of 8" data-i18n-aria="workImage" data-image-number="8" aria-hidden="true"></div>
           </div>
 
           <div class="work__controls">
@@ -1395,18 +1768,18 @@
           </div>
 
           <div class="work__track" data-work-track>
-            <div class="work__slide is-active" style="--img:url('assets/work/handsup-1.webp?v=0a0bd9cb4b2b')" role="img" aria-label="HANDSUP — image 1 of 12" data-i18n-aria="workImage" data-image-number="1"></div>
-            <div class="work__slide" style="--img:url('assets/work/handsup-2.webp?v=45949daa02b0')" role="img" aria-label="HANDSUP — image 2 of 12" data-i18n-aria="workImage" data-image-number="2" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/handsup-3.webp?v=ae2e07f7cbad')" role="img" aria-label="HANDSUP — image 3 of 12" data-i18n-aria="workImage" data-image-number="3" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/handsup-4.webp?v=924e56b7ac1a')" role="img" aria-label="HANDSUP — image 4 of 12" data-i18n-aria="workImage" data-image-number="4" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/handsup-5.webp?v=079822f163e1')" role="img" aria-label="HANDSUP — image 5 of 12" data-i18n-aria="workImage" data-image-number="5" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/handsup-6.webp?v=311a4381e968')" role="img" aria-label="HANDSUP — image 6 of 12" data-i18n-aria="workImage" data-image-number="6" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/handsup-7.webp?v=5bfacf84a031')" role="img" aria-label="HANDSUP — image 7 of 12" data-i18n-aria="workImage" data-image-number="7" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/handsup-8.webp?v=3bd7a2d06b30')" role="img" aria-label="HANDSUP — image 8 of 12" data-i18n-aria="workImage" data-image-number="8" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/handsup-9.webp?v=81cc260b8f8f')" role="img" aria-label="HANDSUP — image 9 of 12" data-i18n-aria="workImage" data-image-number="9" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/handsup-10.webp?v=7af7bda655db')" role="img" aria-label="HANDSUP — image 10 of 12" data-i18n-aria="workImage" data-image-number="10" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/handsup-11.webp?v=80fb5d3185f1')" role="img" aria-label="HANDSUP — image 11 of 12" data-i18n-aria="workImage" data-image-number="11" aria-hidden="true"></div>
-            <div class="work__slide" style="--img:url('assets/work/handsup-12.webp?v=c6895ddaa00c')" role="img" aria-label="HANDSUP — image 12 of 12" data-i18n-aria="workImage" data-image-number="12" aria-hidden="true"></div>
+            <div class="work__slide is-active" data-img="assets/work/handsup-1.webp?v=0a0bd9cb4b2b" data-widths="720 1080" role="img" aria-label="HANDSUP — image 1 of 12" data-i18n-aria="workImage" data-image-number="1"></div>
+            <div class="work__slide" data-img="assets/work/handsup-2.webp?v=45949daa02b0" data-widths="720 1080" role="img" aria-label="HANDSUP — image 2 of 12" data-i18n-aria="workImage" data-image-number="2" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/handsup-3.webp?v=ae2e07f7cbad" data-widths="720 1080" role="img" aria-label="HANDSUP — image 3 of 12" data-i18n-aria="workImage" data-image-number="3" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/handsup-4.webp?v=924e56b7ac1a" data-widths="720 1080" role="img" aria-label="HANDSUP — image 4 of 12" data-i18n-aria="workImage" data-image-number="4" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/handsup-5.webp?v=079822f163e1" data-widths="720 1080" role="img" aria-label="HANDSUP — image 5 of 12" data-i18n-aria="workImage" data-image-number="5" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/handsup-6.webp?v=311a4381e968" data-widths="720 1080" role="img" aria-label="HANDSUP — image 6 of 12" data-i18n-aria="workImage" data-image-number="6" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/handsup-7.webp?v=5bfacf84a031" data-widths="720 1080" role="img" aria-label="HANDSUP — image 7 of 12" data-i18n-aria="workImage" data-image-number="7" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/handsup-8.webp?v=3bd7a2d06b30" data-widths="720 1080" role="img" aria-label="HANDSUP — image 8 of 12" data-i18n-aria="workImage" data-image-number="8" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/handsup-9.webp?v=81cc260b8f8f" data-widths="720 1080" role="img" aria-label="HANDSUP — image 9 of 12" data-i18n-aria="workImage" data-image-number="9" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/handsup-10.webp?v=7af7bda655db" data-widths="720 1080" role="img" aria-label="HANDSUP — image 10 of 12" data-i18n-aria="workImage" data-image-number="10" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/handsup-11.webp?v=80fb5d3185f1" data-widths="720 1080" role="img" aria-label="HANDSUP — image 11 of 12" data-i18n-aria="workImage" data-image-number="11" aria-hidden="true"></div>
+            <div class="work__slide" data-img="assets/work/handsup-12.webp?v=c6895ddaa00c" data-widths="720 1080" role="img" aria-label="HANDSUP — image 12 of 12" data-i18n-aria="workImage" data-image-number="12" aria-hidden="true"></div>
           </div>
 
           <div class="work__controls">
@@ -1441,12 +1814,12 @@
 
       <div class="work-group__cases">
         <!-- case: DKSH x 3M (single image) -->
-        <article class="work is-static" id="work-dksh" aria-label="Work: DKSH x 3M">
+        <article class="work is-static" id="work-dksh" aria-labelledby="dksh-title">
           <div class="work__track" data-work-track>
-            <div class="work__slide is-active" style="--img:url('assets/work/dksh-1.webp')"></div>
+            <div class="work__slide is-active" data-img="assets/work/dksh-1.webp" data-widths="720 1080 1440" role="img" aria-label="DKSH x 3M — event photo" data-i18n-aria="dkshImage"></div>
           </div>
 
-          <h3 class="work__title">DKSH x 3M</h3>
+          <h3 class="work__title" id="dksh-title">DKSH x 3M</h3>
 
           <div class="work__controls">
             <div class="work__dots" aria-hidden="true">
@@ -1456,12 +1829,17 @@
         </article>
       </div>
     </section>
+
+    <div class="cta-band">
+      <p class="cta-band__text" data-i18n="ctaWorkText">LIKE WHAT YOU SEE?</p>
+      <a href="#contact" class="cta" data-i18n="ctaTalk">LET’S TALK</a>
+    </div>
   </div>
 
   <!-- SERVICES — horizontal-scroll gallery -->
-  <section class="services" id="services" data-screen-label="04 Services" aria-label="Services">
+  <section class="services" id="services" data-screen-label="04 Services" aria-labelledby="services-title" data-lazy-section>
     <div class="services__head">
-      <h2 class="services__title" data-i18n="servicesTitle">SERVICES</h2>
+      <h2 class="services__title" id="services-title" data-i18n="servicesTitle">SERVICES</h2>
     </div>
 
     <div class="services__nav" aria-hidden="false">
@@ -1473,7 +1851,7 @@
       <div class="services__scroller" data-services-scroller>
 
         <article class="service-card">
-          <div class="service-card__bg" style="background-image:url('assets/services/01-advertising.webp')"></div>
+          <div class="service-card__bg" data-bg="assets/services/01-advertising.webp"></div>
           <div class="service-card__inner">
             <div class="service-card__header">
               <div class="service-card__num">01</div>
@@ -1492,7 +1870,7 @@
         </article>
 
         <article class="service-card">
-          <div class="service-card__bg" style="background-image:url('assets/services/02-consulting.webp')"></div>
+          <div class="service-card__bg" data-bg="assets/services/02-consulting.webp"></div>
           <div class="service-card__inner">
             <div class="service-card__header">
               <div class="service-card__num">02</div>
@@ -1508,7 +1886,7 @@
         </article>
 
         <article class="service-card">
-          <div class="service-card__bg" style="background-image:url('assets/services/03-design.webp')"></div>
+          <div class="service-card__bg" data-bg="assets/services/03-design.webp"></div>
           <div class="service-card__inner">
             <div class="service-card__header">
               <div class="service-card__num">03</div>
@@ -1531,7 +1909,7 @@
         </article>
 
         <article class="service-card">
-          <div class="service-card__bg" style="background-image:url('assets/services/04-marketing.webp')"></div>
+          <div class="service-card__bg" data-bg="assets/services/04-marketing.webp"></div>
           <div class="service-card__inner">
             <div class="service-card__header">
               <div class="service-card__num">04</div>
@@ -1550,7 +1928,7 @@
         </article>
 
         <article class="service-card">
-          <div class="service-card__bg" style="background-image:url('assets/services/05-production.webp')"></div>
+          <div class="service-card__bg" data-bg="assets/services/05-production.webp"></div>
           <div class="service-card__inner">
             <div class="service-card__header">
               <div class="service-card__num">05</div>
@@ -1571,22 +1949,33 @@
 
       </div>
     </div>
+
+    <div class="cta-band cta-band--light">
+      <p class="cta-band__text" data-i18n="ctaServicesText">READY TO START?</p>
+      <a href="#contact" class="cta cta--on-light" data-i18n="ctaStart">START A PROJECT</a>
+    </div>
   </section>
 
   <!-- CONTACT — final section with logo, columns, footer row -->
-  <section class="contact" id="contact" data-screen-label="05 Contact" aria-label="Contact">
-    <div class="contact__bg" style="background-image:url('assets/contact-bg.webp')"></div>
+  <section class="contact" id="contact" data-screen-label="05 Contact" aria-labelledby="contact-title" data-lazy-section>
+    <div class="contact__bg" data-bg="assets/contact-bg.webp"></div>
 
     <div class="contact__inner">
       <img class="contact__logo" src="assets/agily-logo.png" alt="AGILY" />
+
+      <div class="contact__intro">
+        <h2 class="contact__headline" id="contact-title" data-i18n="contactHeadline">LET’S TALK ABOUT YOUR BRAND</h2>
+        <a class="cta" href="mailto:agily.contact@gmail.com?subject=Project%20brief" data-i18n="ctaEmail">EMAIL US</a>
+      </div>
 
       <div class="contact__cols">
         <div class="contact__col">
           <h3 class="contact__col-title" data-i18n="contactPages">Pages</h3>
           <ul class="contact__list">
-            <li><a href="#home" data-anchor="home" data-i18n="navHome">HOME</a></li>
-            <li><a href="#work" data-anchor="work" data-i18n="navWork">WORK</a></li>
-            <li><a href="#contact" data-anchor="contact" data-i18n="navContact">CONTACT</a></li>
+            <li><a href="#home" data-i18n="navHome">HOME</a></li>
+            <li><a href="#work" data-i18n="navWork">WORK</a></li>
+            <li><a href="#services" data-i18n="navServices">SERVICES</a></li>
+            <li><a href="#contact" data-i18n="navContact">CONTACT</a></li>
           </ul>
         </div>
 
@@ -1609,6 +1998,10 @@
 
     <div class="contact__bottom">
       <span class="contact__copy">AGILY 2024</span>
+      <div class="contact__lang" role="group" aria-label="Language" data-i18n-aria="languageLabel">
+        <button type="button" class="lang-btn" data-lang="en" aria-pressed="true">EN</button>
+        <button type="button" class="lang-btn" data-lang="th" aria-pressed="false">TH</button>
+      </div>
       <button type="button" class="contact__top" data-back-to-top aria-label="Back to top" data-i18n-aria="backToTop">
         <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 14 12 8 18 14" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span data-i18n="backToTop">BACK TO TOP</span>
@@ -1619,44 +2012,85 @@
 
 <script>
   // ---------- SHARED SCROLL HELPER ----------
-  // Single place that resolves an id to a section and scrolls to it.
-  function scrollToSection(id) {
-    if (id === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return true;
-    }
+  // Single place that resolves an id to a section and scrolls to it. It records the jump in the
+  // URL/history (Back returns to the previous place), moves keyboard focus to the target and
+  // skips the smooth animation when the visitor asked for reduced motion.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const scrollBehavior = () => (reduceMotion.matches ? 'auto' : 'smooth');
+
+  function scrollToSection(id, { push = true } = {}) {
     const target = id && document.getElementById(id);
     if (!target) return false;
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.dispatchEvent(new CustomEvent('agily:section-jump'));
+    if (id === 'home') window.scrollTo({ top: 0, behavior: scrollBehavior() });
+    else target.scrollIntoView({ behavior: scrollBehavior(), block: 'start' });
+    if (!target.hasAttribute('tabindex')) target.setAttribute('tabindex', '-1');
+    target.focus({ preventScroll: true });
+    if (push && location.hash !== '#' + id) {
+      try {
+        history.pushState(null, '', '#' + id);
+      } catch (error) {
+        // file:// may refuse pushState; the jump itself still works
+      }
+    }
     return true;
   }
+
+  // ---------- IN-PAGE LINKS (menu, pills, CTAs, Pages) ----------
+  // Modified clicks (new tab / window) keep the browser's default behaviour.
+  document.addEventListener('click', (event) => {
+    const link = event.target.closest('a[href^="#"]');
+    if (!link || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    if (scrollToSection(link.getAttribute('href').slice(1))) event.preventDefault();
+  });
 
   // ---------- SMOOTH SCROLL FOR V ARROW (HERO -> INTRO) ----------
   const cue = document.querySelector('.scroll-cue');
   if (cue) cue.addEventListener('click', () => scrollToSection('intro'));
 
-  // ---------- NAV LINKS (HOME / WORK / CONTACT) ----------
-  document.querySelectorAll('.nav a[href^="#"]').forEach((link) => {
-    link.addEventListener('click', (e) => {
-      e.preventDefault();
-      scrollToSection(link.getAttribute('href').slice(1));
-    });
-  });
-
   // ---------- INTRO 02 ARROW -> Work ----------
   const introCue = document.getElementById('intro-cue');
   if (introCue) {
     introCue.addEventListener('click', () => {
-      if (!scrollToSection('work')) window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+      if (!scrollToSection('work')) window.scrollBy({ top: window.innerHeight, behavior: scrollBehavior() });
     });
   }
 
-  // ---------- PROJECT PILLS — jump to the matching category ----------
-  document.querySelectorAll('.pill[data-target]').forEach((p) => {
-    p.addEventListener('click', () => {
-      if (!scrollToSection(p.dataset.target)) window.scrollBy({ top: window.innerHeight, behavior: 'smooth' });
+  // ---------- STICKY HEADER ----------
+  // Transparent over the hero, compact after it; hides on scroll down, returns on scroll up.
+  // In-page jumps keep it visible so it does not leave a gap above the target section.
+  (function initStickyHeader() {
+    const header = document.querySelector('[data-site-header]');
+    const hero = document.getElementById('home');
+    if (!header || !hero) return;
+    let lastY = window.scrollY;
+    let ticking = false;
+    let pinnedUntil = 0;
+    document.addEventListener('agily:section-jump', () => {
+      pinnedUntil = performance.now() + 1800;
+      header.classList.remove('is-hidden');
     });
-  });
+    function update() {
+      const y = window.scrollY;
+      const pastHero = y > hero.offsetHeight - header.offsetHeight;
+      const delta = y - lastY;
+      header.classList.toggle('is-condensed', pastHero);
+      if (performance.now() < pinnedUntil || !pastHero || delta < -4) header.classList.remove('is-hidden');
+      else if (delta > 4) header.classList.add('is-hidden');
+      lastY = y;
+      ticking = false;
+    }
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    }, { passive: true });
+    update();
+  })();
+
+  // ---------- TOUCH: let iOS Safari apply :active ----------
+  document.addEventListener('touchstart', () => {}, { passive: true });
 
   // ---------- WORK CAROUSEL (per-section, supports multiple .work blocks) ----------
   document.querySelectorAll('.work').forEach((section) => {
@@ -1673,6 +2107,36 @@
     let timer = null;
     const INTERVAL = 3500;
 
+    // Lazy images: a slide gets its --img only when the case is near the viewport, the visible
+    // slide first, then its neighbours. The file width follows the frame (data-widths variants).
+    let near = false;
+    function pickSrc(slide, src) {
+      const need = slide.clientWidth * (window.devicePixelRatio || 1);
+      const widths = (slide.dataset.widths || '').split(' ').filter(Boolean).map(Number);
+      const w = widths.find((x) => x >= need * 0.95);
+      return w ? src.replace('.webp', `-${w}.webp`) : src;
+    }
+    function loadSlide(slide, priority) {
+      const src = slide.dataset.img;
+      if (!src) return Promise.resolve();
+      delete slide.dataset.img;
+      const url = pickSrc(slide, src);
+      const img = new Image();
+      img.fetchPriority = priority;
+      img.src = url;
+      return img.decode().catch(() => {}).then(() => {
+        slide.style.setProperty('--img', `url('${url}')`);
+      });
+    }
+    function loadAround(i) {
+      if (!near) return;
+      const at = (n) => slides[(n + slides.length) % slides.length];
+      loadSlide(at(i), 'high').then(() => {
+        loadSlide(at(i + 1), 'low');
+        loadSlide(at(i - 1), 'low');
+      });
+    }
+
     function show(i) {
       idx = ((i % slides.length) + slides.length) % slides.length;
       slides.forEach((s, n) => {
@@ -1686,12 +2150,26 @@
       });
       const count = section.querySelector('[data-work-count]');
       if (count) count.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(slides.length).padStart(2, '0')}`;
+      loadAround(idx);
     }
     function next() { show(idx + 1); }
     function prev() { show(idx - 1); }
 
     // Initialize dots in case of mismatch
     show(idx);
+
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        if (!entries[0].isIntersecting) return;
+        near = true;
+        loadAround(idx);
+        io.disconnect();
+      }, { rootMargin: '0px 0px 25% 0px' });
+      io.observe(section);
+    } else {
+      near = true;
+      loadAround(idx);
+    }
 
     function setPlaying(on) {
       playing = on;
@@ -1722,8 +2200,21 @@
         gesture = { id: event.pointerId, x: event.clientX, y: event.clientY };
         track.setPointerCapture(event.pointerId);
       });
+      // Drag feedback: the artwork layer follows the finger at half speed (not under reduced motion)
+      track.addEventListener('pointermove', (event) => {
+        if (!gesture || gesture.id !== event.pointerId || reduceMotion.matches) return;
+        const dx = event.clientX - gesture.x;
+        if (Math.abs(dx) <= Math.abs(event.clientY - gesture.y)) return;
+        track.classList.add('is-dragging');
+        slides[idx].style.setProperty('--drag', `${Math.round(dx * 0.5)}px`);
+      });
+      function resetDrag() {
+        track.classList.remove('is-dragging');
+        slides.forEach((s) => s.style.removeProperty('--drag'));
+      }
       track.addEventListener('pointerup', (event) => {
         if (!gesture || gesture.id !== event.pointerId) return;
+        resetDrag();
         const dx = event.clientX - gesture.x;
         const dy = event.clientY - gesture.y;
         gesture = null;
@@ -1731,8 +2222,19 @@
         setPlaying(false);
         if (dx < 0) next(); else prev();
       });
-      track.addEventListener('pointercancel', () => { gesture = null; });
-      track.addEventListener('lostpointercapture', () => { gesture = null; });
+      track.addEventListener('pointercancel', () => { gesture = null; resetDrag(); });
+      track.addEventListener('lostpointercapture', () => { gesture = null; resetDrag(); });
+
+      // Touch screens: dots are a passive indicator (arrows, swipe and the counter navigate)
+      const coarse = window.matchMedia('(pointer: coarse)');
+      const dotsGroup = section.querySelector('.work__dots');
+      const syncDots = () => {
+        dots.forEach((d) => { d.tabIndex = coarse.matches ? -1 : 0; });
+        if (coarse.matches) dotsGroup.setAttribute('aria-hidden', 'true');
+        else dotsGroup.removeAttribute('aria-hidden');
+      };
+      syncDots();
+      if (coarse.addEventListener) coarse.addEventListener('change', syncDots);
       section.addEventListener('keydown', (event) => {
         if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
         event.preventDefault();
@@ -1741,6 +2243,43 @@
       });
     }
   });
+
+  // ---------- CASE FILM: load near the viewport, pause control, reduced motion ----------
+  (function initCaseFilm() {
+    const video = document.querySelector('[data-case-film]');
+    if (!video) return;
+    const toggle = document.querySelector('[data-video-toggle]');
+    // Reduced motion or data saver: poster only until the visitor presses play
+    let userPaused = reduceMotion.matches || !!(navigator.connection && navigator.connection.saveData);
+    const play = () => video.play().catch(() => {});
+
+    function sync() {
+      if (!toggle) return;
+      const playing = !video.paused;
+      toggle.classList.toggle('is-playing', playing);
+      toggle.dataset.i18nAria = playing ? 'pauseVideo' : 'playVideo';
+      const dictionary = translations[document.documentElement.lang] || translations.en;
+      toggle.setAttribute('aria-label', dictionary[toggle.dataset.i18nAria]);
+    }
+    video.addEventListener('play', sync);
+    video.addEventListener('pause', sync);
+    if (toggle) toggle.addEventListener('click', () => {
+      userPaused = !video.paused;
+      if (userPaused) video.pause(); else play();
+    });
+
+    if (!('IntersectionObserver' in window)) {
+      if (!userPaused) play();
+      return;
+    }
+    new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        if (!userPaused) play();
+      } else if (!video.paused) {
+        video.pause();
+      }
+    }), { rootMargin: '0px 0px 25% 0px' }).observe(video);
+  })();
 
   // ---------- SERVICES horizontal scroller ----------
   (function initServices() {
@@ -1757,17 +2296,23 @@
       return card.getBoundingClientRect().width + gap;
     }
 
+    // aria-disabled (not `disabled`) keeps a focused button focusable at the ends of the row
+    function setDisabled(btn, off) {
+      if (btn) btn.setAttribute('aria-disabled', off ? 'true' : 'false');
+    }
     function updateButtons() {
       const max = scroller.scrollWidth - scroller.clientWidth - 4;
-      if (prevBtn) prevBtn.disabled = scroller.scrollLeft <= 4;
-      if (nextBtn) nextBtn.disabled = scroller.scrollLeft >= max;
+      setDisabled(prevBtn, scroller.scrollLeft <= 4);
+      setDisabled(nextBtn, scroller.scrollLeft >= max);
     }
 
     if (prevBtn) prevBtn.addEventListener('click', () => {
-      scroller.scrollBy({ left: -step(), behavior: 'smooth' });
+      if (prevBtn.getAttribute('aria-disabled') === 'true') return;
+      scroller.scrollBy({ left: -step(), behavior: scrollBehavior() });
     });
     if (nextBtn) nextBtn.addEventListener('click', () => {
-      scroller.scrollBy({ left: step(), behavior: 'smooth' });
+      if (nextBtn.getAttribute('aria-disabled') === 'true') return;
+      scroller.scrollBy({ left: step(), behavior: scrollBehavior() });
     });
     scroller.addEventListener('scroll', updateButtons, { passive: true });
     window.addEventListener('resize', updateButtons);
@@ -1803,32 +2348,32 @@
       if (dragMoved) { e.preventDefault(); e.stopPropagation(); }
     }, true);
 
-    // Wheel: vertical wheel becomes horizontal scroll only when horizontal range available
-    scroller.addEventListener('wheel', (e) => {
-      if (e.deltaX !== 0) return; // trackpad horizontal — leave alone
-      const max = scroller.scrollWidth - scroller.clientWidth;
-      if (max <= 0) return;
-      const next = scroller.scrollLeft + e.deltaY;
-      // If we'd scroll past the ends, let the page scroll vertically instead
-      if ((e.deltaY > 0 && scroller.scrollLeft >= max - 1) ||
-          (e.deltaY < 0 && scroller.scrollLeft <= 1)) return;
-      e.preventDefault();
-      scroller.scrollLeft = Math.max(0, Math.min(max, next));
-    }, { passive: false });
+    // The vertical wheel stays with the page. The row scrolls natively: horizontal trackpad
+    // gesture, Shift+wheel, the ‹ › buttons and mouse drag.
   })();
 
-  // ---------- CONTACT: Pages anchors + back to top ----------
-  document.querySelectorAll('.contact [data-anchor]').forEach((el) => {
-    el.addEventListener('click', (event) => {
-      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-      event.preventDefault();
-      scrollToSection(el.dataset.anchor);
+  // ---------- LAZY BACKGROUNDS (service cards, contact) ----------
+  (function initLazyBackgrounds() {
+    const load = (root) => root.querySelectorAll('[data-bg]').forEach((el) => {
+      el.style.backgroundImage = `url('${el.dataset.bg}')`;
+      el.removeAttribute('data-bg');
     });
-  });
+    const sections = document.querySelectorAll('[data-lazy-section]');
+    if (!('IntersectionObserver' in window)) {
+      sections.forEach(load);
+      return;
+    }
+    const io = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      load(entry.target);
+      io.unobserve(entry.target);
+    }), { rootMargin: '0px 0px 50% 0px' });
+    sections.forEach((section) => io.observe(section));
+  })();
+
+  // ---------- CONTACT: back to top ----------
   const backTop = document.querySelector('[data-back-to-top]');
-  if (backTop) backTop.addEventListener('click', () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
+  if (backTop) backTop.addEventListener('click', () => scrollToSection('home'));
 
   // ---------- LANGUAGE TOGGLE ----------
   const translations = {
@@ -1841,7 +2386,7 @@
       scrollDown: 'Scroll down',
       introTag: 'INTRO',
       introHeadline: 'SPECIALIZES IN PERFORMANCE DIGITAL MARKETING THROUGH <span class="accent">AGILY</span> STRATEGIC AND CREATIVE EXECUTIONS.',
-      introThai: '<p>A partner ready to drive your business growth with a team of specialists<br/>focused on creating marketing strategies that truly answer customer needs.</p><p>We understand consumer behavior in the digital era and deliver solutions<br/>across online and offline channels to help you reach your business goals.</p>',
+      introThai: '<p>A partner ready to drive your business growth with a team of specialists focused on creating marketing strategies that truly answer customer needs.</p><p>We understand consumer behavior in the digital era and deliver solutions across online and offline channels to help you reach your business goals.</p>',
       workSpeaks: '<span>THE WORK</span><span>SPEAKS</span><span>BEFORE</span><span class="accent">WE DO</span>',
       pillProduction: 'PRODUCTION',
       pillSocialContent: 'SOCIAL CONTENT',
@@ -1904,18 +2449,32 @@
       contactPages: 'Pages',
       contactSocials: 'Socials',
       contactTitle: 'Contact',
-      backToTop: 'BACK TO TOP'
+      backToTop: 'BACK TO TOP',
+      pageTitle: 'AGILY — Executing Solutions. Empowering with Agility.',
+      navServices: 'SERVICES',
+      navLabel: 'Primary',
+      languageLabel: 'Language',
+      ctaStart: 'START A PROJECT',
+      ctaTalk: 'LET’S TALK',
+      ctaWorkText: 'LIKE WHAT YOU SEE?',
+      ctaServicesText: 'READY TO START?',
+      contactHeadline: 'LET’S TALK ABOUT YOUR BRAND',
+      ctaEmail: 'EMAIL US',
+      playVideo: 'Play video',
+      pauseVideo: 'Pause video',
+      meaDescription: '15-second silent ad film for the MEA e-Service app.',
+      dkshImage: 'DKSH x 3M — event photo'
     },
     th: {
       navHome: 'หน้าแรก',
       navWork: 'ผลงาน',
       navContact: 'ติดต่อ',
       tagline: 'ลงมือสร้างสรรค์โซลูชัน เสริมพลังธุรกิจด้วย <strong>AGILITY</strong>',
-      weAre: 'เราคือเอเจนซีการตลาดที่สร้างแบรนด์ แคมเปญ และดิจิทัลโปรดักต์ ครอบคลุมโฆษณา ที่ปรึกษา ดีไซน์ การตลาดและแบรนด์ รวมถึงโปรดักชัน พร้อมส่งมอบงานอย่างคล่องตัว',
+      weAre: 'เราคือเอเจนซีการตลาดที่สร้างแบรนด์ แคมเปญ และดิจิทัลโปรดักต์ ครอบคลุมโฆษณา ที่ปรึกษา ดีไซน์ การตลาดและแบรนด์ รวมถึงโปรดักชัน พร้อมส่งมอบงานอย่าง<span class="nowrap">คล่องตัว</span>',
       scrollDown: 'เลื่อนลง',
       introTag: 'แนะนำ',
       introHeadline: 'เชี่ยวชาญด้าน PERFORMANCE DIGITAL MARKETING ผ่านกลยุทธ์และงานครีเอทีฟของ <span class="accent">AGILY</span>',
-      introThai: '<p>พันธมิตรที่พร้อมผลักดันธุรกิจของคุณให้เติบโตด้วยทีมงานผู้เชี่ยวชาญ<br/>ที่มุ่งมั่นสร้างสรรค์กลยุทธ์การตลาดที่ตอบโจทย์ความต้องการของลูกค้าอย่างแท้จริง</p><p>เราเข้าใจพฤติกรรมผู้บริโภคในยุคดิจิทัลเป็นอย่างดี และพร้อมนำเสนอโซลูชัน<br/>ที่ครอบคลุมทั้งออนไลน์และออฟไลน์ เพื่อให้คุณบรรลุเป้าหมายทางธุรกิจ</p>',
+      introThai: '<p>พันธมิตรที่พร้อมผลักดันธุรกิจของคุณให้เติบโตด้วยทีมงาน<span class="nowrap">ผู้เชี่ยวชาญ</span>ที่มุ่งมั่นสร้างสรรค์กลยุทธ์<span class="nowrap">การตลาด</span>ที่ตอบโจทย์ความต้องการของลูกค้าอย่างแท้จริง</p><p>เราเข้าใจพฤติกรรมผู้บริโภคในยุคดิจิทัลเป็นอย่างดี และพร้อม<span class="nowrap">นำเสนอ</span>โซลูชันที่ครอบคลุมทั้งออนไลน์และออฟไลน์ เพื่อให้คุณบรรลุเป้าหมายทางธุรกิจ</p>',
       workSpeaks: '<span>ผลงาน</span><span>พูดแทน</span><span>ก่อนที่</span><span class="accent">เราจะพูด</span>',
       pillProduction: 'โปรดักชัน',
       pillSocialContent: 'คอนเทนต์โซเชียล',
@@ -1978,7 +2537,21 @@
       contactPages: 'หน้าเว็บ',
       contactSocials: 'โซเชียล',
       contactTitle: 'ติดต่อ',
-      backToTop: 'กลับขึ้นด้านบน'
+      backToTop: 'กลับขึ้นด้านบน',
+      pageTitle: 'AGILY — ลงมือสร้างสรรค์โซลูชัน เสริมพลังธุรกิจด้วย AGILITY',
+      navServices: 'บริการ',
+      navLabel: 'เมนูหลัก',
+      languageLabel: 'ภาษา',
+      ctaStart: 'เริ่มโปรเจกต์กับเรา',
+      ctaTalk: 'คุยกับเรา',
+      ctaWorkText: 'ชอบผลงานของเราไหม?',
+      ctaServicesText: 'พร้อมเริ่มหรือยัง?',
+      contactHeadline: 'มาคุยเรื่องแบรนด์ของคุณกัน',
+      ctaEmail: 'ส่งอีเมลหาเรา',
+      playVideo: 'เล่นวิดีโอ',
+      pauseVideo: 'หยุดวิดีโอชั่วคราว',
+      meaDescription: 'ภาพยนตร์โฆษณาไม่มีเสียงความยาว 15 วินาทีสำหรับแอป MEA e-Service',
+      dkshImage: 'DKSH x 3M — ภาพบรรยากาศงานอีเวนต์'
     }
   };
 
@@ -2000,9 +2573,27 @@
     }
   }
 
-  function setLanguage(lang) {
-    const dictionary = translations[lang] || translations.en;
+  const SUPPORTED_LANGS = ['en', 'th'];
+
+  // ?lang= link first, then the saved choice, then the browser's language order
+  function detectLanguage() {
+    const fromUrl = new URLSearchParams(location.search).get('lang');
+    if (SUPPORTED_LANGS.includes(fromUrl)) return fromUrl;
+    const saved = readSavedLanguage();
+    if (SUPPORTED_LANGS.includes(saved)) return saved;
+    const prefs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
+    for (const tag of prefs) {
+      const base = String(tag).toLowerCase().split('-')[0];
+      if (SUPPORTED_LANGS.includes(base)) return base;
+    }
+    return 'en';
+  }
+
+  function setLanguage(lang, { persist = false } = {}) {
+    if (!SUPPORTED_LANGS.includes(lang)) lang = 'en';
+    const dictionary = translations[lang];
     document.documentElement.lang = lang;
+    document.title = dictionary.pageTitle;
 
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const key = el.dataset.i18n;
@@ -2029,14 +2620,25 @@
       btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
     });
 
+    document.documentElement.classList.remove('i18n-pending');
+    if (!persist) return;
     saveLanguage(lang);
+    try {
+      const url = new URL(location.href);
+      if (url.searchParams.has('lang')) {
+        url.searchParams.set('lang', lang);
+        history.replaceState(null, '', url);
+      }
+    } catch (error) {
+      // file:// may refuse replaceState; the saved choice is enough
+    }
   }
 
   langButtons.forEach((btn) => {
-    btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+    btn.addEventListener('click', () => setLanguage(btn.dataset.lang, { persist: true }));
   });
 
-  setLanguage(readSavedLanguage() || 'en');
+  setLanguage(detectLanguage());
 </script>
 
 </body>
