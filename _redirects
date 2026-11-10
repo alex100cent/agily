@@ -1,0 +1,4 @@
+# Repo files that Cloudflare Pages would otherwise publish alongside the site
+/CLAUDE.md / 301
+/README.md / 301
+/.gitignore / 301

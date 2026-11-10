@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Page not found — AGILY</title>
+<meta name="theme-color" content="#0e0a18" />
+<link rel="icon" type="image/png" sizes="48x48" href="/assets/favicon-48.png" />
+<style>
+  /* Served by Cloudflare Pages for any URL without a file, so every path here is absolute. */
+  @font-face {
+    font-family: 'Space Grotesk';
+    src: url('/assets/fonts/space-grotesk-latin.woff2') format('woff2');
+    font-weight: 300 700;
+    font-display: swap;
+    unicode-range: U+0000-00FF, U+2000-206F;
+  }
+  @font-face {
+    font-family: 'Noto Sans Thai';
+    src: url('/assets/fonts/noto-sans-thai-thai.woff2') format('woff2');
+    font-weight: 400 700;
+    font-display: swap;
+    unicode-range: U+0E01-0E5B, U+200C-200D, U+25CC;
+  }
+
+  :root {
+    --font-sans: 'Space Grotesk', 'Noto Sans Thai', system-ui, -apple-system, sans-serif;
+    --ink: #ffffff;
+    --ink-dim: rgba(255, 255, 255, 0.72);
+    --bg: #0e0a18;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 24px;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    text-align: center;
+  }
+
+  h1 {
+    font-size: clamp(22px, 4vw, 32px);
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-dim);
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 48px;
+    margin-top: 12px;
+    padding: 16px 28px;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    font: 600 13px/1 var(--font-sans);
+    letter-spacing: 0.18em;
+    text-decoration: none;
+    text-transform: uppercase;
+  }
+  .cta:focus-visible { outline: 2px solid var(--ink); outline-offset: 4px; }
+  .cta [lang="th"] { letter-spacing: 0; }
+</style>
+</head>
+<body>
+  <h1>Page not found</h1>
+  <p lang="th">ไม่พบหน้าที่คุณต้องการ</p>
+  <a class="cta" href="/"><span>Home</span><span aria-hidden="true">/</span><span lang="th">หน้าแรก</span></a>
+</body>
+</html>

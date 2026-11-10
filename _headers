@@ -1,0 +1,6 @@
+# pages.dev serves a copy of the site; only agily.co.th should appear in search results
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex

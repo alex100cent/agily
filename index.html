@@ -3,35 +3,68 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>AGILY — Executing Solutions. Empowering with Agility.</title>
+<title>AGILY — Marketing and Creative Agency in Bangkok</title>
 <meta name="description" content="AGILY is a Bangkok marketing agency: performance digital marketing, production, social content, events, advertising and design." />
+<link rel="preload" href="assets/fonts/space-grotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="assets/hero-turbine.webp" as="image" />
 <meta name="theme-color" content="#0e0a18" />
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="AGILY" />
-<meta property="og:title" content="AGILY — Executing Solutions. Empowering with Agility." />
+<meta property="og:url" content="https://agily.co.th/" />
+<meta property="og:title" content="AGILY — Marketing and Creative Agency in Bangkok" />
 <meta property="og:description" content="Bangkok marketing agency: performance digital marketing, production, social content, events, advertising and design." />
+<meta property="og:image" content="https://agily.co.th/assets/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
 <meta property="og:locale" content="en_US" />
 <meta property="og:locale:alternate" content="th_TH" />
-<meta name="twitter:card" content="summary" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="alternate" hreflang="en" href="https://agily.co.th/" />
+<link rel="alternate" hreflang="th" href="https://agily.co.th/?lang=th" />
+<link rel="alternate" hreflang="x-default" href="https://agily.co.th/" />
 <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48.png" />
 <link rel="icon" type="image/png" sizes="550x550" href="assets/favicon.png" />
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://agily.co.th/#website",
+      "name": "AGILY",
+      "url": "https://agily.co.th/",
+      "publisher": { "@id": "https://agily.co.th/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://agily.co.th/#organization",
+      "name": "AGILY",
+      "url": "https://agily.co.th/",
+      "logo": "https://agily.co.th/assets/favicon.png",
+      "email": "agily.contact@gmail.com",
+      "telephone": "+66622988383",
+      "address": { "@type": "PostalAddress", "addressLocality": "Bangkok", "addressCountry": "TH" },
+      "sameAs": ["https://www.instagram.com/agily.agency"]
+    }
+  ]
+}
+</script>
 <script>
   // ---------- LANGUAGE (early) ----------
-  // Same order as detectLanguage() below. A non-English visitor gets translatable text hidden
+  // The URL alone selects the language, matching detectLanguage() below. A non-English visitor gets translatable text hidden
   // until setLanguage() runs, so the English first screen never flashes.
   (function () {
     try {
       var lang = new URLSearchParams(location.search).get('lang');
-      if (lang !== 'en' && lang !== 'th') lang = localStorage.getItem('agily-language');
-      if (lang !== 'en' && lang !== 'th') {
-        var prefs = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || 'en'];
-        lang = 'en';
-        for (var i = 0; i < prefs.length; i++) {
-          var base = String(prefs[i]).toLowerCase().split('-')[0];
-          if (base === 'en' || base === 'th') { lang = base; break; }
-        }
-      }
+      // One HTML file serves both language URLs, and hreflang needs each to be its own canonical.
+      // Only ?lang= decides: a Thai browser on "/" is still on the English URL. Keep this the only
+      // rel="canonical" on the page; never emit conflicting canonical URLs.
+      var canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      canonical.href = 'https://agily.co.th/' + (lang === 'th' ? '?lang=th' : '');
+      document.head.appendChild(canonical);
+      lang = lang === 'th' ? 'th' : 'en';
       if (lang !== 'en') {
         var root = document.documentElement;
         root.classList.add('i18n-pending');
@@ -211,6 +244,7 @@
 
   .lang-btn {
     background: none;
+    text-decoration: none;
     border: 0;
     padding: 6px 2px;
     color: var(--ink-faint);
@@ -897,6 +931,7 @@
   .contact__logo {
     margin: 0 auto clamp(48px, 7vw, 96px);
     width: clamp(280px, 46vw, 720px);
+    height: auto;
     max-width: 90%;
     display: block;
     user-select: none;
@@ -933,7 +968,8 @@
     gap: 6px;
   }
   .contact__list a,
-  .contact__list span {
+  .contact__list span,
+  .contact__city {
     font-family: var(--font-sans);
     font-weight: 700;
     font-size: clamp(20px, 1.7vw, 26px);
@@ -948,6 +984,8 @@
     overflow-wrap: anywhere;
     cursor: pointer;
   }
+  /* Plain text, not a link: no pointer and no hover from the rules around it */
+  .contact__city { cursor: default; }
   @media (hover: hover) and (pointer: fine) {
     .contact__list a:hover,
     .contact__list span:hover {
@@ -1044,7 +1082,8 @@
       font-size: 12px;
     }
     .contact__list a,
-    .contact__list span { font-size: 18px; }
+    .contact__list span,
+    .contact__city { font-size: 18px; }
   }
 
   /* Touch pointers: 44px hit areas without changing the layout */
@@ -1564,8 +1603,8 @@
       <a href="#contact" data-i18n="navContact">CONTACT</a>
     </div>
     <div class="nav__lang" role="group" aria-label="Language" data-i18n-aria="languageLabel">
-      <button type="button" class="lang-btn is-active" data-lang="en" aria-pressed="true">EN</button>
-      <button type="button" class="lang-btn" data-lang="th" aria-pressed="false">TH</button>
+      <a href="./" class="lang-btn is-active" data-lang="en" hreflang="en" lang="en" aria-current="page">EN</a>
+      <a href="?lang=th" class="lang-btn" data-lang="th" hreflang="th" lang="th">TH</a>
     </div>
   </nav>
 </header>
@@ -1581,6 +1620,7 @@
           <img
             src="assets/agily-logo.png"
             alt="AGILY"
+            width="776" height="290"
             class="logo"
             draggable="false"
           />
@@ -1591,9 +1631,9 @@
       </div>
 
       <div class="hero__right">
-        <p class="we-are" data-i18n="weAre">
-          WE ARE A MARKETING AGENCY BUILDING BRANDS, CAMPAIGNS AND DIGITAL PRODUCTS. ADVERTISING, CONSULTING, DESIGN, MARKETING &amp; BRAND, PRODUCTION — DELIVERED WITH AGILITY.
-        </p>
+        <h1 class="we-are" data-i18n="weAre">
+          WE ARE A MARKETING AGENCY IN BANGKOK BUILDING BRANDS, CAMPAIGNS AND DIGITAL PRODUCTS. ADVERTISING, CONSULTING, DESIGN, MARKETING &amp; BRAND, PRODUCTION — DELIVERED WITH AGILITY.
+        </h1>
         <div class="hero__cta reveal" data-delay="5">
           <a href="#contact" class="cta" data-i18n="ctaStart">START A PROJECT</a>
         </div>
@@ -1961,7 +2001,7 @@
     <div class="contact__bg" data-bg="assets/contact-bg.webp?v=01327d95723e"></div>
 
     <div class="contact__inner">
-      <img class="contact__logo" src="assets/agily-logo.png" alt="AGILY" />
+      <img class="contact__logo" src="assets/agily-logo.png" alt="AGILY" width="776" height="290" loading="lazy" decoding="async" />
 
       <div class="contact__intro">
         <h2 class="contact__headline" id="contact-title" data-i18n="contactHeadline">LET’S TALK ABOUT YOUR BRAND</h2>
@@ -1991,6 +2031,7 @@
           <ul class="contact__list">
             <li><a href="mailto:agily.contact@gmail.com">agily.contact@gmail.com</a></li>
             <li><a href="tel:+66622988383">(+66) 622988383</a></li>
+            <li class="contact__city" data-i18n="contactCity">BANGKOK, THAILAND</li>
           </ul>
         </div>
       </div>
@@ -1999,8 +2040,8 @@
     <div class="contact__bottom">
       <span class="contact__copy">AGILY 2024</span>
       <div class="contact__lang" role="group" aria-label="Language" data-i18n-aria="languageLabel">
-        <button type="button" class="lang-btn" data-lang="en" aria-pressed="true">EN</button>
-        <button type="button" class="lang-btn" data-lang="th" aria-pressed="false">TH</button>
+        <a href="./" class="lang-btn" data-lang="en" hreflang="en" lang="en" aria-current="page">EN</a>
+        <a href="?lang=th" class="lang-btn" data-lang="th" hreflang="th" lang="th">TH</a>
       </div>
       <button type="button" class="contact__top" data-back-to-top aria-label="Back to top" data-i18n-aria="backToTop">
         <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="6 14 12 8 18 14" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -2382,7 +2423,7 @@
       navWork: 'WORK',
       navContact: 'CONTACT',
       tagline: 'EXECUTING SOLUTIONS. EMPOWERING WITH <strong>AGILITY.</strong>',
-      weAre: 'WE ARE A MARKETING AGENCY BUILDING BRANDS, CAMPAIGNS AND DIGITAL PRODUCTS. ADVERTISING, CONSULTING, DESIGN, MARKETING &amp; BRAND, PRODUCTION — DELIVERED WITH AGILITY.',
+      weAre: 'WE ARE A MARKETING AGENCY IN BANGKOK BUILDING BRANDS, CAMPAIGNS AND DIGITAL PRODUCTS. ADVERTISING, CONSULTING, DESIGN, MARKETING &amp; BRAND, PRODUCTION — DELIVERED WITH AGILITY.',
       scrollDown: 'Scroll down',
       introTag: 'INTRO',
       introHeadline: 'SPECIALIZES IN PERFORMANCE DIGITAL MARKETING THROUGH <span class="accent">AGILY</span> STRATEGIC AND CREATIVE EXECUTIONS.',
@@ -2450,7 +2491,9 @@
       contactSocials: 'Socials',
       contactTitle: 'Contact',
       backToTop: 'BACK TO TOP',
-      pageTitle: 'AGILY — Executing Solutions. Empowering with Agility.',
+      pageTitle: 'AGILY — Marketing and Creative Agency in Bangkok',
+      pageDescription: 'AGILY is a Bangkok marketing agency: performance digital marketing, production, social content, events, advertising and design.',
+      contactCity: 'BANGKOK, THAILAND',
       navServices: 'SERVICES',
       navLabel: 'Primary',
       languageLabel: 'Language',
@@ -2470,7 +2513,7 @@
       navWork: 'ผลงาน',
       navContact: 'ติดต่อ',
       tagline: 'ลงมือสร้างสรรค์โซลูชัน เสริมพลังธุรกิจด้วย <strong>AGILITY</strong>',
-      weAre: 'เราคือเอเจนซีการตลาดที่สร้างแบรนด์ แคมเปญ และดิจิทัลโปรดักต์ ครอบคลุมโฆษณา ที่ปรึกษา ดีไซน์ การตลาดและแบรนด์ รวมถึงโปรดักชัน พร้อมส่งมอบงานอย่าง<span class="nowrap">คล่องตัว</span>',
+      weAre: 'เราคือเอเจนซีการตลาดในกรุงเทพฯ ที่สร้างแบรนด์ แคมเปญ และดิจิทัลโปรดักต์ ครอบคลุมโฆษณา ที่ปรึกษา ดีไซน์ การตลาดและแบรนด์ รวมถึงโปรดักชัน พร้อมส่งมอบงานอย่าง<span class="nowrap">คล่องตัว</span>',
       scrollDown: 'เลื่อนลง',
       introTag: 'แนะนำ',
       introHeadline: 'เชี่ยวชาญด้าน PERFORMANCE DIGITAL MARKETING ผ่านกลยุทธ์และงานครีเอทีฟของ <span class="accent">AGILY</span>',
@@ -2538,7 +2581,9 @@
       contactSocials: 'โซเชียล',
       contactTitle: 'ติดต่อ',
       backToTop: 'กลับขึ้นด้านบน',
-      pageTitle: 'AGILY — ลงมือสร้างสรรค์โซลูชัน เสริมพลังธุรกิจด้วย AGILITY',
+      pageTitle: 'AGILY — เอเจนซีการตลาดและครีเอทีฟในกรุงเทพฯ',
+      pageDescription: 'AGILY เอเจนซีการตลาดในกรุงเทพฯ: การตลาดเน้นผลลัพธ์ โปรดักชัน คอนเทนต์โซเชียล อีเวนต์ โฆษณา และดีไซน์',
+      contactCity: 'กรุงเทพฯ ประเทศไทย',
       navServices: 'บริการ',
       navLabel: 'เมนูหลัก',
       languageLabel: 'ภาษา',
@@ -2557,43 +2602,24 @@
 
   const langButtons = document.querySelectorAll('.lang-btn');
 
-  function readSavedLanguage() {
-    try {
-      return localStorage.getItem('agily-language');
-    } catch (error) {
-      return null;
-    }
-  }
-
-  function saveLanguage(lang) {
-    try {
-      localStorage.setItem('agily-language', lang);
-    } catch (error) {
-      // Ignore storage errors so language switching still works.
-    }
-  }
-
   const SUPPORTED_LANGS = ['en', 'th'];
 
-  // ?lang= link first, then the saved choice, then the browser's language order
+  // Stable language URLs: / is English, /?lang=th is Thai, regardless of browser preferences.
   function detectLanguage() {
-    const fromUrl = new URLSearchParams(location.search).get('lang');
-    if (SUPPORTED_LANGS.includes(fromUrl)) return fromUrl;
-    const saved = readSavedLanguage();
-    if (SUPPORTED_LANGS.includes(saved)) return saved;
-    const prefs = (navigator.languages && navigator.languages.length) ? navigator.languages : [navigator.language || 'en'];
-    for (const tag of prefs) {
-      const base = String(tag).toLowerCase().split('-')[0];
-      if (SUPPORTED_LANGS.includes(base)) return base;
-    }
-    return 'en';
+    return new URLSearchParams(location.search).get('lang') === 'th' ? 'th' : 'en';
   }
 
-  function setLanguage(lang, { persist = false } = {}) {
+  function setLanguage(lang) {
     if (!SUPPORTED_LANGS.includes(lang)) lang = 'en';
     const dictionary = translations[lang];
     document.documentElement.lang = lang;
     document.title = dictionary.pageTitle;
+    document.querySelector('meta[name="description"]').setAttribute('content', dictionary.pageDescription);
+    document.querySelector('meta[property="og:title"]').setAttribute('content', dictionary.pageTitle);
+    document.querySelector('meta[property="og:description"]').setAttribute('content', dictionary.pageDescription);
+    document.querySelector('meta[property="og:url"]').setAttribute('content', 'https://agily.co.th/' + (lang === 'th' ? '?lang=th' : ''));
+    document.querySelector('meta[property="og:locale"]').setAttribute('content', lang === 'th' ? 'th_TH' : 'en_US');
+    document.querySelector('meta[property="og:locale:alternate"]').setAttribute('content', lang === 'th' ? 'en_US' : 'th_TH');
 
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const key = el.dataset.i18n;
@@ -2617,27 +2643,14 @@
     langButtons.forEach((btn) => {
       const isActive = btn.dataset.lang === lang;
       btn.classList.toggle('is-active', isActive);
-      btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      if (isActive) btn.setAttribute('aria-current', 'page');
+      else btn.removeAttribute('aria-current');
     });
 
     document.documentElement.classList.remove('i18n-pending');
-    if (!persist) return;
-    saveLanguage(lang);
-    try {
-      const url = new URL(location.href);
-      if (url.searchParams.has('lang')) {
-        url.searchParams.set('lang', lang);
-        history.replaceState(null, '', url);
-      }
-    } catch (error) {
-      // file:// may refuse replaceState; the saved choice is enough
-    }
   }
 
-  langButtons.forEach((btn) => {
-    btn.addEventListener('click', () => setLanguage(btn.dataset.lang, { persist: true }));
-  });
-
+  // Language controls are normal links, so navigation, Back and no-script discovery all work.
   setLanguage(detectLanguage());
 </script>
 

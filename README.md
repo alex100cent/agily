@@ -22,18 +22,48 @@ python3 -m http.server 8000
 # http://localhost:8000
 ```
 
-## Деплой
+## Сайт, хостинг и деплой
 
-Любой статический хостинг: содержимое репозитория выкладывается как есть.
-Обязательны только [index.html](index.html) и папка [assets/](assets/).
+- **Основной адрес сайта:** [https://agily.co.th/](https://agily.co.th/).
+- **Хостинг:** Cloudflare Pages, проект `agily`.
+- **Служебный адрес хостинга:** [agily.pages.dev](https://agily.pages.dev/).
+- **Публикация:** каждый push в ветку `master` автоматически выкладывается в прод.
+- **Языковые версии:** [английская](https://agily.co.th/) и [тайская](https://agily.co.th/?lang=th).
+- **Карта сайта для Google Search Console:** [sitemap.xml](https://agily.co.th/sitemap.xml).
+
+Настройки в панели Cloudflare проверены 9 ноября 2026 года: `agily.co.th` и
+`www.agily.co.th` привязаны к проекту Pages со статусом **Active**, SSL включён.
+В DNS обе записи имеют тип `CNAME`, указывают на `agily.pages.dev`, проксирование
+включено, TTL — Auto. Назначенные Cloudflare серверы имён:
+`bonnie.ns.cloudflare.com` и `kenneth.ns.cloudflare.com`.
+Это проверка настроек в панели; делегирование домена у регистратора отдельно
+не подтверждено.
+
+Служебные файлы в корне (`robots.txt`, `sitemap.xml`,
+`404.html`, `_redirects`, `_headers`) описаны в [CLAUDE.md](CLAUDE.md).
+
+### Google Search Console
+
+10 ноября 2026 года доменный ресурс `agily.co.th` подтверждён в аккаунте
+`agily.contact@gmail.com` через TXT-запись `google-site-verification` в Cloudflare.
+Эту запись нельзя удалять, пока используется подтверждение владения.
+
+Google подтвердил, что главная страница уже находится в индексе, и принял запрос
+на повторную индексацию. `robots.txt` и `sitemap.xml` опубликованы в Cloudflare
+Pages коммитом `8b2e44b`; карта сайта повторно отправлена в Search Console.
+После публикации XML доступен по основному адресу, но на момент проверки отчёт
+Google ещё показывал `Couldn't fetch`; успешное чтение карты пока не подтверждено.
 
 ## Структура
 
 ```
 index.html          весь сайт: разметка, стили, скрипты, словарь переводов
+robots.txt, sitemap.xml, 404.html, _redirects, _headers
+                    служебные файлы для поисковиков и Cloudflare Pages
 assets/             продакшн-медиа, отдаётся на сайте
   favicon.png
   agily-logo.png
+  og-image.jpg          превью ссылки в соцсетях, снимок первого экрана (1200×630)
   hero-turbine.webp     фон первого экрана
   contact-bg.webp       фон блока контактов
   work/                 кейсы: matchday-*, monkey-*, handsup-*, dksh-1, mea-film.mp4
@@ -79,8 +109,8 @@ original/           оригиналы в полном разрешении (н�
 
 - **Двуязычие EN/TH.** Переключатель в шапке; словарь `translations` в конце
   [index.html](index.html), подстановка по атрибутам `data-i18n` (в `innerHTML`) и
-  `data-i18n-aria` (в `aria-label`). Выбор сохраняется в `localStorage` под ключом
-  `agily-language`, по умолчанию — `en`.
+  `data-i18n-aria` (в `aria-label`). Язык определяется адресом: `/` — английский, `/?lang=th` — тайский.
+  EN/TH — ссылки на соответствующие версии, доступные поисковым роботам.
 - **Карусели кейсов.** MATCHDAY и MONKEYEVERYDAY содержат по 8 изображений,
   в порядке номеров файлов из `new-data/matchday Size 1080x1080 (main)` и
   `new-data/monkeyeveryday 1080x1350 (main)`. HANDSUP содержит 12 квадратных
